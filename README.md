@@ -53,7 +53,49 @@ curl -s -X POST http://localhost:8000/detect \
   -d '{"text": "Dans le paysage numérique en constante évolution, il est crucial de tirer parti des synergies.", "mode": "low-fpr"}'
 ```
 
-Interactive Swagger UI: `http://localhost:8000/docs`.
+Interactive Swagger UI: `http://localhost:8000/docs`, ReDoc: `/redoc`,
+raw OpenAPI spec: `/openapi.json`.
+
+## Test manuel
+
+The API starts in under 2 s (model loading is lazy: the first `POST /detect`
+on a given `(profile, mode)` pays the ~20-40 s weight-loading cost on GPU,
+then hits the LRU cache).
+
+```bash
+# 1) Liveness + registry inventory — no model loaded yet
+curl -s http://localhost:8000/health | python3 -m json.tool
+# → {"status": "ok", "version": "0.1.0", "default_profile": "fr",
+#    "profiles_loaded": ["fr"], "detectors_cached": 0, "device": "cpu"}
+
+# 2) Available profiles with their calibration traceability
+curl -s http://localhost:8000/profiles | python3 -m json.tool
+
+# 3) Nominal detection — profile omitted, defaults to "fr"; first call loads
+#    the model pair, subsequent calls answer from the LRU cache
+curl -s -X POST http://localhost:8000/detect \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Dans le paysage numérique en constante évolution, il est crucial de tirer parti des synergies pour naviguer dans un écosystème complexe.", "mode": "accuracy"}' \
+  | python3 -m json.tool
+# → {"score": …, "verdict": "ai"|"human", "label": "Probablement …",
+#    "confidence": "low"|"medium"|"high", "threshold_used": …, "mode": "accuracy",
+#    "profile": "fr", "input_tokens": …, "elapsed_ms": …}
+
+# 4) Unknown profile → 404 with the list of available profiles
+curl -s -o /dev/null -w "%{http_code}\n" -X POST http://localhost:8000/detect \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Texte suffisamment long pour passer la validation du schéma.", "profile": "de"}'
+# → 404
+
+# 5) Text too short → 422 (Pydantic constraint min_length=50)
+curl -s -o /dev/null -w "%{http_code}\n" -X POST http://localhost:8000/detect \
+  -H "Content-Type: application/json" \
+  -d '{"text": "trop court"}'
+# → 422
+```
+
+The same routes are exercisable from the browser via « Try it out » on
+`http://localhost:8000/docs`.
 
 ## Roadmap
 
