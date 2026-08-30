@@ -9,7 +9,6 @@ engine stays strictly identical across languages.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass(frozen=True)
@@ -72,4 +71,4 @@ class LanguageProfile:
     label_human: str = "Probablement écrit par un humain"
 
     # --- Optional -----------------------------------------------------------
-    calibration_note: Optional[str] = None
+    calibration_note: str | None = None

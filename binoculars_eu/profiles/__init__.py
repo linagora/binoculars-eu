@@ -9,11 +9,10 @@ from __future__ import annotations
 
 import importlib
 import pkgutil
-from typing import Dict, List
 
 from binoculars_eu.profiles.base import LanguageProfile
 
-_REGISTRY: Dict[str, LanguageProfile] = {}
+_REGISTRY: dict[str, LanguageProfile] = {}
 DEFAULT_PROFILE_CODE: str = "fr"
 
 
@@ -63,7 +62,7 @@ def get_profile(code: str) -> LanguageProfile:
     return _REGISTRY[code]
 
 
-def list_profiles() -> List[LanguageProfile]:
+def list_profiles() -> list[LanguageProfile]:
     """Return all registered profiles, sorted by language code."""
     if not _REGISTRY:
         _discover()
