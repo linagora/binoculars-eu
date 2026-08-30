@@ -45,8 +45,40 @@ def stratum_key(record: dict) -> str:
 
 
 def build_splits(corpus: list[dict], seed: int = SEED) -> tuple[list, list, list, dict]:
-    """Split 80/20 then 75/25 → 60/20/20, stratified; return manifest."""
-    strata = [stratum_key(r) for r in corpus]
+    """Split 80/20 then 75/25 → 60/20/20, stratified; return manifest.
+
+    Rare 4-axis strata with a single member would make StratifiedShuffleSplit
+    fail; they are collapsed deterministically to the 3-axis key
+    (label|source|generator), then 2-axis if still singleton — the 4-axis
+    stratification is kept wherever the data allows it (protocol §2 intent:
+    balanced strata, frozen seed).
+    """
+    from collections import Counter
+
+    keys = [tuple(stratum_key(r).split("|")) for r in corpus]  # 4-tuples
+    counts4 = Counter(keys)
+    # Pass 1: merge a singleton length-bin into the next populated bin of the
+    # same (label|source|generator) family — keeps the 4-axis stratification.
+    bins = ["L1", "L2", "L3", "L4"]
+    remap: dict[tuple, tuple] = {}
+    for key, count in counts4.items():
+        if count >= 2:
+            continue
+        label, source, generator, length_bin = key
+        idx = bins.index(length_bin)
+        neighbours = ([bins[j] for j in range(idx + 1, 4)]
+                      + [bins[j] for j in range(idx - 1, -1, -1)])
+        for candidate in neighbours:
+            if counts4.get((label, source, generator, candidate), 0) >= 2:
+                remap[key] = (label, source, generator, candidate)
+                break
+    keys = [remap.get(k, k) for k in keys]
+    # Pass 2 (safety): if a family still holds a singleton cell, collapse the
+    # WHOLE family to its 3-axis key, uniformly, so every class has >= 2.
+    counts = Counter(keys)
+    bad_families = {k[:3] for k, c in counts.items() if c < 2}
+    keys = [k[:3] if k[:3] in bad_families else k for k in keys]
+    strata = ["|".join(k) for k in keys]
     sss1 = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=seed)
     trainval_idx, test_idx = next(sss1.split(corpus, strata))
     trainval = [corpus[i] for i in trainval_idx]

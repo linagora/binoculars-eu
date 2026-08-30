@@ -225,7 +225,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     )
     parser.add_argument("--vllm-23b", default="http://100.90.203.88:8015/v1")
     parser.add_argument("--vllm-8b", default="http://100.90.203.88:8013/v1")
-    parser.add_argument("--litellm-url", default=os.environ.get("LITELLM_BASE_URL", ""))
+    parser.add_argument("--litellm-url", default=None,
+                        help="default: LITELLM_BASE_URL from the environment (.env loaded first)")
     return parser.parse_args(argv)
 
 
@@ -257,7 +258,7 @@ def main(argv: list[str]) -> int:
         backends = {
             "luciole-23b-instruct": args.vllm_23b,
             "luciole-8b-instruct": args.vllm_8b,
-            "luciole-1b-instruct": args.litellm_url or None,
+            "luciole-1b-instruct": args.litellm_url or os.environ.get("LITELLM_BASE_URL") or None,
         }
         ai = generate_ai(humans, backends, selected)
         kept = [r for r in load_previous_ai(args.output)

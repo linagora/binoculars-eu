@@ -72,6 +72,18 @@ Règles permanentes : Python 3.12+, type hints stricts, `ruff check` + `mypy --s
 
 - **Phase 5** : calibration — **NE PAS LANCER** sans `binoculars-eu-protocol.md`. Prérequis infra à vérifier avant : endpoint LiteLLM/vLLM sur `gpu.maudet.cloud` (ports fermés au dernier check), accès SSH (host key à valider par l'utilisateur).
 
-## 6. Comment reprendre
+## 6. Runbook autonome (nuit du 30 → 31 août)
+
+Ordre décidé avec l'utilisateur avant son absence. Arrêts durs respectés : **pas de `--write`**, **pas de changement de composition du corpus**, publication publique interdite (repo privé OK).
+
+1. **Watcher 23B** (`bash-ha672i1k`) → si ready : génération 100 jumeaux (`python -m calibration.build_corpus --generators 23b`, merge incrémental) → corpus **500/500**.
+2. Si 23B torchao échoue → **plan C** : `calibration/generate_23b_hf.py` (transformers + BitsAndBytesConfig nf4, venv `~/.venv-binoculars-eu` de la box, bnb 0.44.1 + transformers 4.57.1 pinés) — distribution équivalente au nf4 vLLM.
+3. Si plan C échoue → **stop**, rapport au réveil, décision (endpoint LINAGORA / substitution 8B documentée).
+4. Corpus complet → `python -m calibration.build_splits --corpus … --output calibration/splits_fr_v01.json` (seed 42) ; rsync `calibration/` → `gpu-ubuntu:~/projects/binoculars-eu/`.
+5. **Dry-run calibrate autorisé** (SANS `--write`) sur la box : `~/.venv-binoculars-eu/bin/python -m calibration.calibrate --corpus … --splits … --profile fr --batch-size 8` → `results_fr_v01.json` + `scores_fr_v01.json` + `error_analysis_candidates_fr_v01.json` ; retrait des résultats sur athena, commit + push, **rapport du matin** (train AUC, seuils candidats) — décision `--write` réservée à l'utilisateur.
+6. `bash scripts/luciole_switch.sh 1b` (rétablit la passerelle LiteLLM) — en fin de séquence GPU.
+7. Optionnel si tout est vert et de l'énergie reste : écrire `calibration/evaluate.py` (métriques primaires + IC bootstrap §3, baselines B0-B4 §4) — **sans jamais toucher au test set au-delà d'un seul run protocolaire** (§2.2).
+
+## 7. Comment reprendre
 
 Nouvelle session : « Reprends binoculars-eu à partir de `CHECKPOINT.md` ». Contexte complet ici + `binoculars-eu-prd.md` (contrat). Commits git atomiques par phase sur `main`, en anglais, **toujours avec confirmation explicite de l'utilisateur** (ex. `feat(detector): add Binoculars scoring engine around LanguageProfile`).
