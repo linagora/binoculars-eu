@@ -52,6 +52,7 @@ dev = [
     "ruff>=0.6.0",
     "mypy>=1.11.0",
     "types-requests>=2.32.0",
+    "httpx>=0.27.0",
 ]
 
 [project.urls]
@@ -91,3 +92,7 @@ minversion = "8.0"
 testpaths = ["tests"]
 python_files = "test_*.py"
 addopts = "--cov=binoculars_eu --cov-report=term-missing --cov-fail-under=70"
+markers = [
+    "acceptance_cpu: numeric and cache checks, must pass on every platform",
+    "acceptance_gpu: warm-latency target < 200 ms (PRD L4-class); requires CUDA or BINOCULARS_EU_HAS_GPU=1",
+]
