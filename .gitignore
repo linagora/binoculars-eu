@@ -1,0 +1,79 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --- Virtual environments / env files ---
+.env
+.env.*
+!.env.example
+.venv
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# --- uv ---
+.uv/
+
+# --- IDEs / editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- Jupyter ---
+.ipynb_checkpoints
+
+# --- Model weights & caches ---
+models/
+.cache/
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.gguf
+
+# --- Generated calibration artifacts ---
+calibration/output/
+calibration/results/
+calibration/**/*.log
+
+# --- Logs ---
+*.log
+logs/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Test / coverage artifacts ---
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
