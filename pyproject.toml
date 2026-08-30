@@ -55,9 +55,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/OpenLLM-France/binoculars-eu"
-Repository = "https://github.com/OpenLLM-France/binoculars-eu"
-Issues = "https://github.com/OpenLLM-France/binoculars-eu/issues"
+Homepage = "https://github.com/linagora/binoculars-eu"
+Repository = "https://github.com/linagora/binoculars-eu"
+Issues = "https://github.com/linagora/binoculars-eu/issues"
 
 [build-system]
 requires = ["hatchling"]
