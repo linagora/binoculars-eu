@@ -46,6 +46,9 @@ venv.bak/
 # --- Jupyter ---
 .ipynb_checkpoints
 
+# --- Corpus build intermediates ---
+calibration/corpus/_human_cache.json
+
 # --- Model weights & caches ---
 models/
 .cache/
