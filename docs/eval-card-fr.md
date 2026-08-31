@@ -34,6 +34,8 @@ Seuils calibrés (train 300, seed 42) : `accuracy` 0.955801 · `low_fpr` 0.86666
 - **Faux positifs fréquents sur humains** : textes encyclopédiques denses (Wikipédia) et littérature classique classés « IA » dans ~la moitié des cas (dev par source : 0.500 / 0.556) ; les textes IA sont détectés ≥ 93 %. Éviter ces contextes ou exiger une revue humaine.
 - Textes très courts (< ~100 tokens) : score peu fiable (bruit structurel).
 - Qualité du corpus : 60/500 textes (source « presse ») contiennent des caractères `U+FFFD` (scraping décodé en charset erroné) ; affecte la propreté typographique, pas les métriques ni la reproductibilité (sha256 publié couvre le corpus tel quel). Correctif en corpus v1.1.
+- **Attaque humanizer commerciale dédiée (hors périmètre R-1..R-6)** : passage d'un texte Luciole-8B raw par Undetectable AI (mode Balanced, 5 USD/mois, 1 clic) fait basculer le verdict de « IA high » à « Humain » sur les deux modes de seuil (score 0.8245 → 0.9833, Δ +0.159, texte source 578 mots → humanisé 730 mots, test du 2026-08-31 · git_sha `7c58b81`). Limite structurelle partagée par les 7 détecteurs commerciaux testés en parallèle par Undetectable AI (GPTZero, Copyleaks, QuillBot, Writer, Sapling, Grammarly, ZeroGPT) ; à notre connaissance, aucun détecteur zero-shot publié en 2026 n'y résiste sans cascade défensive. Roadmap : R-6bis officialisé au protocole V0.2, cascade défensive étudiée en V2.
+
 
 ## Données & traçabilité
 
