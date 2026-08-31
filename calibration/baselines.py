@@ -234,7 +234,7 @@ def main(argv: list[str]) -> int:
         results["B3_falcon_en"] = {"note": "skipped (--skip-falcon)"}
     else:
         from binoculars_eu.detector import _legacy_profile
-        legacy = _legacy_profile(FALCON_OBSERVER, FALCON_PERFORMER, "accuracy")
+        legacy = _legacy_profile(FALCON_OBSERVER, FALCON_PERFORMER)
         results["B3_falcon_en"] = baseline_metrics(
             y_test,
             b3_falcon_scores(test, args.batch_size, args.falcon_precision == "8bit"),
