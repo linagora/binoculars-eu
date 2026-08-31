@@ -338,6 +338,9 @@ def main(argv: list[str]) -> int:
 
     # Single instantiation, shared by every test that needs scoring (§6: one pass).
     detector: Binoculars | None = None
+    # R-5/R-6 perturb a single class (50 texts); the paired dAUC runs on the
+    # matching original subset, not the full test split.
+    id_to_pos = {r["id"]: i for i, r in enumerate(test)}
     for test_id, perturbed in perturbations.items():
         if perturbed is None:
             note = NOTE_R2 if test_id == "R-2" else NOTE_R56
@@ -356,7 +359,10 @@ def main(argv: list[str]) -> int:
                 "n_concat": len(perturbed),
             }
         else:
-            results[test_id] = delta_auc_result(y_test, neg_orig, neg_pert, test_id)
+            positions = [id_to_pos[p["id"].rsplit("-", 1)[0]] for p in perturbed]
+            results[test_id] = delta_auc_result(
+                y_test[positions], neg_orig[positions], neg_pert, test_id
+            )
             results[test_id]["n_perturbed"] = len(perturbed)
 
     print("\nRobustness (protocol §6):")
