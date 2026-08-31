@@ -1,7 +1,38 @@
 # CHECKPOINT — binoculars-eu
 
-**Date** : 2026-08-30
+**Date** : 2026-08-31
 **Raison** : session interrompue (déconnexion/reconnexion utilisateur). Reprendre à partir de ce fichier.
+
+---
+
+## 0. Où j'en suis (2026-08-31, session phase 5)
+
+Phase 5 (calibration/évaluation) **en cours, bien avancée**. HEAD local = `66e8ed5`, tout poussé sur `origin/main` (privé). Repo rsyncé sur `gpu-ubuntu:~/projects/binoculars-eu` (pas de clé GitHub sur la box → toujours rsync depuis Athena après chaque commit).
+
+**Terminé et commité (ordre) :**
+- `1beb15a` docs(protocol): protocole v2.0-v0.1 copié dans `calibration/protocol.md`.
+- `fe981c2` feat(profile): **seuils FR calibrés** (calibrate.py --write sur L4, identique au dry-run) : accuracy=0.955801, low_fpr=0.866667, tpr_at_fpr_1=0.866667 ; metadata sha256 ca70aaa4…, date 2026-08-31, seed 42.
+- `08bb13c`/`f972a01` feat(calibration): `calibration/evaluate.py` (métriques test + IC bootstrap + OOD + 5-fold + log de runs). `--git-sha` ajouté pour la box (checkout git périmé là-bas).
+- `937b162` **résultats évaluation test (passe unique §2.2)** : AUC **0.959** [0.914,0.989], TPR@1% **0.480** [0.356,0.923] (cible ≥0.45 ✔), TPR@5% 0.860, F1 0.879, Acc 0.870, ECE 0.1495 (≤0.15 ✔ juste), **AUC OOD Mistral 0.944** [0.896,0.984] (n=50+50, cible ≥0.65 ✔). 5-fold : AUC 0.971±0.004, TPR@1% 0.667±0.050. Latence OOD p50 57 ms/texte, VRAM 9,8 Go. Artefacts : `calibration/evaluation_fr_v01.json` + `evaluation_runs_fr.jsonl`.
+- `d31fbd8` feat(detector): **`load_in_8bit` ajouté** à Binoculars/for_language/from_legacy (PRD §16.1, bitsandbytes) — nécessaire pour Falcon ×2 sur L4 22 Go.
+- `e3da57e`/`7c58b81`/`ea5b3d3` feat(calibration): `calibration/baselines.py` (B0-B4, --skip-falcon, --falcon-precision) + fix `_legacy_profile` (2 args, pas de mode).
+- `9fe126a` **résultats baselines test** : B0 random AUC 0.472 ; B1 longueur LR AUC 0.024 ; B2 features shallow LR AUC 0.054 ; **B3 Falcon-EN 8bit AUC 0.990** [0.970,1.000] TPR@1% 0.60 F1 0.949 ; **B4 profil fr AUC 0.959** TPR@1% 0.48 F1 0.879. ⚠️ **B3 ≥ B4 partout, CIs qui se chevauchent** → le gain francophonie 1B n'est PAS mesurable vs l'original 7B sur ce corpus (protocole §4.3 anticipait ce cas) — à documenter honnêtement dans le rapport §9, lié au risque PRD §15 (fallback 8B int8 V0.2).
+- `66e8ed5` feat(calibration): `calibration/ablations.py` (A1 max_length 64-1024, A2 bf16/fp32/8bit [TODO spec fp16 non exposé], A3 paires [privée skipped + --pairs-extra], A4 tokenizer, dev uniquement seeds 42/123/2024) + `calibration/robustness.py` (R-1 typos seed 500, R-2 --r2-file sinon skipped, R-3 troncature 100 tok, R-4 concat twin_of/seed 501 score normalisé min-max train ∈[0.4,0.6] [TODO spec échelle brute], R-5/R-6 --generator-url sinon skipped, bootstrap apparié seed 100).
+
+**Run en cours au moment du checkpoint** : task bash `ablations + robustness (R-1/R-3/R-4)` sur la box. Résultats attendus : `calibration/ablations_fr_v01.json` + `calibration/robustness_fr_v01.json`. Rapatrier par rsync après succès, committer, pousser.
+
+**Reste à faire (phase 5) :**
+1. Rapatrier/committer les résultats ablations + robustesse.
+2. **R-2** : paraphrase manuelle de 10 % des phrases du test (input utilisateur, `--r2-file` JSONL id/text) — TODO Michel-Marie.
+3. **R-5/R-6** : backend de régénération — soit LiteLLM `luciole-1b-instruct` (faible), soit monter le 8B vLLM sur la box. Décider avec l'utilisateur.
+4. Analyse d'erreurs §7 (les 40 candidats FP/FN dev sont dans `calibration/error_analysis_candidates_fr_v01.json`) : notebook `notebooks/04_error_analysis.ipynb` + annotation manuelle + Cohen's kappa + `docs/error_analysis_fr_v01.md`.
+5. Rapport `docs/evaluation_report_fr_v01.md` (structure §9.1 : 10 sections) + eval card `docs/eval-card-fr.md`.
+6. Vérifications reproductibilité §8.3 (déterminisme intra-seed δ<1e-4, stabilité inter-seed, hash corpus).
+7. Au final V0.1 : passage repo public (dépôt SFT public), publication corpus HF (`OpenLLM-France/binoculars-eu-corpus-fr-v01[-ood]`) — **nécessite l'accord explicite de l'utilisateur**.
+
+**Bugs corrigés cette session (ne pas re-découvrir) :** échelle des seuils dans evaluate.py (décision = `neg >= -seuil`, jamais `neg >= seuil` — la convention du repo est neg=-score, score bas=IA) ; batch OOD 150 textes en un appel → OOM, batché maintenant ; `_legacy_profile` ne prend que 2 args.
+
+**Conventions clés du code calibration :** score Binoculars bas=IA ; helpers sur `neg=-score` (higher=more AI-like) ; bootstrap seed 100 × 1000 ; splits seed 42 ; torch seed 42 ; les scripts réutilisent `scores_fr_v01.json` et ne re-scorent JAMAIS le hold-out. Ruff 100 cols. Aucun fichier >400 lignes.
 
 ---
 
