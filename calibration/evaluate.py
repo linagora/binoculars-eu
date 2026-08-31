@@ -267,6 +267,9 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--profile", default="fr", help="registered profile code")
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--config", default="v01", help="protocol config tag")
+    parser.add_argument("--git-sha", default=None,
+                        help="override git sha tracing (e.g. on runners without "
+                             "a git checkout of the exact evaluated revision)")
     parser.add_argument("--output-dir", type=Path, default=Path("calibration"))
     return parser.parse_args(argv)
 
@@ -348,6 +351,8 @@ def main(argv: list[str]) -> int:
 
     # --- artefacts ------------------------------------------------------------
     git_sha, git_dirty = git_state()
+    if args.git_sha is not None:
+        git_sha, git_dirty = args.git_sha, None
     payload = {
         "timestamp": datetime.now(UTC).isoformat(),
         "git_sha": git_sha,
