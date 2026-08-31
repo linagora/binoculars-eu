@@ -1,7 +1,7 @@
 {
   "corpus_sha256": "ca70aaa41c90321e96dcb51f58f34371ed5905853b6b090b9e05c1886cb9abf3",
-  "corpus_url": "https://huggingface.co/datasets/OpenLLM-France/binoculars-eu-corpus-fr-v01",
+  "corpus_url": "https://github.com/linagora/binoculars-eu/tree/main/calibration/corpus",
   "calibration_date": "2026-08-31",
   "calibration_seed": 42,
-  "calibration_note": null
+  "calibration_note": "Corpus served from the GitHub repo for V0.1 (org approval for the OpenLLM-France Hugging Face namespace pending inside LINAGORA). HF Datasets publication planned once approved; sha256 above covers the JSONL files in calibration/corpus/, whatever the hosting."
 }

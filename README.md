@@ -84,10 +84,13 @@ Every call that does not name a profile resolves to `fr`. Thresholds are
 calibrated per profile and shipped with traceability (corpus SHA-256,
 calibration date and seed) in `profiles/<lang>/{thresholds,metadata}.json`.
 
-Calibration corpus (500 texts + 50 OOD, with splits and full provenance):
-[`OpenLLM-France/binoculars-eu-corpus-fr-v01`](https://huggingface.co/datasets/OpenLLM-France/binoculars-eu-corpus-fr-v01)
-and [`-ood`](https://huggingface.co/datasets/OpenLLM-France/binoculars-eu-corpus-fr-v01-ood)
-on Hugging Face Datasets.
+Calibration corpus (500 texts + 50 OOD, with splits and full provenance) is
+versioned in this repository:
+[`calibration/corpus/binoculars-eu-corpus-fr-v01.jsonl`](calibration/corpus/binoculars-eu-corpus-fr-v01.jsonl)
+and [`-ood`](calibration/corpus/binoculars-eu-corpus-fr-v01-ood.jsonl), with the
+SHA-256 pinned in `binoculars_eu/profiles/fr/metadata.json`. Publication on
+Hugging Face Datasets (`OpenLLM-France/binoculars-eu-corpus-fr-v01`) is
+planned once the hosting organisation approves the project.
 
 ## Install
 
@@ -180,10 +183,10 @@ One version = **one profile increment or one robustness increment**, never both.
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). A new profile is merged only with: a
-conformant `profiles/<lang>/` folder, a public corpus on Hugging Face Datasets
-(`OpenLLM-France/binoculars-eu-corpus-<lang>-v<version>`), its SHA-256, three
-calibrated thresholds, an evaluation card, and a green
-`tests/test_profile.py`.
+conformant `profiles/<lang>/` folder, a public corpus (versioned under
+`calibration/corpus/`, published on Hugging Face Datasets once the
+`OpenLLM-France` namespace approves it), its SHA-256, three calibrated
+thresholds, an evaluation card, and a green `tests/test_profile.py`.
 
 ## Credits
 
