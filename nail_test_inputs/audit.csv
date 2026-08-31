@@ -1,0 +1,3 @@
+file,label,category,ground_truth,word_count,char_count,sha256,accuracy_score,accuracy_verdict,accuracy_margin,low_fpr_score,low_fpr_verdict,low_fpr_margin
+luciole_humanized.txt,Luciole 8B + Undetectable AI,ai_humanized,ai,730,4834,8bd2e2d9d88fe326708cc05e09905bf93cc62ba71da2275ed03292aa8c11ed34,0.983333,human,0.027500,0.983333,human,0.116700
+luciole_raw_s43.txt,Luciole 8B raw (seed 43),ai_pure,ai,578,3940,b0fc34f420352133f6dac91bf5003f2122921ce4f694a4a2d6804e95d70641dc,0.824490,ai,-0.131300,0.824490,ai,-0.042200

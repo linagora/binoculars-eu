@@ -1,0 +1,32 @@
+{
+  "timestamp_utc": "2026-08-31T20:26:54.331496+00:00",
+  "api_url": "http://100.90.203.88:8013/v1",
+  "model": "luciole-8b-instruct",
+  "parameters": {
+    "temperature": 0.7,
+    "top_p": 0.9,
+    "max_tokens": 900,
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "seed": 43
+  },
+  "system_prompt": "Tu es un rédacteur de vulgarisation technique en français. Tu écris des articles de blog clairs, informatifs et fluides.",
+  "user_prompt": "Rédige un article de blog de 400 à 500 mots en français sur le sujet suivant : « Les enjeux de la transparence dans l'IA générative : étiquetage, watermarking et responsabilité des plateformes ».\n\nContraintes :\n- Ton neutre et informatif, style article de vulgarisation technique\n- 4-5 paragraphes structurés\n- Pas de titre H1, commence directement par le premier paragraphe\n- Cite au moins un cadre réglementaire (AI Act européen, ou équivalent)\n- Termine par une phrase d'ouverture sur les défis à venir\n- Français soigné, tournures naturelles, pas de jargon excessif\n",
+  "output": {
+    "sha256": "b0fc34f420352133f6dac91bf5003f2122921ce4f694a4a2d6804e95d70641dc",
+    "char_count": 3940,
+    "word_count": 578,
+    "approx_token_count": 985,
+    "usage_from_server": {
+      "prompt_tokens": 170,
+      "completion_tokens": 737,
+      "total_tokens": 907
+    }
+  },
+  "latency_seconds": 44.317,
+  "label": "Luciole 8B raw (seed 43)",
+  "category": "ai_pure",
+  "ground_truth": "ai",
+  "source": "Luciole-8B-Instruct, seed=43, temp=0.7, max_tokens=900",
+  "note": "Témoin IA pure, généré sans humanization (scripts/generate_luciole_raw.py)"
+}

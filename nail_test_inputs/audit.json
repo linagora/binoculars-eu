@@ -1,0 +1,87 @@
+{
+  "test_run": {
+    "timestamp_utc": "2026-08-31T21:10:35.513484Z",
+    "timestamp_local": "2026-08-31T23:10:35.513484+02:00",
+    "seed": 42,
+    "api_url": "http://127.0.0.1:8000",
+    "detector": {
+      "git_sha": null,
+      "profile": "fr",
+      "profile_version": null,
+      "version": "0.1.0",
+      "model_id": "OpenLLM-France/Luciole-1B-Base + OpenLLM-France/Luciole-1B-SFT-1.0"
+    },
+    "thresholds": {
+      "accuracy": 0.955801,
+      "low_fpr": 0.866667
+    }
+  },
+  "measurements": [
+    {
+      "file": "luciole_humanized.txt",
+      "sha256": "8bd2e2d9d88fe326708cc05e09905bf93cc62ba71da2275ed03292aa8c11ed34",
+      "label": "Luciole 8B + Undetectable AI",
+      "category": "ai_humanized",
+      "ground_truth": "ai",
+      "source": "Undetectable AI (humanized), applied to luciole_raw_s43",
+      "note": "Texte humanisé par contournement commercial, transmis manuellement",
+      "word_count": 730,
+      "char_count": 4834,
+      "modes": {
+        "accuracy": {
+          "score": 0.9833333492279053,
+          "verdict": "human",
+          "confidence": "medium",
+          "threshold": 0.955801,
+          "margin": 0.0275,
+          "latency_ms_client": 24112,
+          "latency_ms_server": 24110,
+          "tokens_analyzed": 928
+        },
+        "low_fpr": {
+          "score": 0.9833333492279053,
+          "verdict": "human",
+          "confidence": "high",
+          "threshold": 0.866667,
+          "margin": 0.1167,
+          "latency_ms_client": 25265,
+          "latency_ms_server": 25263,
+          "tokens_analyzed": 928
+        }
+      }
+    },
+    {
+      "file": "luciole_raw_s43.txt",
+      "sha256": "b0fc34f420352133f6dac91bf5003f2122921ce4f694a4a2d6804e95d70641dc",
+      "label": "Luciole 8B raw (seed 43)",
+      "category": "ai_pure",
+      "ground_truth": "ai",
+      "source": "Luciole-8B-Instruct, seed=43, temp=0.7, max_tokens=900",
+      "note": "Témoin IA pure, généré sans humanization (scripts/generate_luciole_raw.py)",
+      "word_count": 578,
+      "char_count": 3940,
+      "modes": {
+        "accuracy": {
+          "score": 0.8244897723197937,
+          "verdict": "ai",
+          "confidence": "high",
+          "threshold": 0.955801,
+          "margin": -0.1313,
+          "latency_ms_client": 25234,
+          "latency_ms_server": 25232,
+          "tokens_analyzed": 736
+        },
+        "low_fpr": {
+          "score": 0.8244897723197937,
+          "verdict": "ai",
+          "confidence": "medium",
+          "threshold": 0.866667,
+          "margin": -0.0422,
+          "latency_ms_client": 25540,
+          "latency_ms_server": 25537,
+          "tokens_analyzed": 736
+        }
+      }
+    }
+  ]
+}

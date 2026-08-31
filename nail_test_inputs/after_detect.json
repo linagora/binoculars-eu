@@ -1,0 +1,29 @@
+{
+  "step": "after_humanization_undetectable_ai",
+  "text_file": "nail_test_inputs/luciole_humanized.txt",
+  "detect": {
+    "accuracy": {
+      "score": 0.9833333492279053,
+      "verdict": "human",
+      "label": "Probablement écrit par un humain",
+      "confidence": "medium",
+      "threshold_used": 0.955801,
+      "mode": "accuracy",
+      "profile": "fr",
+      "input_tokens": 928,
+      "elapsed_ms": 26273
+    },
+    "low_fpr": {
+      "score": 0.9833333492279053,
+      "verdict": "human",
+      "label": "Probablement écrit par un humain",
+      "confidence": "high",
+      "threshold_used": 0.866667,
+      "mode": "low-fpr",
+      "profile": "fr",
+      "input_tokens": 928,
+      "elapsed_ms": 27154
+    }
+  },
+  "delta_score_vs_baseline": 0.1588
+}

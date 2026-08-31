@@ -1,0 +1,16 @@
+{
+  "step": "baseline_luciole_raw",
+  "text_file": "nail_test_inputs/luciole_raw_s43.txt",
+  "meta_file": "nail_test_inputs/luciole_raw_s43.meta.json",
+  "sha256": "b0fc34f420352133f6dac91bf5003f2122921ce4f694a4a2d6804e95d70641dc",
+  "detect": {
+    "score": 0.8244897723197937,
+    "verdict": "ai",
+    "confidence": "high",
+    "threshold_used": 0.955801,
+    "mode": "accuracy",
+    "profile": "fr",
+    "input_tokens": 736,
+    "elapsed_ms": 26503
+  }
+}

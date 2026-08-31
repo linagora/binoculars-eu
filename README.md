@@ -168,6 +168,16 @@ docker/Dockerfile.eval    # pinned evaluation image
 tests/                    # profile registry, API, from_legacy compatibility
 ```
 
+## Scripts
+
+- `scripts/nail_test.py` : benchmark éditorial reproductible du "test au
+  clou" — mesure un dossier de textes via `POST /detect` (modes `accuracy` et
+  `low-fpr`), découvre seuils et modèles dynamiquement via l'API, et produit
+  une table markdown + un JSON d'audit + un CSV (hashes, latences,
+  timestamps). Usage : `python scripts/nail_test.py --inputs-dir nail_test_inputs/`
+- `scripts/generate_luciole_raw.py` : génère le témoin "IA brute" du test
+  via l'API vLLM Luciole, avec métadonnées complètes (seed, sha256, latence).
+
 ## Roadmap
 
 | Version | Scope | Highlights |
