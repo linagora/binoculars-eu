@@ -1,5 +1,5 @@
 {
-  "accuracy": 0.9,
-  "low_fpr": 0.85,
-  "tpr_at_fpr_1": 0.85
+  "accuracy": 0.955801,
+  "low_fpr": 0.866667,
+  "tpr_at_fpr_1": 0.866667
 }
