@@ -6,7 +6,7 @@ readme = "README.md"
 license = { text = "Apache-2.0" }
 requires-python = ">=3.12"
 authors = [
-    { name = "Michel-Marie Maudet" },
+    { name = "Michel-Marie Maudet", email = "mmaudet@linagora.com" },
 ]
 keywords = ["ai-detection", "binoculars", "multilingual", "luciole", "open-source", "zero-shot"]
 classifiers = [
