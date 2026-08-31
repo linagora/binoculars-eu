@@ -41,9 +41,11 @@
   .sentence.static { color: var(--ink); font-size: 14.5px; line-height: 1.55; white-space: pre-wrap; }
   .sentence.marked { border-left: 4px solid var(--todo); }
   .sentence.marked.filled { border-left-color: var(--done); }
+  .sentence.marked.identical { border-left-color: #dc2626; background: #fef2f2; }
   .sentence .tag { font-size: 11px; font-weight: 650; letter-spacing: .03em; margin-bottom: 6px; }
   .sentence.marked .tag { color: var(--todo); }
   .sentence.marked.filled .tag { color: var(--done); }
+  .sentence.marked.identical .tag { color: #dc2626; }
   .original { font-size: 13.5px; color: var(--muted); background: #fafafa; border: 1px dashed var(--border);
               border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; white-space: pre-wrap; }
   textarea { width: 100%; font: inherit; font-size: 14.5px; line-height: 1.5; border: 1px solid var(--border);
@@ -78,7 +80,8 @@
   <div class="notice">
     Reformule <strong>légèrement</strong> les phrases surlignées (synonymes, inversion de propositions).
     Sens, entités et chiffres inchangés. Le reste du texte reste <strong>strictement identique</strong> —
-    ne modifie rien d'autre. Sauvegarde automatique locale à chaque frappe.
+    ne modifie rien d'autre. Une paraphrase <strong>identique à l'original est refusée</strong>
+    (signalée en rouge, non comptée). Sauvegarde automatique locale à chaque frappe.
   </div>
 
   <div class="text-nav">
@@ -118,8 +121,15 @@ function markedOf(text) {
   return text.sentences.filter((s) => s.to_paraphrase);
 }
 
+// Une phrase n'est validée que si la paraphrase diffère réellement de l'original
+// (même règle que l'assembleur : paraphrase == original.strip() → rejet).
+function isSentenceDone(text, s) {
+  const value = (filled[text.id]?.[s.i] || "").trim();
+  return !!value && value !== s.text.trim();
+}
+
 function isTextDone(text) {
-  return markedOf(text).every((s) => (filled[text.id]?.[s.i] || "").trim());
+  return markedOf(text).every((s) => isSentenceDone(text, s));
 }
 
 function globalProgress() {
@@ -127,7 +137,7 @@ function globalProgress() {
   for (const t of kit.texts) {
     for (const s of markedOf(t)) {
       total++;
-      if ((filled[t.id]?.[s.i] || "").trim()) done++;
+      if (isSentenceDone(t, s)) done++;
     }
   }
   return { total, done };
@@ -158,7 +168,7 @@ function renderSelect() {
     const opt = document.createElement("option");
     opt.value = String(i);
     const n = markedOf(t).length;
-    const d = markedOf(t).filter((s) => (filled[t.id]?.[s.i] || "").trim()).length;
+    const d = markedOf(t).filter((s) => isSentenceDone(t, s)).length;
     opt.textContent = `${i + 1}. ${t.id} (${d}/${n})`;
     sel.appendChild(opt);
   });
@@ -186,7 +196,7 @@ function renderText() {
   idSpan.textContent = text.id;
   meta.append(badge, status, idSpan);
 
-  const done = markedOf(text).filter((s) => (filled[text.id]?.[s.i] || "").trim()).length;
+  const done = markedOf(text).filter((s) => isSentenceDone(text, s)).length;
   $("text-position").textContent =
     `texte ${currentIndex + 1} / ${kit.texts.length} — ${done}/${markedOf(text).length} phrases`;
 
@@ -212,6 +222,15 @@ function renderText() {
     textarea.rows = 2;
     textarea.placeholder = "Ta reformulation légère ici…";
     textarea.value = filled[text.id]?.[s.i] || "";
+    const paint = () => {
+      const value = textarea.value.trim();
+      const identical = !!value && value === s.text.trim();
+      card.classList.toggle("filled", !!value && !identical);
+      card.classList.toggle("identical", identical);
+      tag.textContent = !value ? "À REFORMULER"
+        : identical ? "IDENTIQUE À L'ORIGINAL — reformule au moins quelques mots"
+        : "REFORMULÉE ✓";
+    };
     const sync = () => {
       const value = textarea.value.trim();
       if (value) {
@@ -221,8 +240,7 @@ function renderText() {
         delete filled[text.id][s.i];
       }
       persist();
-      card.classList.toggle("filled", !!value);
-      tag.textContent = value ? "REFORMULÉE ✓" : "À REFORMULER";
+      paint();
       refreshProgress();
       renderTextHeaderOnly();
     };
@@ -241,8 +259,7 @@ function renderText() {
     hint.textContent = "Ctrl+Entrée : texte suivant";
     row.append(copyBtn, hint);
     card.append(tag, original, textarea, row);
-    card.classList.toggle("filled", !!textarea.value.trim());
-    if (textarea.value.trim()) tag.textContent = "REFORMULÉE ✓";
+    paint();
     container.appendChild(card);
   }
   refreshProgress();
@@ -251,7 +268,7 @@ function renderText() {
 // Mise à jour légère du bandeau sans re-rendre tout le texte (sinon on perd le focus).
 function renderTextHeaderOnly() {
   const text = kit.texts[currentIndex];
-  const done = markedOf(text).filter((s) => (filled[text.id]?.[s.i] || "").trim()).length;
+  const done = markedOf(text).filter((s) => isSentenceDone(text, s)).length;
   $("text-position").textContent =
     `texte ${currentIndex + 1} / ${kit.texts.length} — ${done}/${markedOf(text).length} phrases`;
   renderSelect();
