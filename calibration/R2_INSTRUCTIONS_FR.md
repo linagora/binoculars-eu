@@ -7,6 +7,23 @@ réaliste (un humain qui reprend un texte d'IA en modifiant quelques tournures).
 
 ## Ce que tu as à faire
 
+**Option recommandée — éditeur web** (aucune installation, sauvegarde auto,
+~1 h de travail) :
+
+```bash
+cd calibration
+python3 -m http.server 8000
+# ouvre http://localhost:8000/r2_kit_editor.html
+```
+
+Remplis les phrases surlignées, puis « Télécharger le kit rempli » et :
+
+```bash
+cp ~/Downloads/r2_kit_fr_v01.filled.json calibration/r2_kit_fr_v01.json
+```
+
+**Option brute — édition JSON directe** :
+
 1. Ouvre `calibration/r2_kit_fr_v01.json` (généré par
    `python -m calibration.build_r2_kit`).
 2. Pour chaque texte, les objets `"sentences"` avec `"to_paraphrase": true`

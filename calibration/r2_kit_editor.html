@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kit R-2 — Paraphrase légère (binoculars-eu)</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #1f2430; --muted: #6b7280;
+    --accent: #2563eb; --accent-soft: #dbeafe; --todo: #b45309; --todo-soft: #fef3c7;
+    --done: #15803d; --done-soft: #dcfce7; --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+         background: var(--bg); color: var(--ink); }
+  header { position: sticky; top: 0; background: var(--card); border-bottom: 1px solid var(--border);
+           padding: 10px 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; z-index: 10; }
+  header h1 { font-size: 15px; margin: 0; font-weight: 650; }
+  .progress-wrap { flex: 1; min-width: 180px; }
+  .progress-bar { height: 8px; background: var(--border); border-radius: 999px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--done); width: 0%; transition: width .2s; }
+  .progress-label { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  button { font: inherit; cursor: pointer; border: 1px solid var(--border); background: var(--card);
+           border-radius: 8px; padding: 7px 12px; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button:disabled { opacity: .45; cursor: default; }
+  select { font: inherit; padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px;
+           background: var(--card); max-width: 340px; }
+  main { max-width: 860px; margin: 0 auto; padding: 20px 16px 80px; }
+  .notice { background: var(--todo-soft); border: 1px solid #fcd34d; border-radius: 10px;
+            padding: 10px 14px; font-size: 13px; margin-bottom: 16px; }
+  .text-nav { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }
+  .badge { font-size: 11px; font-weight: 650; padding: 3px 9px; border-radius: 999px; }
+  .badge.human { background: var(--accent-soft); color: var(--accent); }
+  .badge.ai { background: #ede9fe; color: #6d28d9; }
+  .badge.todo { background: var(--todo-soft); color: var(--todo); }
+  .badge.done { background: var(--done-soft); color: var(--done); }
+  .text-id { font-family: ui-monospace, monospace; font-size: 12px; color: var(--muted); }
+  .sentence { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+              padding: 12px 14px; margin-bottom: 10px; }
+  .sentence.static { color: var(--ink); font-size: 14.5px; line-height: 1.55; white-space: pre-wrap; }
+  .sentence.marked { border-left: 4px solid var(--todo); }
+  .sentence.marked.filled { border-left-color: var(--done); }
+  .sentence .tag { font-size: 11px; font-weight: 650; letter-spacing: .03em; margin-bottom: 6px; }
+  .sentence.marked .tag { color: var(--todo); }
+  .sentence.marked.filled .tag { color: var(--done); }
+  .original { font-size: 13.5px; color: var(--muted); background: #fafafa; border: 1px dashed var(--border);
+              border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; white-space: pre-wrap; }
+  textarea { width: 100%; font: inherit; font-size: 14.5px; line-height: 1.5; border: 1px solid var(--border);
+             border-radius: 8px; padding: 8px 10px; resize: vertical; min-height: 60px; background: #fff; }
+  textarea:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+  .row { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
+  .row .hint { font-size: 12px; color: var(--muted); }
+  .row button { font-size: 12px; padding: 4px 9px; }
+  #fallback { display: none; padding: 40px 16px; text-align: center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Kit R-2 · paraphrase légère</h1>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-label" id="progress-label">chargement…</div>
+  </div>
+  <select id="text-select" title="Aller à un texte"></select>
+  <button id="btn-download" class="primary" disabled>Télécharger le kit rempli</button>
+</header>
+
+<div id="fallback">
+  <p>Le kit <code>r2_kit_fr_v01.json</code> n'a pas pu être chargé (ouverture en <code>file://</code>&nbsp;?).</p>
+  <p>Sers ce dossier&nbsp;: <code>python3 -m http.server 8000</code> puis ouvre
+     <code>http://localhost:8000/r2_kit_editor.html</code>.</p>
+  <p>Ou <label>sélectionne le fichier&nbsp;: <input type="file" id="file-input" accept=".json"></label></p>
+</div>
+
+<main id="main" style="display:none">
+  <div class="notice">
+    Reformule <strong>légèrement</strong> les phrases surlignées (synonymes, inversion de propositions).
+    Sens, entités et chiffres inchangés. Le reste du texte reste <strong>strictement identique</strong> —
+    ne modifie rien d'autre. Sauvegarde automatique locale à chaque frappe.
+  </div>
+
+  <div class="text-nav">
+    <button id="btn-prev">← Précédent</button>
+    <span id="text-position"></span>
+    <button id="btn-next">Suivant →</button>
+    <label style="font-size:13px;color:var(--muted)">
+      <input type="checkbox" id="filter-done"> masquer les textes terminés
+    </label>
+  </div>
+
+  <div id="text-meta" style="margin-bottom:12px"></div>
+  <div id="sentences"></div>
+</main>
+
+<script>
+"use strict";
+
+const STORAGE_KEY = "r2-kit-fr-v01-v1";
+let kit = null;
+let filled = {};            // textId -> { sentenceIndex: paraphrase }
+let currentIndex = 0;
+let hideDone = false;
+
+const $ = (id) => document.getElementById(id);
+
+function loadSaved() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
+  catch { return {}; }
+}
+
+function persist() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(filled));
+}
+
+function markedOf(text) {
+  return text.sentences.filter((s) => s.to_paraphrase);
+}
+
+function isTextDone(text) {
+  return markedOf(text).every((s) => (filled[text.id]?.[s.i] || "").trim());
+}
+
+function globalProgress() {
+  let total = 0, done = 0;
+  for (const t of kit.texts) {
+    for (const s of markedOf(t)) {
+      total++;
+      if ((filled[t.id]?.[s.i] || "").trim()) done++;
+    }
+  }
+  return { total, done };
+}
+
+function refreshProgress() {
+  const { total, done } = globalProgress();
+  $("progress-fill").style.width = total ? (100 * done / total) + "%" : "0%";
+  $("progress-label").textContent = `${done} / ${total} phrases paraphrasées`;
+  $("btn-download").disabled = done < total;
+  $("btn-download").textContent = done < total
+    ? `Télécharger le kit rempli (${done}/${total})`
+    : "Télécharger le kit rempli ✓";
+}
+
+function visibleIndices() {
+  return kit.texts
+    .map((t, i) => ({ t, i }))
+    .filter(({ t }) => !hideDone || !isTextDone(t))
+    .map(({ i }) => i);
+}
+
+function renderSelect() {
+  const sel = $("text-select");
+  sel.innerHTML = "";
+  visibleIndices().forEach((i) => {
+    const t = kit.texts[i];
+    const opt = document.createElement("option");
+    opt.value = String(i);
+    const n = markedOf(t).length;
+    const d = markedOf(t).filter((s) => (filled[t.id]?.[s.i] || "").trim()).length;
+    opt.textContent = `${i + 1}. ${t.id} (${d}/${n})`;
+    sel.appendChild(opt);
+  });
+  sel.value = String(currentIndex);
+  if (sel.selectedIndex === -1 && sel.options.length) {
+    currentIndex = Number(sel.options[0].value);
+    sel.value = String(currentIndex);
+  }
+}
+
+function renderText() {
+  const text = kit.texts[currentIndex];
+  const meta = $("text-meta");
+  meta.innerHTML = "";
+  const badge = document.createElement("span");
+  badge.className = "badge " + text.label;
+  badge.textContent = text.label === "ai" ? "généré par IA" : "humain";
+  const status = document.createElement("span");
+  status.className = "badge " + (isTextDone(text) ? "done" : "todo");
+  status.style.marginLeft = "8px";
+  status.textContent = isTextDone(text) ? "terminé" : "à faire";
+  const idSpan = document.createElement("span");
+  idSpan.className = "text-id";
+  idSpan.style.marginLeft = "8px";
+  idSpan.textContent = text.id;
+  meta.append(badge, status, idSpan);
+
+  const done = markedOf(text).filter((s) => (filled[text.id]?.[s.i] || "").trim()).length;
+  $("text-position").textContent =
+    `texte ${currentIndex + 1} / ${kit.texts.length} — ${done}/${markedOf(text).length} phrases`;
+
+  const container = $("sentences");
+  container.innerHTML = "";
+  for (const s of text.sentences) {
+    if (!s.to_paraphrase) {
+      const div = document.createElement("div");
+      div.className = "sentence static";
+      div.textContent = s.text;
+      container.appendChild(div);
+      continue;
+    }
+    const card = document.createElement("div");
+    card.className = "sentence marked";
+    const tag = document.createElement("div");
+    tag.className = "tag";
+    tag.textContent = "À REFORMULER";
+    const original = document.createElement("div");
+    original.className = "original";
+    original.textContent = s.text;
+    const textarea = document.createElement("textarea");
+    textarea.rows = 2;
+    textarea.placeholder = "Ta reformulation légère ici…";
+    textarea.value = filled[text.id]?.[s.i] || "";
+    const sync = () => {
+      const value = textarea.value.trim();
+      if (value) {
+        filled[text.id] = filled[text.id] || {};
+        filled[text.id][s.i] = value;
+      } else if (filled[text.id]) {
+        delete filled[text.id][s.i];
+      }
+      persist();
+      card.classList.toggle("filled", !!value);
+      tag.textContent = value ? "REFORMULÉE ✓" : "À REFORMULER";
+      refreshProgress();
+      renderTextHeaderOnly();
+    };
+    textarea.addEventListener("input", sync);
+    const row = document.createElement("div");
+    row.className = "row";
+    const copyBtn = document.createElement("button");
+    copyBtn.textContent = "reprendre l'original";
+    copyBtn.addEventListener("click", () => {
+      textarea.value = s.text.trim();
+      textarea.dispatchEvent(new Event("input"));
+      textarea.focus();
+    });
+    const hint = document.createElement("span");
+    hint.className = "hint";
+    hint.textContent = "Ctrl+Entrée : texte suivant";
+    row.append(copyBtn, hint);
+    card.append(tag, original, textarea, row);
+    card.classList.toggle("filled", !!textarea.value.trim());
+    if (textarea.value.trim()) tag.textContent = "REFORMULÉE ✓";
+    container.appendChild(card);
+  }
+  refreshProgress();
+}
+
+// Mise à jour légère du bandeau sans re-rendre tout le texte (sinon on perd le focus).
+function renderTextHeaderOnly() {
+  const text = kit.texts[currentIndex];
+  const done = markedOf(text).filter((s) => (filled[text.id]?.[s.i] || "").trim()).length;
+  $("text-position").textContent =
+    `texte ${currentIndex + 1} / ${kit.texts.length} — ${done}/${markedOf(text).length} phrases`;
+  renderSelect();
+}
+
+function goTo(index) {
+  currentIndex = Math.max(0, Math.min(kit.texts.length - 1, index));
+  renderSelect();
+  renderText();
+  window.scrollTo({ top: 0 });
+}
+
+function download() {
+  for (const t of kit.texts) {
+    for (const s of t.sentences) {
+      s.paraphrase = filled[t.id]?.[s.i] || "";
+    }
+  }
+  const blob = new Blob([JSON.stringify(kit, null, 2) + "\n"], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "r2_kit_fr_v01.filled.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function init() {
+  $("main").style.display = "block";
+  filled = Object.assign(loadSaved(), filled);
+  renderSelect();
+  renderText();
+  $("btn-prev").addEventListener("click", () => goTo(currentIndex - 1));
+  $("btn-next").addEventListener("click", () => goTo(currentIndex + 1));
+  $("text-select").addEventListener("change", (e) => goTo(Number(e.target.value)));
+  $("filter-done").addEventListener("change", (e) => {
+    hideDone = e.target.checked;
+    renderSelect();
+  });
+  $("btn-download").addEventListener("click", download);
+  document.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.key === "Enter") goTo(currentIndex + 1);
+  });
+}
+
+async function boot() {
+  try {
+    const resp = await fetch("r2_kit_fr_v01.json", { cache: "no-store" });
+    if (!resp.ok) throw new Error(String(resp.status));
+    kit = await resp.json();
+  } catch {
+    $("fallback").style.display = "block";
+    $("file-input").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      kit = JSON.parse(await file.text());
+      $("fallback").style.display = "none";
+      init();
+    });
+    return;
+  }
+  init();
+}
+
+boot();
+</script>
+</body>
+</html>
