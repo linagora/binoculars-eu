@@ -22,10 +22,10 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 
-ANNOTATOR = "Michel-Marie Maudet"
+DEFAULT_ANNOTATOR = "agent (annotation automatique, à relire par un humain)"
 
 
-def assemble(kit_path: Path, out_path: Path) -> None:
+def assemble(kit_path: Path, out_path: Path, annotator: str) -> None:
     """Validate the filled kit and write the annotation JSON artifact."""
     kit = json.loads(kit_path.read_text(encoding="utf-8"))
     valid_fp = {t["code"] for t in kit["taxonomy_fp"]}
@@ -67,7 +67,8 @@ def assemble(kit_path: Path, out_path: Path) -> None:
         "lang": kit["lang"],
         "config": "v01",
         "protocol": "§7.2",
-        "annotator": ANNOTATOR,
+        "annotator": annotator,
+        "review_status": "pending_human_review",
         "date": datetime.now(tz=UTC).date().isoformat(),
         "threshold_accuracy": kit["threshold_accuracy"],
         "candidates_sha256": hashlib.sha256(
@@ -90,6 +91,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--lang", default="fr")
     parser.add_argument("--kit", type=Path, default=None)
     parser.add_argument("--out", type=Path, default=None)
+    parser.add_argument("--annotator", default=DEFAULT_ANNOTATOR)
+    parser.add_argument("--reviewed-by", default=None,
+                        help="human reviewer endorsing the annotation (sets review_status)")
     return parser.parse_args(argv)
 
 
@@ -97,7 +101,15 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     kit = args.kit or Path(f"calibration/error_kit_{args.lang}_v01.json")
     out = args.out or Path(f"docs/error_analysis_annotations_{args.lang}_v01.json")
-    assemble(kit, out)
+    assemble(kit, out, args.annotator)
+    if args.reviewed_by:
+        artifact = json.loads(out.read_text(encoding="utf-8"))
+        artifact["review_status"] = "human_reviewed"
+        artifact["reviewed_by"] = args.reviewed_by
+        artifact["review_date"] = artifact["date"]
+        out.write_text(json.dumps(artifact, ensure_ascii=False, indent=2) + "\n",
+                       encoding="utf-8")
+        print(f"marked as human_reviewed by {args.reviewed_by}")
     return 0
 
 

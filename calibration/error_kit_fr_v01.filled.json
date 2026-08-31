@@ -1,0 +1,505 @@
+{
+  "kit_version": "1.0",
+  "task": "error-analysis",
+  "lang": "fr",
+  "threshold_accuracy": 0.955801,
+  "instructions": "Pick ONE category per candidate (protocol §7.1 taxonomy); the note is free and mandatory for the '-autre' categories. See calibration/ERROR_INSTRUCTIONS_FR.md.",
+  "taxonomy_fp": [
+    {
+      "code": "FP-1",
+      "description": "Texte administratif / juridique (registre formel proche du style IA)"
+    },
+    {
+      "code": "FP-2",
+      "description": "Texte très court (< 100 tokens)"
+    },
+    {
+      "code": "FP-3",
+      "description": "Traduction automatique post-éditée"
+    },
+    {
+      "code": "FP-4",
+      "description": "Texte avec beaucoup de code, chiffres, tableaux"
+    },
+    {
+      "code": "FP-5",
+      "description": "Texte technique très standardisé (RFC, spéc, mode d'emploi)"
+    },
+    {
+      "code": "FP-6",
+      "description": "Texte encyclopédique très neutre (Wikipedia dense)"
+    },
+    {
+      "code": "FP-autre",
+      "description": "Autre — à caractériser dans la note libre (obligatoire)"
+    }
+  ],
+  "taxonomy_fn": [
+    {
+      "code": "FN-1",
+      "description": "IA générée avec température ≥ 0.9"
+    },
+    {
+      "code": "FN-2",
+      "description": "IA post-éditée par un humain"
+    },
+    {
+      "code": "FN-3",
+      "description": "IA imitant un style très marqué (dialecte, argot, littéraire)"
+    },
+    {
+      "code": "FN-4",
+      "description": "IA hors-distribution de Luciole (Mistral, GPT-4, Claude)"
+    },
+    {
+      "code": "FN-5",
+      "description": "IA très courte"
+    },
+    {
+      "code": "FN-autre",
+      "description": "Autre — à caractériser dans la note libre (obligatoire)"
+    }
+  ],
+  "candidates": [
+    {
+      "kind": "fp",
+      "id": "human-wikipedia-fr-071",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.886957,
+      "length_chars": 1110,
+      "text": "La biodiversité désigne la variété des formes de vie sur la Terre. Ce terme est composé du préfixe bio (du grec βίος / bíos, « vie ») et du mot « diversité ». Elle s'apprécie en considérant la diversité des écosystèmes, des espèces et des gènes dans l'espace et dans le temps, ainsi que les interactions au sein de ces niveaux d'organisation et entre eux.\nDepuis le sommet de la Terre de Rio de Janeiro en 1992, la préservation de la biodiversité est considérée comme un des enjeux essentiels du développement durable. L'adoption de la Convention sur la diversité biologique (CDB) au cours de ce sommet engage les pays signataires à protéger et restaurer la diversité du vivant. Au-delà des raisons éthiques, la biodiversité est essentielle aux sociétés humaines qui en sont entièrement dépendantes à travers les services écosystémiques.\n2010 a été l'année internationale de la biodiversité, conclue par la Conférence de Nagoya sur la biodiversité, qui a reconnu l'échec de l'objectif international de stopper la régression de la biodiversité avant 2010, et proposé de nouveaux objectifs (protocole de Nagoya).",
+      "category": "FP-6",
+      "note": "Wikipedia dense sur biodiversité : registre encyclopédique très neutre, structure définitionnelle canonique (« désigne… », étymologie, dates jalons) proche du style IA."
+    },
+    {
+      "kind": "fp",
+      "id": "human-litterature-040",
+      "label": "human",
+      "source": "litterature",
+      "score": 0.900524,
+      "length_chars": 1162,
+      "text": "HÉRODIAS.\n I\nLa citadelle de Machærous se dressait à l’orient de la mer Morte, sur un pic de basalte ayant la forme d’un cône. Quatre vallées profondes l’entouraient, deux vers les flancs, une en face, la quatrième au-delà. Des maisons se tassaient contre sa base, dans le cercle d’un mur qui ondulait suivant les inégalités du terrain ; et, par un chemin en zigzag tailladant le rocher, la ville se reliait à la forteresse, dont les murailles étaient hautes de cent vingt coudées, avec des angles nombreux, des créneaux sur le bord, et, çà et là, des tours qui faisaient comme des fleurons à cette couronne de pierres, suspendue au-dessus de l’abîme. \n\nIl y avait dans l’intérieur un palais orné de portiques, et couvert d’une terrasse que fermait une balustrade en bois de sycomore, où des mâts étaient disposés pour tendre un vélarium.\n\nUn matin, avant le jour, le Tétrarque Hérode Antipas vint s’y accouder, et regarda.\n\nLes montagnes, immédiatement sous lui, commençaient à découvrir leurs crêtes, pendant que leur masse, jusqu’au fond des abîmes, était encore dans l’ombre. Un brouillard flottait, il se déchira, et les contours de la mer Morte apparurent.",
+      "category": "FP-autre",
+      "note": "Prose littéraire XIXᵉ (Flaubert, Hérodias) : phrases longues, lexique soutenu (« vélarium », « créneaux », « coudées ») et syntaxe très mesurée que Luciole confond avec la fluidité IA. N'entre dans aucune classe FP-1..6 : ni juridique, ni court, ni technique, ni Wikipedia — registre littéraire classique."
+    },
+    {
+      "kind": "fp",
+      "id": "human-wikipedia-fr-023",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.904959,
+      "length_chars": 1193,
+      "text": "Le canal du Midi est un canal de navigation français à bief de partage qui relie Toulouse à la mer Méditerranée depuis le xviie siècle. D'abord appelé « canal royal de Languedoc », il est renommé « canal du Midi » par les révolutionnaires en 1789. À partir de 1856, le canal latéral à la Garonne, qui double la Garonne de Bordeaux à Toulouse, prolonge le canal du Midi pour fournir une voie navigable de l'océan Atlantique à la mer Méditerranée : l'ensemble des deux canaux est dénommé « canal des Deux-Mers ».\nOuvrage d'art exceptionnel, considéré par ses contemporains comme le plus grand chantier du XVIIe siècle, le canal du Midi révolutionne le transport fluvial et la circulation dans le Midi de la France de l'Ancien Régime. Le défi, relevé par Pierre-Paul Riquet, son concepteur, est d'acheminer l'eau de la montagne Noire jusqu'au seuil de Naurouze, le point le plus élevé du canal. Louis XIV autorise le début des travaux par un édit royal d'octobre 1666. Supervisé par Pierre-Paul Riquet, le chantier dure de 1666 à 1681, sous le contrôle de Jean-Baptiste Colbert.\nLongtemps utilisé pour le transport de marchandises, le canal du Midi est aujourd’hui reconverti au tourisme fluvial.",
+      "category": "FP-6",
+      "note": "Wikipedia canal du Midi : introduction encyclopédique dense, structure historique linéaire et vocabulaire lisse (« ouvrage d'art exceptionnel », « chantier »), typique du biais FP Wikipedia."
+    },
+    {
+      "kind": "fp",
+      "id": "human-wikipedia-fr-055",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.908451,
+      "length_chars": 1150,
+      "text": "Dans la mythologie romaine, Vulcain est l'équivalent du grec Héphaïstos. Le nom de cette divinité a inspiré les utilisations suivantes.\n\n\n== Armement ==\nVulcain est un canon de type Gatling d'un calibre de 20 mm.\n\n\n== Astronautique ==\nVulcain est le moteur du premier étage du lanceur spatial Ariane 5, et Ariane 6.\n\n\n== Astronomie ==\nVulcain est une planète hypothétique du système solaire.\nVulcain est une plaine de Charon, satellite de Pluton.\n\n\n== Entomologie ==\nVulcain est le nom du papillon Vanessa atalanta, encore appelé Amiral.\n\n\n== Fiction ==\nLes  Vulcains sont un peuple de la série télévisée Star Trek originaire de la planète Vulcain.\nVulcain est le nom de l'armure de Ray dans l'animé Gun X Sword.\nLa Forge de Vulcain est un album de bande dessinée de Roger Leloup.\nVulcain est un personnage de fiction de Marvel Comics.\nLes Marteaux de Vulcain est un roman de Philip K. Dick.\n\n\n== Industrie ==\nVulcain est une entreprise d'horlogerie suisse.\n\n\n== Musique ==\nVulcain est un groupe de heavy metal français.\n\n\n== Sport ==\nVulcain est un groupe de spéléo de Lyon.\n\n\n== Véhicule ==\nVulcain est un bâtiment de la Marine nationale française.",
+      "category": "FP-6",
+      "note": "Wikipedia page d'homonymie « Vulcain » : listes courtes très neutres et parallèles, structure normalisée proche d'un rendu IA."
+    },
+    {
+      "kind": "fp",
+      "id": "human-wikipedia-fr-014",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.916279,
+      "length_chars": 1151,
+      "text": "Avignon (en provençal Avinhon ou Avignoun) est une ville du Sud-Est de la France, située au confluent du Rhône et de la Durance. Elle est le chef-lieu de l'arrondissement d'Avignon et la préfecture du département du Vaucluse, au nord-ouest de la région Provence-Alpes-Côte d'Azur, ainsi que le siège du conseil de la communauté d'agglomération du Grand Avignon.\nSurnommée la « cité des papes » en raison de l'installation dans la ville de sept papes puis deux antipapes de 1309 à 1423 et du fait qu'elle reste en possession des États pontificaux jusqu'en 1790, la renommée d'Avignon vient également de son pont et de ses fortifications préservées. Elle est actuellement la plus grande ville et la préfecture du département de Vaucluse.\nPar sa population, Avignon constitue la 45e commune de France sur les 34 970 que compte le pays. Elle compte 91 921 habitants selon l'INSEE en 2020. L'aire urbaine d'Avignon est la seizième plus peuplée de France avec 530 267 habitants. Elle est l'aire urbaine qui a le plus augmenté au niveau national entre 1999 et 2010, avec une progression de 76 % de sa population et une augmentation de sa superficie de 136 %.",
+      "category": "FP-6",
+      "note": "Wikipedia Avignon : intro encyclopédique dense (surnoms, chiffres INSEE, rangs administratifs), lissage stylistique typique."
+    },
+    {
+      "kind": "fp",
+      "id": "human-litterature-022",
+      "label": "human",
+      "source": "litterature",
+      "score": 0.921053,
+      "length_chars": 810,
+      "text": "I\nAu bout de la rue Guénégaud, lorsqu’on vient des quais, on trouve le passage du Pont-Neuf, une sorte de corridor étroit et sombre qui va de la rue Mazarine à la rue de Seine. Ce passage a trente pas de long et deux de large, au plus ; il est pavé de dalles jaunâtres, usées, descellées, suant toujours une humidité âcre ; le vitrage qui le couvre, coupé à angle droit, est noir de crasse.\n\nPar les beaux jours d’été, quand un lourd soleil brûle les rues, une clarté blanchâtre tombe des vitres sales et traîne misérablement dans le passage. Par les vilains jours d’hiver, par les matinées de brouillard, les vitres ne jettent que de la nuit sur les dalles gluantes, de la nuit salie et ignoble.\n\nÀ gauche, se creusent des boutiques obscures, basses, écrasées, laissant échapper des souffles froids de caveau.",
+      "category": "FP-autre",
+      "note": "Prose littéraire XIXᵉ (Zola, Thérèse Raquin, incipit) : phrases longues à cadence descriptive (« sorte de corridor étroit et sombre »), lexique soutenu, symétries stylistiques. Registre littéraire non couvert par FP-1..6."
+    },
+    {
+      "kind": "fp",
+      "id": "human-linuxfr-034",
+      "label": "human",
+      "source": "linuxfr",
+      "score": 0.927536,
+      "length_chars": 827,
+      "text": "🔐 Améliorer la sécurité OpenStack en simplifiant l’activation de la MFA\nJe travaille actuellement sur une contribution à Horizon (le dashboard OpenStack) pour ajouter un panel permettant d’activer facilement l’authentification multi-facteur (MFA) via TOTP, directement depuis l’interface web. (Lien de la PR en commentaire)\nAujourd’hui, il faut passer par la ligne de commande, ce qui n’est pas très pratique et peut décourager certains utilisateurs. Avec ce panel, j’espère que ce sera plus simple et rapide de sécuriser son environnement. Parce qu’au final, plus la sécurité est simple à activer, plus l’infrastructure est protégée.\nTrès content de pouvoir contribuer à cet écosystème dans le cadre de mon travail chez LINAGORA, au sein de l'OSSA, avec Gaël Lago et Michel-Marie MAUDET.\n#OpenStack\n#FOSS\n#OpenSource\n#Security",
+      "category": "FP-5",
+      "note": "Post LinuxFR sur contribution technique OpenStack Horizon : registre technique standardisé (MFA, TOTP, dashboard, PR), structure factuelle explicative proche d'un texte d'annonce IA."
+    },
+    {
+      "kind": "fp",
+      "id": "human-wikipedia-fr-027",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.927928,
+      "length_chars": 1166,
+      "text": "La tour Eiffel [tuʁɛfɛl]  est une tour autoportante de fer puddlé de 330 m de hauteur (avec antennes) située à Paris, à l’extrémité nord-ouest du parc du Champ-de-Mars en bordure de la Seine dans le 7e arrondissement. Son adresse officielle est 5, avenue Anatole-France.\nConstruite en deux ans par Gustave Eiffel et ses collaborateurs pour l'Exposition universelle de Paris de 1889, célébrant le centenaire de la Révolution française, et initialement nommée « tour de 300 mètres », elle est devenue le symbole de la capitale française et un site touristique de premier plan : il s’agit du quatrième site culturel français payant le plus visité en 2016, avec 5,9 millions de visiteurs. Depuis son ouverture au public, elle a accueilli plus de 300 millions de visiteurs.\nD’une hauteur de 312 mètres à l’origine, la tour Eiffel est restée le monument le plus élevé du monde pendant quarante ans. Le second niveau du troisième étage, appelé parfois quatrième étage, situé à 279,11 mètres, est la plus haute plateforme d'observation accessible au public de l'Union européenne et la deuxième plus haute d'Europe, derrière la tour Ostankino à Moscou culminant à 337 mètres.",
+      "category": "FP-6",
+      "note": "Wikipedia tour Eiffel : structure encyclopédique canonique (adresse officielle, date, chiffres visiteurs, superlatifs), très proche du style IA lissé."
+    },
+    {
+      "kind": "fp",
+      "id": "human-litterature-003",
+      "label": "human",
+      "source": "litterature",
+      "score": 0.936416,
+      "length_chars": 1160,
+      "text": "I Une petite Ville.\nLa petite ville de Verrières peut passer pour l’une des plus jolies de la Franche-Comté. Ses maisons blanches avec leurs toits pointus de tuiles rouges, s’étendent sur la pente d’une colline, dont des touffes de vigoureux châtaigniers marquent les moindres sinuosités. Le Doubs coule à quelques centaines de pieds au-dessous de ses fortifications, bâties jadis par les Espagnols, et maintenant ruinées.\n\nVerrières est abritée du côté du nord par une haute montagne, c’est une des branches du Jura. Les cimes brisées du Verra se couvrent de neige dès les premiers froids d’octobre. Un torrent, qui se précipite de la montagne, traverse Verrières avant de se jeter dans le Doubs, et donne le mouvement à un grand nombre de scies à bois ; c’est une industrie fort simple et qui procure un certain bien-être à la majeure partie des habitants plus paysans que bourgeois. Ce ne sont pas cependant les scies à bois qui ont enrichi cette petite ville. C’est à la fabrique des toiles peintes, dites de Mulhouse, que l’on doit l’aisance générale qui, depuis la chute de Napoléon, a fait rebâtir les façades de presque toutes les maisons de Verrières.",
+      "category": "FP-autre",
+      "note": "Prose littéraire XIXᵉ (Stendhal, Le Rouge et le Noir, incipit) : description topographique soignée, cadence balancée. Registre littéraire classique non couvert par la taxonomie FP-1..6."
+    },
+    {
+      "kind": "fp",
+      "id": "human-litterature-017",
+      "label": "human",
+      "source": "litterature",
+      "score": 0.936842,
+      "length_chars": 1140,
+      "text": "ACTE PREMIER.\n\n Scène I.\nTrois et deux font cinq, et cinq font dix, et dix font vingt ; trois et deux font cinq. « Plus, du vingt-quatrième, un petit clystère insinuatif, préparatif et rémollient, pour amollir, humecter et rafraîchir les entrailles de monsieur. » Ce qui me plaît de monsieur Fleurant, mon apothicaire, c’est que ses parties sont toujours fort civiles. « Les entrailles de monsieur, trente sols. » Oui ; mais, monsieur Fleurant, ce n’est pas tout que d’être civil ; il faut être aussi raisonnable, et ne pas écorcher les malades. Trente sols un lavement ! Je suis votre serviteur, je vous l’ai déjà dit ; vous ne me les avez mis dans les autres parties qu’à vingt sols ; et vingt sols en langage d’apothicaire, c’est-à-dire dix sols ; les voilà, dix sols. « Plus, dudit jour, un bon clystère détersif, composé avec catholicon double, rhubarbe, miel rosat, et autres, suivant l’ordonnance, pour balayer, laver et nettoyer le bas-ventre de monsieur, trente sols. » Avec votre permission, dix sols. « Plus, dudit jour, le soir, un julep hépatique, soporatif et somnifère, composé pour faire dormir monsieur, trente-cinq sols. »",
+      "category": "FP-autre",
+      "note": "Théâtre classique XVIIᵉ (Molière, Le Malade imaginaire, monologue d'Argan) : voix théâtrale monologuée, énumérations tarifaires stylisées. Registre théâtral non couvert par la taxonomie FP-1..6."
+    },
+    {
+      "kind": "fp",
+      "id": "human-wikipedia-fr-005",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.939699,
+      "length_chars": 1150,
+      "text": "Toulouse (en occitan Tolosa) est une commune du Sud-Ouest de la France, préfecture de la région Occitanie et du département de la Haute-Garonne, ainsi que siège de Toulouse Métropole. Ses habitants sont appelés les Toulousains et Toulousaines.\nEn 2023, Toulouse est la quatrième ville la plus peuplée de France, avec 514 819 habitants (après Paris, Marseille et Lyon). L'agglomération toulousaine compte 1 093 783 habitants en 2023, également au quatrième rang national (après Paris, Lyon et Marseille). Enfin, son aire d'attraction est, avec 1 529 112 habitants, la cinquième du pays (après Paris, Lyon, Marseille et Lille).\nRiches d'une longue histoire, Toulouse et ses environs sont occupés depuis le Paléolithique puis habités par les Volques Tectosages dès le IIIe siècle av. J.-C. La cité de Tolosa est fondée au début du Ier siècle par les Romains au bord de la Garonne, à l'emplacement de la ville actuelle. Au Ve siècle, à la suite des invasions germaniques, elle est la capitale du royaume wisigoth. Réunie au royaume des Francs mérovingiens et carolingiens, elle est entre le VIIe et le IXe siècle une des capitales du royaume d'Aquitaine.",
+      "category": "FP-6",
+      "note": "Wikipedia Toulouse : intro dense avec démographie, historique et hiérarchie administrative, style encyclopédique canonique."
+    },
+    {
+      "kind": "fp",
+      "id": "human-wikipedia-fr-053",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.950413,
+      "length_chars": 1141,
+      "text": "Le Massif central est un massif montagneux essentiellement hercynien qui occupe approximativement le centre en longitude du Midi de la France (la moitié sud de la France métropolitaine).\nD'une surface de 85 000 km2, soit 15 % environ du territoire métropolitain, c'est le massif le plus vaste du pays. Le massif est d'altitude moyenne et ses reliefs sont souvent arrondis par l'érosion. Il culmine à 1 885 mètres au sommet volcanique du puy de Sancy (sud-ouest du Puy-de-Dôme). Dans l'ensemble, il s'est formé il y a 500 millions d'années, bien que les causses et surtout les reliefs volcaniques soient plus récents, ces derniers étant consécutifs à la formation des Alpes et des Pyrénées. Le Massif central abrite en effet l'essentiel des volcans français de métropole.\nLes trois grandes agglomérations du Massif central, situées dans sa moitié nord, sont Clermont-Ferrand, Limoges et Saint-Étienne. Cette dernière est la plus grande unité urbaine du massif. Les autres villes importantes du massif sont Aurillac, Brive-la-Gaillarde, Cahors, Guéret, Mende, Millau, Montluçon, Moulins, Le Puy-en-Velay, Roanne, Rodez, Thiers, Tulle et Vichy.",
+      "category": "FP-6",
+      "note": "Wikipedia Massif central : intro géologie/géographie standardisée, chiffres et énumérations, registre encyclopédique neutre."
+    },
+    {
+      "kind": "fp",
+      "id": "human-wikipedia-fr-024",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.952569,
+      "length_chars": 1154,
+      "text": "Le Tour de France est une compétition de cyclisme sur route par étapes masculine qui traverse la France métropolitaine, avec des incursions occasionnelles dans les pays voisins. Sa première édition a lieu en 1903 et est organisée par Henri Desgrange et Géo Lefèvre, pour augmenter les ventes du journal L'Auto. Depuis, la course revient annuellement, avec comme exception les deux guerres mondiales. Souvent appelé « le Tour », ou « la Grande Boucle », il gagne en importance et en popularité au fil des éditions. D'un peloton principalement français les premières années, à des éditions comptant jusqu'à quarante nationalités, sa durée est allongée et sa portée s'étend dans le monde entier. Diffusé à la télévision dans 190 pays, le Tour de France est un des événements sportifs les plus regardés, derrière les Jeux olympiques d'été et la Coupe du monde de football, mais, contrairement à ces deux événements organisés tous les quatre ans, le Tour de France a lieu chaque année. Il est actuellement organisé par Amaury Sport Organisation (ASO, Groupe Amaury).\nLe Tour de France, le Tour d'Italie et le Tour d'Espagne constituent les trois grands tours.",
+      "category": "FP-6",
+      "note": "Wikipedia Tour de France : intro dense (dates, organisateurs, superlatifs, diffusion mondiale), style encyclopédique canonique."
+    },
+    {
+      "kind": "fp",
+      "id": "human-wikipedia-fr-017",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.979424,
+      "length_chars": 1168,
+      "text": "Caen [kɑ̃] est une commune française du nord-ouest de la France située en Normandie. Elle est la préfecture du département du Calvados, et était jusqu'au 1er janvier 2016 le chef-lieu de l'ancienne région Basse-Normandie. Depuis 2016, elle est le siège du conseil régional de Normandie et la capitale politique de la région. Rouen est le siège de la préfecture (chef-lieu) et la capitale administrative de la Région Normandie.\nSon grand nombre d'édifices religieux lui vaut le surnom de « Ville aux Cent Clochers » à l'instar d'autres villes comme Rouen ou Poitiers. Ses habitants sont appelés les Caennais [kanɛ].\nCité de Guillaume le Conquérant et capitale du duché de Normandie avec Rouen, la ville a hérité d'un très riche patrimoine architectural en partie détruit lors de la bataille de Caen. La ville a gardé la mémoire de ce moment clé de la Seconde Guerre mondiale en édifiant notamment un Mémorial pour la Paix, célèbre dans le monde pour les cérémonies de commémorations qui y ont lieu. Caen se trouve par ailleurs à une douzaine de kilomètres de Sword Beach, une des plages de débarquement allié du 6 juin 1944, inscrites au patrimoine mondial de l'UNESCO.",
+      "category": "FP-6",
+      "note": "Wikipedia Caen : intro Wikipedia canonique (surnom, patrimoine, événement historique), lissage stylistique."
+    },
+    {
+      "kind": "fp",
+      "id": "human-linuxfr-022",
+      "label": "human",
+      "source": "linuxfr",
+      "score": 0.981366,
+      "length_chars": 1111,
+      "text": "Bonjour à tous et toutes,\nJe me permets de vous solliciter car ayant travaillé 10 ans comme travailleuse sociale, je souhaiterai donner un nouveau tournant à ma carrière professionnelle et désormais travailler dans la cybersécurité. Je ne cherche pas à révolutionner le monde en devenant une hackeuse et tous le bruit autour, avec les derniers piratage actuelles, mais juste comprendre le fonctionnement de la cybersécurité d'avant et d'aujourd'hui. Je cherche des ressources pour savoir comment faire, en partant de zéro, qui puissent être abordable pour moi, et surtout ne m'incite pas à me démotiver. Je suis ouverte à tout. Merci de vos réponses :)\n\n#\n \nHack the box\n\nPosté par Craig77 le 18 août 2026 à 09:52.\nÉvalué à 2 (+1/-0).\n\nHack the box propose des exercices. \nJe connaissais une autre ressource du même type mais j'en ai oublié le nom.\n\n[^]\n#\n \nRe: Hack the box\n\nPosté par Voltairine le 18 août 2026 à 11:42.\nÉvalué à 3 (+2/-1).\n\nQuelqu'un utilise vraiment les forums linuxfr pour poser ce type de question ?\n\n[^]\n#\n \nRe: Hack the box\n\nPosté par Bernie le 18 août 2026 à 13:24.\nÉvalué à 10 (+9/-0).",
+      "category": "FP-5",
+      "note": "Post LinuxFR + fil de discussion normalisé (métadonnées auteur/date/note), registre standardisé de forum technique proche d'un rendu généré."
+    },
+    {
+      "kind": "fp",
+      "id": "human-wikipedia-fr-054",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.985816,
+      "length_chars": 960,
+      "text": "Une forêt ou un massif forestier est un écosystème, relativement étendu, constitué principalement d'un peuplement d'arbres, arbustes et arbrisseaux (fruticée), ainsi que de l'ensemble des autres espèces qui lui sont associées et qui vivent en interaction au sein de ce milieu. On distingue quatre grands types de forêts sur Terre : la forêt boréale (ou taïga), la forêt tempérée, la forêt méditerranéenne et la forêt tropicale. Entre cette dernière et le milieu maritime se développe également un écosystème forestier intermédiaire aux caractéristiques spécifiques : la mangrove. Les espèces animales, végétales ainsi que les champignons qui vivent au sein des forêts sont qualifiées d'espèces forestières. Les forêts abritent une grande richesse écologique, concentrant 80 % de la biodiversité terrestre mondiale recensée.\nCette richesse est largement utilisée par l'homme, la forêt actuelle peut ainsi être naturelle ou exploitée par l'homme en sylviculture.",
+      "category": "FP-6",
+      "note": "Wikipedia forêt : définition écologique neutre, énumération de types canoniques (boréale, tempérée…), style encyclopédique très dense."
+    },
+    {
+      "kind": "fp",
+      "id": "human-presse-fr-014",
+      "label": "human",
+      "source": "presse-fr",
+      "score": 0.988636,
+      "length_chars": 1055,
+      "text": "Livres blancs\nCopilot Microsoft 365 : Lib�rez votre cr�ativit�, simplifiez votre quotidien !\nSecteur industriel : quelle strat�gie pour rester comp�titif ?\nLa donn�e industrielle au coeur de la performance client\nAvec cette version, la soci�t� d'Elon Musk mise sur des capacit�s de raisonnement renforc�es et une meilleure gestion des t�ches longues. Grok 4.6 dispose notamment d'une fen�tre de contexte de 500 000 tokens\nAprès avoir dévoilé Grok 4.5 en juillet, l’entreprise a présenté, le 12 août, une version de son modèle baptisée Grok 4.6. Cette évolution vise à renforcer les capacités dites « agentiques » de l’IA. Au-delà de la simple réponse à une requête, le modèle doit être capable de suivre une mission sur la durée, d’analyser des informations complexes, de travailler sur une base de code ou encore de produire un livrable complet.\nLe modèle est conçu pour rester opérationnel au cours de tâches comportant de nombreuses étapes, notamment dans la recherche, l’analyse de données, le développement informatique ou la production de documents.",
+      "category": "FP-autre",
+      "note": "Article presse tech (Grok 4.6) avec en-têtes de livres blancs et caractères mal encodés (« Lib�rez ») : pollution d'encoding sur registre technique-marketing IA-adjacent. Facteur principal = artefacts de scraping, non couvert par FP-1..6."
+    },
+    {
+      "kind": "fp",
+      "id": "human-wikipedia-fr-072",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 1.0,
+      "length_chars": 997,
+      "text": "Un parc national est une portion de territoire dans laquelle la faune, la flore et le milieu naturel en général sont protégés des activités humaines. Son intérêt peut être aussi touristique. La notion de parc national renvoie à des définitions réglementaires très différentes selon les États. L'Union internationale pour la conservation de la nature a défini une catégorie II, intitulée « Parc national ». Néanmoins, celle-ci ne concerne pas uniquement des parcs nationaux et toutes les aires protégées nommées « parcs nationaux » n'appartiennent pas forcément à cette catégorie.\n\n\n== Histoire ==\n\nLa première vision « moderne » de l'idée de parc national semble revenir à un peintre américain, George Catlin, qui définit le concept de parc national en 1832 dans un article du New York Times. De retour d'un voyage dans l'Ouest, il y propose une politique de protection par le gouvernement d'un « parc où hommes et bêtes auraient conservé le côté sauvage et authentique de leur beauté naturelle ».",
+      "category": "FP-6",
+      "note": "Wikipedia parc national : définition institutionnelle très neutre, historique canonique, style encyclopédique dense."
+    },
+    {
+      "kind": "fp",
+      "id": "human-wikipedia-fr-042",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 1.006896,
+      "length_chars": 1039,
+      "text": "L'histoire de la photographie retrace les étapes qui jalonnent l'évolution du procédé photographique depuis son invention jusqu'à nos jours. L'invention de la photographie nécessitait, d'une part la réalisation d'un dispositif optique permettant la création de l'image, et d'autre part de fixer cette image sur un support pérenne par un processus chimique irréversible. Les usages de cette technique ont évolué, et sa dimension artistique a notamment été reconnue.\n\n\n== Techniques précurseurs de la photographie ==\n\n\n=== Les origines ===\nLa photographie a profité de nombreuses innovations technologiques et techniques dans les domaines de l'optique, de la chimie, de la mécanique, de l'électricité, de l'électronique et de l'informatique.\nLes deux phénomènes nécessaires à l'obtention d'images photographiques (chambre noire et phénomènes de réflexion et de réfraction lumineuses) étaient pour certains connus depuis longtemps et exposés dans le Traité d'optique au XIe siècle.\nLa chambre noire était déjà connue par Aristote (384-322 av.",
+      "category": "FP-6",
+      "note": "Wikipedia histoire de la photographie : registre encyclopédique très neutre avec structure tutorielle (« nécessitait, d'une part… d'autre part »)."
+    },
+    {
+      "kind": "fp",
+      "id": "human-presse-fr-051",
+      "label": "human",
+      "source": "presse-fr",
+      "score": 1.010638,
+      "length_chars": 912,
+      "text": "Livres blancs\nCyber-r�silience Microsoft 365 : Anticipez et prot�gez vos donn�es en 10 �tapes cl�s\nMulticloud�: 6�crit�res essentiels � la s�curit�\nCyber-r�silience�: quelle approche au-del� des plans de continuit�?\nFourthline fusionne�avec Veridas pour proposer une plateforme d'identit� mondiale de confiance afin de lutter contre la fraude.\nFourthline, un fournisseur européen de solutions de vérification d'identité et de conformité s’associe à Veridas, une entreprise technologique d'identité numérique, pour créer une plateforme d’identité mondiale de niveau bancaire basée sur les normes européennes. Le groupe issu de la fusion a désormais une portée sur l’ensemble des marchés mondiaux où il applique les normes européennes de conformité en vigueur dans le secteur bancaire. Une mise en conformité KYC/AML associée à la suite propriétaire de solutions d’identité et de lutte contre la fraude de Veridas.",
+      "category": "FP-autre",
+      "note": "Article presse tech (Fourthline/Veridas) avec en-têtes de livres blancs et caractères mal encodés (« r�silience ») : mêmes artefacts d'encoding que #17 sur registre corporate-technique. Facteur principal = pollution d'encoding, non couvert par FP-1..6."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-8b-031",
+      "label": "ai",
+      "source": "luciole-8b-instruct",
+      "score": 0.961749,
+      "length_chars": 758,
+      "text": "La cathédrale Notre-Dame de Paris, située sur l'île de la Cité au cœur de la capitale française, est l'un des monuments les plus emblématiques de l'architecture gothique française. Érigée entre le XIIe et le XIVe siècle, elle est dédiée à la Vierge Marie et a servi de modèle à de nombreuses cathédrales ultérieures. Gravement endommagée par un incendie majeur en avril 2019, sa charpente historique, ses vitraux et sa flèche emblématique ont été partiellement détruits, mais des efforts de restauration ambitieux sont en cours pour rendre à ce chef-d'œuvre patrimonial sa splendeur d'origine. Classée au patrimoine mondial de l'UNESCO depuis 1991, Notre-Dame reste un symbole national et un lieu de culte, de mémoire historique et de tourisme international.",
+      "category": "FN-autre",
+      "note": "Luciole 8B, notice patrimoniale (Notre-Dame) : fluide, ancrée temporellement (incendie 2019, UNESCO 1991), vocabulaire varié. Facteur principal = génération in-distribution très proche de Wikipedia FR — le détecteur, calibré sur Luciole, échoue à distinguer un texte trop naturel dans son propre style. Ni FN-1 (pas de signal température ≥ 0.9), ni FN-2 (pas de trace post-édition), ni FN-3, ni FN-4 (Luciole in-distribution), ni FN-5 (758 chars)."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-1b-008",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.947154,
+      "length_chars": 687,
+      "text": "Lille, située dans le nord de la France, est une ville dynamique et historique connue pour son architecture Art déco, ses canaux et sa riche vie culturelle. Fondée au XIe siècle, elle devient au fil des siècles un pôle économique majeur du Nord, notamment grâce à l'industrie textile. Aujourd'hui, Lille est réputée pour son université (Université Lille-Nord de France), sa scène artistique variée et son dynamisme associatif. La métropole est traversée par la Deûle, bordée de parcs et de jardins publics, comme celui de l'Université. Connue pour son marché de Noël et son patrimoine architectural unique, Lille mêle modernité et tradition dans une ambiance chaleureuse et accueillante.",
+      "category": "FN-autre",
+      "note": "Luciole 1B, notice touristique (Lille) : erreurs factuelles subtiles (« architecture Art déco » discutable, « Université Lille-Nord de France » anachronique) mais fluidité humaine convaincante. Facteur principal = petit modèle produisant une prose lissée type guide de voyage, sans marqueurs statistiques exploitables ; 687 chars donc à la limite FN-5 mais registre naturel domine."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-8b-047",
+      "label": "ai",
+      "source": "luciole-8b-instruct",
+      "score": 0.946281,
+      "length_chars": 1014,
+      "text": "Le fromage est un aliment obtenu par la fermentation du lait ou de produits laitiers, résultant de la coagulation des protéines et de la maturation enzymatique. Produit depuis des millénaires dans diverses régions du monde, il existe aujourd'hui des centaines de variétés, allant des fromages à pâte molle comme le brie aux fromages à pâte dure comme le parmesan ou le pecorino. La diversité des fromages dépend de facteurs tels que la composition du lait, la méthode de fabrication, la durée d'affinage et les bactéries utilisées. Riche en calcium, protéines et matières grasses, le fromage joue un rôle important dans de nombreuses traditions culinaires et régimes alimentaires. Sa conservation, grâce à l'affinage, permet une grande variété de saveurs et de textures. Le fromage est également utilisé dans des préparations culinaires variées, des plats principaux aux desserts. Sa production industrielle moderne coexiste avec des méthodes artisanales, reflétant une richesse culturelle et technologique variée.",
+      "category": "FN-autre",
+      "note": "Luciole 8B, notice culinaire (fromage) : registre didactique équilibré, ancrages concrets (brie, parmesan, pecorino), transitions naturelles. Style pédagogique « article de magazine » in-distribution qui échappe au détecteur."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-1b-040",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.935897,
+      "length_chars": 762,
+      "text": "L'Académie française, fondée en 1635 à Paris par ordonnance de Louis XIII et Louis XIV, est l'une des plus anciennes institutions littéraires en activité en France. Regroupant des écrivains, des traducteurs, des lexicographes et des spécialistes des arts de la langue, elle a pour mission de promouvoir la standardisation du français et d'en assurer la correction et la purification. Elle accorde la prestigieuse « reconnaissance de l'Académie française » (médaille d'or du prix Goncourt ou du prix Renaudot, selon des critères spécifiques) aux œuvres d'exception. Membre de droit des académies littéraires étrangères, elle influence les usages du français dans les médias, la diplomatie et l'édition. Son rôle est à la fois conservateur, normatif et régulateur.",
+      "category": "FN-autre",
+      "note": "Luciole 1B, notice institutionnelle (Académie française) : contient une erreur factuelle nette (Prix Goncourt/Renaudot rattachés à l'Académie — faux), mais fluidité stylistique convaincante. Facteur principal = hallucination lissée in-distribution ; 762 chars au-dessus du seuil FN-5."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-8b-039",
+      "label": "ai",
+      "source": "luciole-8b-instruct",
+      "score": 0.930435,
+      "length_chars": 781,
+      "text": "La Francophonie désigne l'ensemble des pays et des communautés où le français est parlé, soit comme langue officielle, administrative ou culturelle. Créée dans les années 1970 autour de l'Organisation internationale de la Francophonie (OIF), elle regroupe aujourd'hui près de 300 millions de locuteurs répartis sur cinq continents. Au-delà de la langue, la Francophonie promeut la diversité culturelle, les droits humains, la démocratie et la coopération économique entre ses membres. Elle organise notamment des sommets annuels, des programmes éducatifs et des initiatives en faveur de la jeunesse et de l'égalité des genres. La Francophonie joue un rôle croissant sur la scène internationale, en tant que plateforme d'influence politique et culturelle pour les pays francophones.",
+      "category": "FN-autre",
+      "note": "Luciole 8B, notice institutionnelle (Francophonie) : registre communicationnel type site institutionnel, transitions naturelles, énumérations équilibrées. Génération in-distribution imitant le style OIF/UNESCO."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-23b-094",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.926175,
+      "length_chars": 545,
+      "text": "Alors que les températures atteignent des sommets inédits pour cette période de l'année, les autorités sanitaires alertent sur les risques croissants pour les populations vulnérables. Dans plusieurs régions du pays, les hôpitaux enregistrent une hausse des consultations liées aux coups de chaleur et aux déshydratations, tandis que les services municipaux s'efforcent de mettre en œuvre des mesures d'urgence. Entre alertes météorologiques et campagnes de sensibilisation, la population cherche à s'adapter à un été qui défie toutes les normes.",
+      "category": "FN-5",
+      "note": "Luciole 23B, dépêche presse (canicule) : 545 caractères — juste au-dessus du seuil FN-5 (~100 tokens ≈ 500 chars) mais brièveté et registre journalistique standardisé rendent le signal statistique insuffisant. Facteur principal = texte court + registre dépêche AFP."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-23b-078",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.917431,
+      "length_chars": 1014,
+      "text": "L'aviation civile désigne l'ensemble des activités aériennes organisées pour le transport de passagers, de fret ou de courrier, sous l'égide d'organismes régulateurs nationaux et internationaux tels que l'Organisation de l'aviation civile internationale (OACI). Elle englobe les vols commerciaux réguliers et charter, ainsi que les services aériens privés et d'affaires. Ces opérations sont strictement encadrées par des normes de sécurité, des réglementations techniques et environnementales, visant à assurer la sûreté des vols, la protection des passagers et la compatibilité avec les espaces aériens internationaux. L'aviation civile repose sur un réseau mondial d'aéroports, de contrôleurs aériens et de systèmes de navigation, et joue un rôle clé dans la connectivité économique, sociale et culturelle entre les nations. Son développement continu est marqué par des innovations technologiques, notamment dans les domaines de la propulsion, de la gestion du trafic aérien et de la durabilité environnementale.",
+      "category": "FN-autre",
+      "note": "Luciole 23B, notice institutionnelle (aviation civile) : registre normatif-encyclopédique, phrases longues bien construites, énumérations réglementaires. Le plus gros modèle Luciole produit un style trop naturel pour son propre détecteur — cas emblématique du biais in-distribution."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-8b-040",
+      "label": "ai",
+      "source": "luciole-8b-instruct",
+      "score": 0.916058,
+      "length_chars": 824,
+      "text": "L'Académie française est une institution culturelle française fondée en 1635 par le cardinal de Richelieu, avec pour mission de veiller à la langue française, de fixer son usage, de rédiger un dictionnaire officiel et de conseiller le gouvernement sur les questions linguistiques. Composée de quarante membres élus à vie, elle représente l'élite des lettrés et des écrivains de la francophonie. Son siège se trouve au quai de Conti à Paris. L'Académie influence la norme linguistique, mais ne dispose pas d'un pouvoir réglementaire. Ses décisions, souvent symboliques, font autorité et contribuent à la préservation et à l'évolution du français dans le monde. Elle joue un rôle central dans la codification et la promotion de la langue, notamment à travers la publication régulière du *Dictionnaire de l'Académie française*.",
+      "category": "FN-autre",
+      "note": "Luciole 8B, notice institutionnelle (Académie française) : version plus factuellement correcte que #24 (fondation 1635 Richelieu, quarante membres, quai de Conti). Fluidité encyclopédique in-distribution proche de Wikipedia FR."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-1b-005",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.907317,
+      "length_chars": 692,
+      "text": "Toulouse, située dans le sud-ouest de la France, est connue comme la « Ville Rose » en raison de la teinte distinctive de ses briques. Fondée au Ier siècle avant J.-C., elle a prospéré au Moyen Âge grâce au commerce et à l'industrie textile. Aujourd'hui, elle est le siège de l'Occitanie et d'importants pôles universitaires, aéronautiques et pharmaceutiques. Son architecture, notamment la basilique Saint-Sernin et l'Hôtel d'Astor, témoigne d'un riche passé historique. La ville attire également des visiteurs par son canal du Midi, classé au patrimoine mondial de l'UNESCO. Toulouse mêle culture, innovation et traditions, faisant d'elle une destination incontournable du sud de la France.",
+      "category": "FN-autre",
+      "note": "Luciole 1B, notice touristique (Toulouse) : erreur factuelle (« Hôtel d'Astor » inexistant, canal du Midi UNESCO — le canal l'est mais pas Toulouse dans ce contexte), style guide de voyage lissé. Hallucination in-distribution non détectée."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-8b-043",
+      "label": "ai",
+      "source": "luciole-8b-instruct",
+      "score": 0.896226,
+      "length_chars": 870,
+      "text": "Le jazz est un genre musical né au début du XXe siècle aux États-Unis, principalement dans les communautés afro-américaines des villes comme La Nouvelle-Orléans. Issu d'un mélange complexe de musiques africaines, européennes et caribéennes, le jazz se caractérise par son improvisation, sa syncopation et sa liberté rythmique. Il a évolué en plusieurs styles, du New Orleans au bebop, en passant par le cool jazz et le fusion. Reconnu pour son innovation artistique et son expression émotionnelle, le jazz a profondément influencé la musique populaire mondiale. Aujourd'hui, il est joué et interprété dans des contextes variés, du concert classique aux enregistrements expérimentaux, et reste un symbole de liberté et de créativité musicale. Classé au patrimoine culturel immatériel de l'humanité par l'UNESCO, il continue d'inspirer de nouvelles générations d'artistes.",
+      "category": "FN-autre",
+      "note": "Luciole 8B, notice culturelle (jazz) : registre magazine culturel équilibré, ancrages historiques (Nouvelle-Orléans, bebop, cool jazz), transitions naturelles. Génération in-distribution style encyclopédique-journalistique."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-23b-083",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.894515,
+      "length_chars": 713,
+      "text": "Une découverte scientifique majeure vient de bouleverser les perspectives sur l'un des mystères les plus persistants de la médecine moderne : la maladie d'Alzheimer. Des chercheurs internationaux, réunis au sein d'un consortium pluridisciplinaire, ont annoncé la mise au point d'un nouveau biomarqueur sanguin capable de détecter les premiers signes de la pathologie des années avant l'apparition des symptômes cliniques. Cette avancée, présentée comme une percée historique, pourrait non seulement révolutionner le diagnostic précoce, mais aussi ouvrir la voie à des traitements ciblés et personnalisés, offrant un espoir tangible aux millions de patients et familles touchés par cette maladie neurodégénérative.",
+      "category": "FN-autre",
+      "note": "Luciole 23B, dépêche presse (Alzheimer, biomarqueur) : 713 chars, registre journalistique science emphatique (« bouleverser », « percée historique », « espoir tangible »), tournures d'annonce presse convaincantes. Ni FN-5 (au-dessus du seuil), ni FN-3 (pas de style dialecte/argot) — imitation fidèle de la dépêche science."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-23b-049",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.890547,
+      "length_chars": 826,
+      "text": "La Champagne est une région viticole française célèbre pour la production du vin effervescent connu sous le nom de champagne. L'appellation d'origine contrôlée (AOC) Champagne, créée en 1936, couvre environ 34 000 hectares répartis principalement dans les départements de la Marne, de l'Aube et de la Haute-Marne. Elle est soumise à des règles strictes de production, notamment l'utilisation exclusive de trois cépages : le chardonnay, le pinot noir et le pinot meunier. Le processus de fabrication, appelé méthode traditionnelle ou champenoise, implique une seconde fermentation en bouteille, ce qui confère au vin ses bulles caractéristiques. Le champagne est réputé pour sa finesse, sa complexité aromatique et son rôle dans les célébrations. Seuls les vins produits selon ces normes peuvent porter l'appellation Champagne.",
+      "category": "FN-autre",
+      "note": "Luciole 23B, notice viticole (Champagne AOC) : registre technico-normatif dense (34 000 ha, cépages, méthode traditionnelle), factualité soignée. Génération in-distribution imitant le vocabulaire réglementaire vitivinicole — proche d'un texte d'appellation officielle."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-23b-064",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.888889,
+      "length_chars": 1129,
+      "text": "L'intelligence artificielle (IA) désigne l'ensemble des théories, techniques et systèmes informatiques conçus pour simuler des fonctions cognitives humaines telles que l'apprentissage, le raisonnement, la reconnaissance vocale ou visuelle, et la prise de décision. Elle repose sur des algorithmes complexes, souvent basés sur l'apprentissage automatique (machine learning) ou l'apprentissage profond (deep learning), permettant aux machines d'analyser des données, d'identifier des modèles et d'effectuer des tâches spécifiques avec une autonomie croissante. L'IA trouve des applications dans divers domaines, comme la médecine (diagnostic assisté), les transports (véhicules autonomes), la finance (analyse prédictive) ou la robotique. Bien qu'elle suscite un intérêt majeur pour ses potentialités, elle soulève également des questions éthiques, sociales et juridiques, notamment en matière de biais algorithmiques, de protection de la vie privée et de responsabilité des systèmes autonomes. Son développement continue d'évoluer rapidement, porté par des avancées technologiques et des investissements massifs dans la recherche.",
+      "category": "FN-autre",
+      "note": "Luciole 23B, notice définitionnelle (IA) : registre encyclopédique méta (« ensemble des théories, techniques et systèmes… »), énumérations d'applications et de risques éthiques, transitions naturelles. Cas typique de définition Wikipedia-like générée in-distribution."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-23b-056",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.887805,
+      "length_chars": 977,
+      "text": "La météorologie est la science qui étudie les phénomènes atmosphériques, notamment les conditions climatiques, les variations de température, les précipitations, les vents et la pression atmosphérique. Elle repose sur l'observation, la modélisation et la prévision des changements dans l'atmosphère terrestre. Les météorologues utilisent des données recueillies par des stations au sol, des satellites, des radars et des ballons-sondes pour comprendre les systèmes météorologiques complexes. Ces informations sont essentielles pour la navigation aérienne et maritime, l'agriculture, la planification urbaine et la gestion des risques naturels comme les ouragans ou les sécheresses. Les modèles numériques de prévision météorologique permettent d'anticiper les évolutions du temps sur plusieurs jours, bien que leur précision reste limitée aux phénomènes à plus grande échelle. La météorologie joue un rôle crucial dans la compréhension des changements climatiques à long terme.",
+      "category": "FN-autre",
+      "note": "Luciole 23B, notice scientifique (météorologie) : registre vulgarisation scientifique équilibré, énumération d'instruments (satellites, radars, ballons-sondes) et de domaines d'application, transitions naturelles. In-distribution."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-23b-013",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.885321,
+      "length_chars": 763,
+      "text": "Annecy, située dans le département de la Haute-Savoie en région Auvergne-Rhône-Alpes, est une ville française réputée pour son cadre naturel exceptionnel et son riche patrimoine historique. Nichée au bord du lac d'Annecy, considéré comme l'un des plus purs d'Europe, elle bénéficie d'un environnement privilégié entre montagnes et eaux cristallines. Fondée à l'époque romaine, la ville a connu un développement significatif au Moyen Âge et conserve aujourd'hui un centre historique aux ruelles médiévales et aux maisons colorées. Annecy est aussi un centre culturel et touristique majeur, avec son château médiéval, ses musées et son célèbre carnaval. Elle attire chaque année de nombreux visiteurs pour ses paysages, ses activités nautiques et sa qualité de vie.",
+      "category": "FN-autre",
+      "note": "Luciole 23B, notice touristique (Annecy) : registre guide de voyage soigné, ancrages géographiques et culturels, adjectifs modérés. In-distribution, difficile à distinguer d'un office du tourisme."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-1b-020",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.873362,
+      "length_chars": 694,
+      "text": "Versailles, situé dans les Yvelines en région Île-de-France, est l'un des plus célèbres palais royaux du monde. Construit entre 1661 et 1718 sous le règne de Louis XIV, il incarne l'apogée du style baroque français. Doté de 2 500 pièces, de centaines de salles majestueuses, de jardins à la française et de vastes cours, il symbolise la grandeur absolutiste du royaume de France. Résidence principale des rois de France jusqu'à la Révolution, il a été transformé en musée par Napoléon III, conservant toutefois des éléments architecturaux remarquables. Aujourd'hui, il attire des millions de visiteurs, témoignant de l'importance historique, artistique et politique de ce monument emblématique.",
+      "category": "FN-autre",
+      "note": "Luciole 1B, notice patrimoniale (Versailles) : contient une erreur factuelle (« transformé en musée par Napoléon III » — c'est Louis-Philippe en 1837) mais fluidité convaincante. Hallucination in-distribution non détectée ; 694 chars."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-1b-013",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.866667,
+      "length_chars": 730,
+      "text": "Annecy, située dans le sud-est de la France, est une ville pittoresque nichée au bord du lac éponyme. Fondée au XIe siècle, elle se distingue par ses canaux, ses ponts médiévaux et ses ruelles fleuries. Son centre historique, classé au patrimoine mondial de l'UNESCO, abrite des maisons anciennes aux façades colorées et des églises comme Notre-Dame-de-Liesse. Le lac d'Annecy, entouré de montagnes, offre des paysages alpins spectaculaires et un accès à des activités nautiques, telles que le parapente ou le kayak. Annecy est aussi célèbre pour son théâtre, ses festivals (comme le Festival International du Film d'Animation) et son riche patrimoine culturel, préservé grâce à un entretien rigoureux des canaux et des monuments.",
+      "category": "FN-autre",
+      "note": "Luciole 1B, notice touristique (Annecy) : erreur factuelle grossière (« centre historique classé au patrimoine mondial de l'UNESCO » — Annecy ne l'est pas) mais style guide de voyage très naturel. Hallucination in-distribution ; doublon thématique avec #35 illustrant l'instabilité factuelle du 1B."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-1b-045",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.860465,
+      "length_chars": 959,
+      "text": "La bande dessinée franco-belge désigne un courant majeur de la bande dessinée originaire de la Belgique, influencé par les traditions éditoriales françaises, particulièrement à travers l'éditeur **Le Lombard**. Apparue dans les années 1930, elle se caractérise par des récits narratifs riches en aventure, humour, politique ou fantastique, souvent portés par des personnages iconiques comme Tintin, Lucky Luke ou Gaston Lagaffe. Diffusée majoritairement dans la presse (Le Journal de Tintin, Spirou), cette bande dessinée connaît un essor international dès les années 1950, portée par des éditeurs comme **Dynamite** ou **Glénat**. Elle se distingue par une narration claire, une esthétique forte (couleurs vives, décors stylisés) et une liberté créative encadrée par des codes éditoriaux. Aujourd'hui, la bande dessinée franco-belge reste un patrimoine culturel majeur, reconnue pour son dynamisme artistique et son influence sur des générations de lecteurs.",
+      "category": "FN-autre",
+      "note": "Luciole 1B, notice culturelle (BD franco-belge) : erreur factuelle (« Dynamite » et « Glénat » présentés comme éditeurs franco-belges), mise en forme Markdown (**Le Lombard**) partiellement conservée. Registre magazine culturel fluide, in-distribution."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-8b-024",
+      "label": "ai",
+      "source": "luciole-8b-instruct",
+      "score": 0.859574,
+      "length_chars": 835,
+      "text": "Le Tour de France est une course cycliste par étapes annuelle, considérée comme l'une des trois Grands Tours avec le Giro d'Italia et la Vuelta a España. Créé en 1903 par Henri Desgrange, il se déroule principalement en France, mais traverse aussi des régions limitrophes. D'une longueur d'environ 3 500 kilomètres, il se compose de 21 étapes réparties sur trois semaines. La compétition attire les meilleurs cyclistes mondiaux et est réputée pour son extrême difficulté, notamment en montagne. Elle met à l'épreuve l'endurance, la stratégie et la puissance physique des participants. Le Tour est suivi par des millions de téléspectateurs à travers le monde et joue un rôle culturel majeur en France. Les victoires sont souvent marquées par des performances historiques, des rivalités légendaires et des moments dramatiques. (122 mots)",
+      "category": "FN-autre",
+      "note": "Luciole 8B, notice sportive (Tour de France) : registre encyclopédique-journalistique, ancrages précis (1903, Desgrange, 21 étapes, 3 500 km). Marqueur curieux « (122 mots) » en fin — trace d'invite mais insuffisante pour un signal statistique. In-distribution."
+    },
+    {
+      "kind": "fn",
+      "id": "ai-23b-004",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.857143,
+      "length_chars": 895,
+      "text": "Bordeaux, située dans le sud-ouest de la France, est la préfecture du département de la Gironde et la neuvième plus grande ville du pays. Fondée par les Romains au Ier siècle avant J.-C. sous le nom de *Burdigala*, elle a connu un développement majeur durant le Moyen Âge, notamment grâce à son port fluvial sur la Garonne. Aujourd'hui, Bordeaux est réputée pour son patrimoine architectural exceptionnel, classé en partie au patrimoine mondial de l'UNESCO depuis 2007. La ville est également un centre économique, universitaire et viticole majeur, célèbre pour ses vins fins et sa gastronomie. Son climat tempéré, son réseau de transports développé et son ambiance animée en font une destination touristique prisée. Les quartiers comme Saint-Pierre, avec ses ruelles pittoresques, et les Chartrons, connu pour son architecture du XVIIIe siècle, reflètent l'histoire riche et variée de la ville.",
+      "category": "FN-autre",
+      "note": "Luciole 23B, notice touristique-historique (Bordeaux) : registre guide de voyage cultivé avec italiques (*Burdigala*), ancrages patrimoniaux et économiques, transitions naturelles. In-distribution, proche d'un article Wikipedia lissé."
+    }
+  ]
+}

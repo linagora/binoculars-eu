@@ -162,8 +162,9 @@ Les tokenizers Base et SFT-1.0 ne sont **pas identiques** : `share_tokenizer_fro
 ## 7. Analyse d'erreurs (§7)
 
 - Candidats extraits du **dev** (jamais du test) : 20 pires FP + 20 pires FN dans `calibration/error_analysis_candidates_fr_v01.json`.
-- Notebook d'annotation : `notebooks/04_error_analysis.ipynb` (widget ipywidgets, une case par catégorie de la taxonomie §7.1 + note libre, export `docs/error_analysis_annotations_fr_v01.json`).
-- **Statut au gel de ce rapport** : annotation en attente. Les candidats sont pré-extraits et le FP/FN du test (section 3.3) pointe déjà le taxon dominant attendu **FP-6** (texte encyclopédique neutre, 8/10 erreurs humaines sur wikipedia-fr + littérature). Le rapport `docs/error_analysis_fr_v01.md` (table de contingence Catégorie × Compte, 5 exemples par catégorie majeure, mitigations V0.2) sera complété après annotation ; Cohen's kappa si second annotateur.
+- **Annotation COMPLÉTÉE** (2026-08-31) : kit `calibration/error_kit_fr_v01.json` via éditeur web ; annotation agent **relue et validée par Michel-Marie Maudet** (`docs/error_analysis_annotations_fr_v01.json`, `review_status: human_reviewed`). Cohen's kappa non calculable (annotateur unique).
+- Livrable complet : **`docs/error_analysis_fr_v01.md`** — tables de contingence FP/FN, performance par source sur le dev, 5 exemples par catégorie majeure, mitigations V0.2.
+- **Trois constats** : (1) **FP-6 dominant** (12/20) — Wikipédia dense confondu avec le style IA, confirmant la prédiction de ce rapport ; accuracy dev par source : wikipedia-fr 0.500, littérature 0.556, sources IA ≥ 0.933 — l'erreur est entièrement côté humain et source-dépendante. (2) **Littérature classique hors taxonomie** (4/20, FP-autre). (3) **Résidu FN = in-distribution** (19/20, FN-autre) : Luciole imitant Wikipédia/tourisme/dépêche échappe à son propre détecteur ; taxonomie FN à réviser (code « in-distribution ») en V0.2.
 
 ## 8. Reproductibilité (§8)
 

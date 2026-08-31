@@ -31,6 +31,7 @@ Seuils calibrés (train 300, seed 42) : `accuracy` 0.955801 · `low_fpr` 0.86666
 - **Avantage « langue native » non démontré à 1B** face au Binoculars Falcon-7B original (écarts non significatifs à 95 %) — chantier V0.2 (paire 8B).
 - Corpus IA 100 % Luciole ; GPT/Claude/Qwen non couverts (OOD Mistral seulement).
 - Biais de corpus (Wikipédia/presse dominants, pas d'oral/SMS/dialectes) ; risque de faux positifs sur locuteurs non-natifs.
+- **Faux positifs fréquents sur humains** : textes encyclopédiques denses (Wikipédia) et littérature classique classés « IA » dans ~la moitié des cas (dev par source : 0.500 / 0.556) ; les textes IA sont détectés ≥ 93 %. Éviter ces contextes ou exiger une revue humaine.
 - Textes très courts (< ~100 tokens) : score peu fiable (bruit structurel).
 - Qualité du corpus : 60/500 textes (source « presse ») contiennent des caractères `U+FFFD` (scraping décodé en charset erroné) ; affecte la propreté typographique, pas les métriques ni la reproductibilité (sha256 publié couvre le corpus tel quel). Correctif en corpus v1.1.
 
