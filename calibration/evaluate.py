@@ -203,12 +203,14 @@ def evaluate_ood(detector: Binoculars, ood_path: Path | None,
     ood_records, ood_sha = load_corpus(ood_path)
     texts = [r["text"] for r in ood_records] + [r["text"] for r in human_test]
     torch.manual_seed(SEED_TORCH)
-    started = time.perf_counter()
-    values = detector.compute_score(texts)
-    if isinstance(values, float):
-        values = [values]
-    elapsed_ms = (time.perf_counter() - started) * 1000.0
-    latencies = [elapsed_ms / len(texts)] * len(texts)  # batch-level granularity
+    values: list[float] = []
+    latencies: list[float] = []
+    for start in range(0, len(texts), batch_size):
+        batch = texts[start : start + batch_size]
+        t0 = time.perf_counter()
+        batch_values = detector.compute_score(batch)
+        latencies.extend([(time.perf_counter() - t0) * 1000.0 / len(batch)] * len(batch))
+        values.extend([batch_values] if isinstance(batch_values, float) else batch_values)
     neg = -np.array(values, dtype=float)
     y = np.array([1] * len(ood_records) + [0] * len(human_test), dtype=int)
     metrics = bootstrap_metric(y, neg, lambda a, b: float(auc(*roc_curve(a, b)[:2])))
