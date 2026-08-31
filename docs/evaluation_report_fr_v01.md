@@ -147,15 +147,17 @@ Les tokenizers Base et SFT-1.0 ne sont **pas identiques** : `share_tokenizer_fro
 | ID | Perturbation | ΔAUC [IC 95 %] | Seuil fragilité | Verdict |
 |---|---|---|---|---|
 | R-1 | Fautes de frappe 5 % (seed 500) | **−0.242** [−0.353, −0.143] | ≤ −0.15 | **FRAGILE** |
-| R-2 | Paraphrase légère 10 % | *en attente : paraphrase manuelle* | ≤ −0.20 | — |
+| R-2 | Paraphrase légère 10 % (103 phrases, manuel) | **−0.005** [−0.029, +0.019] | ≤ −0.20 | robuste |
 | R-3 | Troncature 100 tokens | −0.022 [−0.058, +0.011] | ≤ −0.30 | robuste |
 | R-4 | Concat humain/IA (seed 501) | score moyen normalisé **0.545** ∈ [0.4, 0.6] | — | ✔ conforme |
-| R-5 | Adversarial prompting (seed 502, 8B) | −0.051 [−0.104, −0.009] | ≤ −0.25 | robuste |
-| R-6 | Adversarial rewriting (seed 503, 8B) | −0.022 [−0.064, +0.017] | ≤ −0.30 | robuste |
+| R-5 | Adversarial prompting (seed 502, 8B) | −0.039 [−0.095, +0.006] | ≤ −0.25 | robuste |
+| R-6 | Adversarial rewriting (seed 503, 8B) | −0.030 [−0.071, +0.004] | ≤ −0.30 | robuste |
 
 ΔAUC = AUC(test perturbé) − AUC(test original), bootstrap apparié (seed 100, 1000 tirages). Pour R-5/R-6 (mono-classe perturbée), le tableau de scores complet est reconstruit : moitié perturbée + moitié originale (§6 évalue la détection sur l'ensemble du test).
 
 **R-1 dépasse le seuil de fragilité** — obligation de rapport §6.2 : *ne pas faire confiance au détecteur sur du texte avec fautes de frappe/bruit caractère* (OCR basse qualité, saisie mobile). Recommandation : pré-traitement (correction) ou refus de score. Les attaques adversariales déclaratives (R-5) et de réécriture (R-6) suivant RAID sont au contraire bien absorbées. R-4 confirme un comportement honnête sur texte mixte (score proche du point indécidable 0.5).
+
+**R-2 complété (2026-08-31)** : 103 phrases (10 % des phrases du test, sélection déterministe) reformulées manuellement à la légère, le reste byte-identique (`calibration/r2_paraphrases_fr_v01.jsonl`, annotation via `r2_kit_editor.html`). ΔAUC ≈ 0 : la reformulation humaine légère ne dégrade pas la détection — cohérent avec R-3 (insensibilité à la réduction de longueur). La seule perturbation qui fragilise réellement le détecteur reste la corruption au niveau caractère (R-1). R-5/R-6 régénérés à cette occasion (génération stochastique 8B, seeds figées) : valeurs actualisées dans le tableau, conclusions inchangées.
 
 ## 7. Analyse d'erreurs (§7)
 
