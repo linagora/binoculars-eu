@@ -97,6 +97,25 @@ curl -s -o /dev/null -w "%{http_code}\n" -X POST http://localhost:8000/detect \
 The same routes are exercisable from the browser via « Try it out » on
 `http://localhost:8000/docs`.
 
+## Reproduce the evaluation (Docker)
+
+The V0.1 evaluation of profile `fr` (protocol §18.8) runs in a pinned
+container — CUDA 12.4 runtime, Python 3.12, exact dependency pins from
+`requirements-eval.txt`:
+
+```bash
+docker build -f docker/Dockerfile.eval -t binoculars-eu-eval:v01 .
+docker run --rm --gpus all \
+  -e HF_TOKEN="$HF_TOKEN" \
+  -v "$HOME/.cache/huggingface:/root/.cache/huggingface" \
+  binoculars-eu-eval:v01
+```
+
+The image runs one held-out evaluation pass (`calibration.evaluate --config v01`)
+and writes `calibration/evaluation_fr_v01.json` plus an append-only line in
+`calibration/evaluation_runs_fr.jsonl`. Results and methodology are documented
+in [`docs/evaluation_report_fr_v01.md`](docs/evaluation_report_fr_v01.md).
+
 ## Roadmap
 
 | Version | Scope | Highlights |

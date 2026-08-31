@@ -1,0 +1,58 @@
+# syntax=docker/dockerfile:1
+# Reference evaluation image — protocol §18.8 garantie 4 (PRD environment §8.2).
+#
+# Reproduces the V0.1 evaluation of profile `fr` in a pinned environment:
+#
+#   docker build -f docker/Dockerfile.eval -t binoculars-eu-eval:v01 .
+#   docker run --rm --gpus all \
+#     -e HF_TOKEN="$HF_TOKEN" \
+#     -v "$HOME/.cache/huggingface:/root/.cache/huggingface" \
+#     binoculars-eu-eval:v01
+#
+# Requirements: NVIDIA Container Toolkit on the host. The Luciole 1B pair fits
+# in ~5 GB VRAM (PRD §6.9). CPU fallback: override -e DEVICE_1=cpu -e DEVICE_2=cpu
+# (much slower, smoke tests only).
+#
+# Note: the performer repo must be public at evaluation time, or a valid
+# HF_TOKEN with read access must be provided at run time.
+
+FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    HF_HOME=/root/.cache/huggingface \
+    DEVICE_1=auto \
+    DEVICE_2=auto
+
+# PRD §8.1: python3.12 on Ubuntu (deadsnakes PPA; the CUDA 12.4 runtime image is
+# Ubuntu 22.04-based). git is needed by the run's traceability header
+# (sha recorded in calibration/evaluation_runs_fr.jsonl).
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends software-properties-common \
+ && add-apt-repository -y ppa:deadsnakes/ppa \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends python3.12 python3.12-venv git \
+ && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /opt/binoculars-eu
+COPY . .
+
+# PRD §18.8 garantie 3: pinned stack (requirements-eval.txt, torch 2.5.1 cu124),
+# then the package itself without re-resolving its unpinned constraints.
+RUN python3.12 -m venv /opt/venv \
+ && /opt/venv/bin/pip install --no-cache-dir --upgrade pip setuptools wheel \
+ && /opt/venv/bin/pip install --no-cache-dir -r requirements-eval.txt \
+ && /opt/venv/bin/pip install --no-cache-dir -e . --no-deps \
+ && rm -rf /root/.cache/pip
+
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Single held-out evaluation pass (protocol §2.2). Scores are reused from
+# calibration/scores_fr_v01.json; only the OOD Mistral corpus is scored here.
+CMD ["python3.12", "-m", "calibration.evaluate", \
+     "--corpus", "calibration/corpus/binoculars-eu-corpus-fr-v01.jsonl", \
+     "--splits", "calibration/splits_fr_v01.json", \
+     "--scores", "calibration/scores_fr_v01.json", \
+     "--ood-corpus", "calibration/corpus/binoculars-eu-corpus-fr-v01-ood.jsonl", \
+     "--profile", "fr", "--config", "v01"]

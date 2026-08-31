@@ -1,0 +1,13 @@
+# Build context shared by Dockerfile (API) and docker/Dockerfile.eval.
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.env
+models/
+calibration/output/
+calibration/results/
+*.log
+notebooks/.ipynb_checkpoints/
