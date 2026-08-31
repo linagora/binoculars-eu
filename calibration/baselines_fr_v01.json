@@ -1,0 +1,188 @@
+{
+  "timestamp": "2026-08-31T05:21:01.876100+00:00",
+  "git_sha": "68b36fb9df3a603d5b7df098f6af97f00cc7fe87",
+  "git_dirty": true,
+  "corpus_sha256": "ca70aaa41c90321e96dcb51f58f34371ed5905853b6b090b9e05c1886cb9abf3",
+  "seeds": {
+    "split": 42,
+    "bootstrap": 100,
+    "b0": 100,
+    "torch": 42
+  },
+  "config": "v01",
+  "versions": {
+    "torch": "2.5.1+cu124",
+    "transformers": "4.57.1",
+    "scikit-learn": "1.6.0",
+    "numpy": "2.1.3"
+  },
+  "n_test": 100,
+  "baselines": {
+    "B0_random": {
+      "threshold": 0.5,
+      "auc": {
+        "point": 0.472,
+        "ci_low": 0.37011285847136927,
+        "ci_high": 0.5841027699718988,
+        "n_boot_valid": 1000
+      },
+      "tpr_at_fpr_1": {
+        "point": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.03773584905660377,
+        "n_boot_valid": 1000
+      },
+      "tpr_at_fpr_5": {
+        "point": 0.02,
+        "ci_low": 0.0,
+        "ci_high": 0.1016949152542373,
+        "n_boot_valid": 1000
+      },
+      "f1_at_threshold": {
+        "point": 0.5486725663716814,
+        "ci_low": 0.42990654205607476,
+        "ci_high": 0.650010162601626,
+        "n_boot_valid": 1000
+      },
+      "accuracy_at_threshold": {
+        "point": 0.49,
+        "ci_low": 0.39,
+        "ci_high": 0.58,
+        "n_boot_valid": 1000
+      }
+    },
+    "B1_length": {
+      "threshold": 0.0007820760380889012,
+      "auc": {
+        "point": 0.024400000000000012,
+        "ci_low": 0.0016006402561024406,
+        "ci_high": 0.06082563707301101,
+        "n_boot_valid": 1000
+      },
+      "tpr_at_fpr_1": {
+        "point": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.0,
+        "n_boot_valid": 1000
+      },
+      "tpr_at_fpr_5": {
+        "point": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.0,
+        "n_boot_valid": 1000
+      },
+      "f1_at_threshold": {
+        "point": 0.6577181208053692,
+        "ci_low": 0.5611510791366906,
+        "ci_high": 0.7423349056603771,
+        "n_boot_valid": 1000
+      },
+      "accuracy_at_threshold": {
+        "point": 0.49,
+        "ci_low": 0.39,
+        "ci_high": 0.5902499999999997,
+        "n_boot_valid": 1000
+      }
+    },
+    "B2_features": {
+      "threshold": 0.0018015154322184803,
+      "auc": {
+        "point": 0.054400000000000004,
+        "ci_low": 0.010549824068845819,
+        "ci_high": 0.11302810232063598,
+        "n_boot_valid": 1000
+      },
+      "tpr_at_fpr_1": {
+        "point": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.0,
+        "n_boot_valid": 1000
+      },
+      "tpr_at_fpr_5": {
+        "point": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.0,
+        "n_boot_valid": 1000
+      },
+      "f1_at_threshold": {
+        "point": 0.6711409395973155,
+        "ci_low": 0.5797101449275363,
+        "ci_high": 0.7577639751552795,
+        "n_boot_valid": 1000
+      },
+      "accuracy_at_threshold": {
+        "point": 0.51,
+        "ci_low": 0.41,
+        "ci_high": 0.6102499999999997,
+        "n_boot_valid": 1000
+      }
+    },
+    "B3_falcon_en": {
+      "threshold": -0.9015310749276843,
+      "auc": {
+        "point": 0.9904000000000001,
+        "ci_low": 0.9699486810148822,
+        "ci_high": 1.0,
+        "n_boot_valid": 1000
+      },
+      "tpr_at_fpr_1": {
+        "point": 0.6,
+        "ci_low": 0.4772727272727273,
+        "ci_high": 1.0,
+        "n_boot_valid": 1000
+      },
+      "tpr_at_fpr_5": {
+        "point": 0.98,
+        "ci_low": 0.5572724101848622,
+        "ci_high": 1.0,
+        "n_boot_valid": 1000
+      },
+      "f1_at_threshold": {
+        "point": 0.9484536082474226,
+        "ci_low": 0.8965337643678161,
+        "ci_high": 0.9892529711375212,
+        "n_boot_valid": 1000
+      },
+      "accuracy_at_threshold": {
+        "point": 0.95,
+        "ci_low": 0.9,
+        "ci_high": 0.99,
+        "n_boot_valid": 1000
+      },
+      "precision": "8bit"
+    },
+    "B4_profile": {
+      "threshold": -0.955801,
+      "auc": {
+        "point": 0.9590000000000001,
+        "ci_low": 0.9143985858585858,
+        "ci_high": 0.9894007145972389,
+        "n_boot_valid": 1000
+      },
+      "tpr_at_fpr_1": {
+        "point": 0.48,
+        "ci_low": 0.35555555555555557,
+        "ci_high": 0.9231132075471699,
+        "n_boot_valid": 1000
+      },
+      "tpr_at_fpr_5": {
+        "point": 0.86,
+        "ci_low": 0.4467494089834515,
+        "ci_high": 0.9795918367346939,
+        "n_boot_valid": 1000
+      },
+      "f1_at_threshold": {
+        "point": 0.8785046728971962,
+        "ci_low": 0.8,
+        "ci_high": 0.9412047511312217,
+        "n_boot_valid": 1000
+      },
+      "accuracy_at_threshold": {
+        "point": 0.87,
+        "ci_low": 0.8,
+        "ci_high": 0.94,
+        "n_boot_valid": 1000
+      }
+    }
+  }
+}
