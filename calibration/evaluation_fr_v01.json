@@ -1,0 +1,198 @@
+{
+  "timestamp": "2026-08-31T05:05:28.448163+00:00",
+  "git_sha": "7c58b81d4890070e4b889f1779aac2d4f8b4d9de",
+  "git_dirty": null,
+  "corpus_sha256": "ca70aaa41c90321e96dcb51f58f34371ed5905853b6b090b9e05c1886cb9abf3",
+  "seeds": {
+    "split": 42,
+    "bootstrap": 100,
+    "torch": 42
+  },
+  "config": "v01",
+  "versions": {
+    "torch": "2.5.1+cu124",
+    "transformers": "4.57.1",
+    "scikit-learn": "1.6.0",
+    "numpy": "2.1.3"
+  },
+  "n_test": 100,
+  "thresholds": {
+    "accuracy": 0.955801,
+    "low_fpr": 0.866667,
+    "tpr_at_fpr_1": 0.866667
+  },
+  "metrics": {
+    "auc": {
+      "point": 0.9590000000000001,
+      "ci_low": 0.9143985858585858,
+      "ci_high": 0.9894007145972389,
+      "n_boot_valid": 1000
+    },
+    "tpr_at_fpr_1": {
+      "point": 0.48,
+      "ci_low": 0.35555555555555557,
+      "ci_high": 0.9231132075471699,
+      "n_boot_valid": 1000
+    },
+    "tpr_at_fpr_5": {
+      "point": 0.86,
+      "ci_low": 0.4467494089834515,
+      "ci_high": 0.9795918367346939,
+      "n_boot_valid": 1000
+    },
+    "f1_at_accuracy": {
+      "point": 0.8785046728971962,
+      "ci_low": 0.8,
+      "ci_high": 0.9412047511312217,
+      "n_boot_valid": 1000
+    },
+    "accuracy_at_accuracy": {
+      "point": 0.87,
+      "ci_low": 0.8,
+      "ci_high": 0.94,
+      "n_boot_valid": 1000
+    },
+    "ece": {
+      "point": 0.1495341366588578,
+      "note": "min-max map fitted on train (protocol §2.2); see TODO in minmax_confidence"
+    },
+    "ood_mistral": {
+      "corpus_sha256": "39b42fb8f2696d1d86492b9ef1f42c6ae68fbda85667289223c2bf2d833d69b9",
+      "n_ood": 50,
+      "n_human": 50,
+      "auc_ood": {
+        "point": 0.9442,
+        "ci_low": 0.8961277173913044,
+        "ci_high": 0.9838781180123273,
+        "n_boot_valid": 1000
+      },
+      "latency_ms_p50": 56.94908951409161,
+      "latency_ms_p99": 89.48604192119092,
+      "vram_peak_mb": 9828.9
+    },
+    "five_fold": {
+      "auc": {
+        "mean": 0.9707324999999999,
+        "std": 0.004279702092435914
+      },
+      "tpr_at_fpr_1": {
+        "mean": 0.667,
+        "std": 0.04965883607174054
+      },
+      "tpr_at_fpr_5": {
+        "mean": 0.866,
+        "std": 0.020832666655999678
+      },
+      "f1_at_accuracy": {
+        "mean": 0.906017316778599,
+        "std": 0.0038608447145030257
+      },
+      "accuracy_at_accuracy": {
+        "mean": 0.9,
+        "std": 0.004183300132670395
+      },
+      "f1_at_low_fpr": {
+        "mean": 0.7766843650775439,
+        "std": 0.0055113545658357615
+      }
+    }
+  },
+  "confusion_test_at_accuracy": {
+    "by_source": {
+      "wikipedia-fr": {
+        "tp": 0,
+        "fp": 6,
+        "tn": 10,
+        "fn": 0
+      },
+      "presse-fr": {
+        "tp": 0,
+        "fp": 2,
+        "tn": 10,
+        "fn": 0
+      },
+      "linuxfr": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 8,
+        "fn": 0
+      },
+      "blog-maudet": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 6,
+        "fn": 0
+      },
+      "litterature": {
+        "tp": 0,
+        "fp": 2,
+        "tn": 6,
+        "fn": 0
+      },
+      "luciole-8b-instruct": {
+        "tp": 13,
+        "fp": 0,
+        "tn": 0,
+        "fn": 2
+      },
+      "luciole-1b-instruct": {
+        "tp": 15,
+        "fp": 0,
+        "tn": 0,
+        "fn": 0
+      },
+      "luciole-23b-instruct": {
+        "tp": 19,
+        "fp": 0,
+        "tn": 0,
+        "fn": 1
+      }
+    },
+    "by_generator": {
+      "human": {
+        "tp": 0,
+        "fp": 10,
+        "tn": 40,
+        "fn": 0
+      },
+      "luciole-8b-instruct": {
+        "tp": 13,
+        "fp": 0,
+        "tn": 0,
+        "fn": 2
+      },
+      "luciole-1b-instruct": {
+        "tp": 15,
+        "fp": 0,
+        "tn": 0,
+        "fn": 0
+      },
+      "luciole-23b-instruct": {
+        "tp": 19,
+        "fp": 0,
+        "tn": 0,
+        "fn": 1
+      }
+    },
+    "by_length_bin": {
+      "L2": {
+        "tp": 39,
+        "fp": 9,
+        "tn": 35,
+        "fn": 3
+      },
+      "L3": {
+        "tp": 0,
+        "fp": 1,
+        "tn": 5,
+        "fn": 0
+      },
+      "L1": {
+        "tp": 8,
+        "fp": 0,
+        "tn": 0,
+        "fn": 0
+      }
+    }
+  }
+}
