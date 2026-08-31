@@ -174,7 +174,7 @@ Les tokenizers Base et SFT-1.0 ne sont **pas identiques** : `share_tokenizer_fro
 | Traçabilité git | chaque artefact porte `git_sha` + `git_dirty` (§8.4) ; runs d'évaluation append-only dans `evaluation_runs_fr.jsonl` |
 | Déterminisme intra-seed | dry-run et `--write` de calibrate.py ont produit des seuils bit-identiques ; scoring déterministe sous `inference_mode` (écart-type inter-seed 0, §5) |
 
-Dockerfile de référence §8.2 : à ajouter à la racine du repo avant release (point restant).
+Dockerfile de référence §8.2 : livré (`docker/Dockerfile.eval`, §18.8 garantie 4 — build vérifié, smoke test entrypoint OK ; run GPU complet à faire sur la box avant release).
 
 ## 9. Limites
 
@@ -186,6 +186,7 @@ Reprises de §11 du protocole, instanciées sur ce run :
 - **Biais adversarial** : R-1 montre la fragilité au bruit caractère ; les humanizers co-évolutifs ne sont pas couverts.
 - **Biais inter-profils** : non mesuré (un seul profil en V0.1) ; prévu en V1 (§11).
 - **Biais de générateur** : corpus IA 100 % Luciole ; l'OOD Mistral (0.944) est rassurant mais GPT/Claude/Qwen/DeepSeek non testés.
+- **Qualité du corpus (connue, non bloquante)** : 60/500 textes de la source « presse » contiennent des caractères `U+FFFD` (décodage charset erroné lors du scraping, en amont de ce projet) — 36 train / 12 dev / 12 test. Le sha256 publié couvre le corpus tel quel : les métriques ci-dessus et la reproductibilité en sont inchangées, mais la propreté typographique de ces textes n'est pas représentative. Correctif prévu en corpus v1.1 (re-scraping propre → recalibration complète).
 - **Échelle** : l'avantage francophonie n'est pas démontré à 1B face au Falcon-7B original (section 4) ; la V0.2 (8B) est le chantier de preuve.
 
 ## 10. Annexes
