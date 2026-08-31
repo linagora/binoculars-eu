@@ -27,11 +27,12 @@ Phase 5 (calibration/évaluation) **en cours, bien avancée**. HEAD local = `66e
 - Rapport §9.1 `docs/evaluation_report_fr_v01.md` + eval card §9.2 `docs/eval-card-fr.md`.
 - Robustesse COMPLÈTE R-1..R-6 (`a04c73e`) : R-1 FRAGILE (−0.242), R-3 robuste, R-4 conforme (0.545), R-5 −0.051 robuste, R-6 −0.022 robuste. R-2 pending (paraphrase manuelle).
 - Fix robustness.py R-5/R-6 (`2f4f62b`) : reconstruction du tableau de scores complet (moitié perturbée + moitié originale) — jamais de ΔAUC sur sous-ensemble mono-classe.
+- **Dockerfile §8.2 livré (`5c01fe3`)** : `docker/Dockerfile.eval` (nvidia/cuda:12.4.1, python3.12 deadsnakes, `requirements-eval.txt`, CMD `python -m calibration.evaluate --config v01`) + `.dockerignore` + section README. Build vérifié (rc=0, `DEBIAN_FRONTEND=noninteractive` requis — tzdata bloquait sinon) + smoke test entrypoint OK. Validation chiffrée GPU différée (box GPU, `--gpus all`).
 
 **Reste pour clore la V0.1 (inputs utilisateur) :**
 1. **R-2** : paraphrase manuelle 10 % phrases du test → `--r2-file` JSONL, relancer robustness.py, mettre à jour rapport §6.
 2. **§7** : annotation des 40 candidats via `notebooks/04_error_analysis.ipynb` → `docs/error_analysis_fr_v01.md` + table contingence + Cohen's kappa si 2e annotateur. Mettre à jour rapport §7.
-3. **Dockerfile §8.2** de référence (à ajouter à la racine).
+3. **Validation run GPU du Dockerfile.eval** sur la box (`--gpus all`).
 4. **Décisions finales** : passage repo public + dépôt SFT public + publication corpus HF (`OpenLLM-France/binoculars-eu-corpus-fr-v01[-ood]`) — accord explicite requis.
 
 **Reste à faire (phase 5) :**
