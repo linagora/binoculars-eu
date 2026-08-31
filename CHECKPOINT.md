@@ -19,7 +19,20 @@ Phase 5 (calibration/évaluation) **en cours, bien avancée**. HEAD local = `66e
 - `9fe126a` **résultats baselines test** : B0 random AUC 0.472 ; B1 longueur LR AUC 0.024 ; B2 features shallow LR AUC 0.054 ; **B3 Falcon-EN 8bit AUC 0.990** [0.970,1.000] TPR@1% 0.60 F1 0.949 ; **B4 profil fr AUC 0.959** TPR@1% 0.48 F1 0.879. ⚠️ **B3 ≥ B4 partout, CIs qui se chevauchent** → le gain francophonie 1B n'est PAS mesurable vs l'original 7B sur ce corpus (protocole §4.3 anticipait ce cas) — à documenter honnêtement dans le rapport §9, lié au risque PRD §15 (fallback 8B int8 V0.2).
 - `66e8ed5` feat(calibration): `calibration/ablations.py` (A1 max_length 64-1024, A2 bf16/fp32/8bit [TODO spec fp16 non exposé], A3 paires [privée skipped + --pairs-extra], A4 tokenizer, dev uniquement seeds 42/123/2024) + `calibration/robustness.py` (R-1 typos seed 500, R-2 --r2-file sinon skipped, R-3 troncature 100 tok, R-4 concat twin_of/seed 501 score normalisé min-max train ∈[0.4,0.6] [TODO spec échelle brute], R-5/R-6 --generator-url sinon skipped, bootstrap apparié seed 100).
 
-**Run en cours au moment du checkpoint** : task bash `ablations + robustness (R-1/R-3/R-4)` sur la box. Résultats attendus : `calibration/ablations_fr_v01.json` + `calibration/robustness_fr_v01.json`. Rapatrier par rsync après succès, committer, pousser.
+**Décisions utilisateur (2026-08-31, fin de session) :**
+- **A3/profil** : GARDER Luciole-1B-SFT-1.0 comme performer V0.1. Écart Instruct-1.1 documenté dans le rapport comme piste V0.2.
+- **R-5/R-6** : luciole-8b-instruct en vLLM pour la régénération adversariale. Pattern validé : `GENERATOR_API_KEY=dummy` + `DEVICE_1=cpu DEVICE_2=cpu` + `--generator-url http://100.90.203.88:8013` (SANS /v1 — le script l'ajoute).
+
+**Phase 5 TERMINÉE (2026-08-31, HEAD `c7532b4`)** — tous les livrables commités et poussés :
+- Rapport §9.1 `docs/evaluation_report_fr_v01.md` + eval card §9.2 `docs/eval-card-fr.md`.
+- Robustesse COMPLÈTE R-1..R-6 (`a04c73e`) : R-1 FRAGILE (−0.242), R-3 robuste, R-4 conforme (0.545), R-5 −0.051 robuste, R-6 −0.022 robuste. R-2 pending (paraphrase manuelle).
+- Fix robustness.py R-5/R-6 (`2f4f62b`) : reconstruction du tableau de scores complet (moitié perturbée + moitié originale) — jamais de ΔAUC sur sous-ensemble mono-classe.
+
+**Reste pour clore la V0.1 (inputs utilisateur) :**
+1. **R-2** : paraphrase manuelle 10 % phrases du test → `--r2-file` JSONL, relancer robustness.py, mettre à jour rapport §6.
+2. **§7** : annotation des 40 candidats via `notebooks/04_error_analysis.ipynb` → `docs/error_analysis_fr_v01.md` + table contingence + Cohen's kappa si 2e annotateur. Mettre à jour rapport §7.
+3. **Dockerfile §8.2** de référence (à ajouter à la racine).
+4. **Décisions finales** : passage repo public + dépôt SFT public + publication corpus HF (`OpenLLM-France/binoculars-eu-corpus-fr-v01[-ood]`) — accord explicite requis.
 
 **Reste à faire (phase 5) :**
 1. Rapatrier/committer les résultats ablations + robustesse.
