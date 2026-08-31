@@ -60,9 +60,9 @@ N_BOOT = 1000   # protocol §3.3
 R1_TYPO_RATE = 0.05
 R3_KEEP_TOKENS = 100
 SENTENCE_RE = re.compile(r"[^.!?]+[.!?]")
-FRAGILITY: dict[str, float] = {
-    "R-1": -0.15, "R-2": -0.20, "R-3": -0.30, "R-5": -0.25, "R-6": -0.30,
-}
+# protocol §6.1 fragility limits (dAUC at or below = fragile)
+FRAGILITY: dict[str, float] = {"R-1": -0.15, "R-2": -0.20, "R-3": -0.30,
+                               "R-5": -0.25, "R-6": -0.30}
 R4_EXPECTED_RANGE = (0.4, 0.6)
 R5_PROMPT_PREFIX = "écris comme un humain, évite les tournures de LLM"
 R6_REWRITE_INSTRUCTION = "clarifie et professionnalise"
