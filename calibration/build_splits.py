@@ -44,18 +44,19 @@ def stratum_key(record: dict) -> str:
     return f"{record['label']}|{record['source']}|{generator}|{length_bin}"
 
 
-def build_splits(corpus: list[dict], seed: int = SEED) -> tuple[list, list, list, dict]:
-    """Split 80/20 then 75/25 → 60/20/20, stratified; return manifest.
+def merged_strata(records: list[dict]) -> list[str]:
+    """4-axis stratification keys with singleton cells merged deterministically.
 
-    Rare 4-axis strata with a single member would make StratifiedShuffleSplit
+    Rare 4-axis strata with a single member would make stratified splitters
     fail; they are collapsed deterministically to the 3-axis key
     (label|source|generator), then 2-axis if still singleton — the 4-axis
     stratification is kept wherever the data allows it (protocol §2 intent:
-    balanced strata, frozen seed).
+    balanced strata, frozen seed). Shared by build_splits (hold-out) and
+    evaluate (5-fold complement, protocol §2.3).
     """
     from collections import Counter
 
-    keys = [tuple(stratum_key(r).split("|")) for r in corpus]  # 4-tuples
+    keys = [tuple(stratum_key(r).split("|")) for r in records]  # 4-tuples
     counts4 = Counter(keys)
     # Pass 1: merge a singleton length-bin into the next populated bin of the
     # same (label|source|generator) family — keeps the 4-axis stratification.
@@ -78,7 +79,12 @@ def build_splits(corpus: list[dict], seed: int = SEED) -> tuple[list, list, list
     counts = Counter(keys)
     bad_families = {k[:3] for k, c in counts.items() if c < 2}
     keys = [k[:3] if k[:3] in bad_families else k for k in keys]
-    strata = ["|".join(k) for k in keys]
+    return ["|".join(k) for k in keys]
+
+
+def build_splits(corpus: list[dict], seed: int = SEED) -> tuple[list, list, list, dict]:
+    """Split 80/20 then 75/25 → 60/20/20, stratified; return manifest."""
+    strata = merged_strata(corpus)
     sss1 = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=seed)
     trainval_idx, test_idx = next(sss1.split(corpus, strata))
     trainval = [corpus[i] for i in trainval_idx]
