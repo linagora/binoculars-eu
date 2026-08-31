@@ -359,10 +359,14 @@ def main(argv: list[str]) -> int:
                 "n_concat": len(perturbed),
             }
         else:
+            # R-5/R-6 perturb a single class; rebuild the full 100-text score
+            # array (perturbed half + original scores for the untouched half)
+            # so the paired dAUC keeps both classes — a single-class subset
+            # has no AUC (§6 evaluates detection on the whole test set).
             positions = [id_to_pos[p["id"].rsplit("-", 1)[0]] for p in perturbed]
-            results[test_id] = delta_auc_result(
-                y_test[positions], neg_orig[positions], neg_pert, test_id
-            )
+            neg_full = neg_orig.copy()
+            neg_full[positions] = neg_pert
+            results[test_id] = delta_auc_result(y_test, neg_orig, neg_full, test_id)
             results[test_id]["n_perturbed"] = len(perturbed)
 
     print("\nRobustness (protocol §6):")
