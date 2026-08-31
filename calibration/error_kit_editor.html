@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kit §7 — Analyse d'erreurs (binoculars-eu)</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #1f2430; --muted: #6b7280;
+    --accent: #2563eb; --accent-soft: #dbeafe; --todo: #b45309; --todo-soft: #fef3c7;
+    --done: #15803d; --done-soft: #dcfce7; --border: #e5e7eb;
+    --fp: #b91c1c; --fp-soft: #fee2e2; --fn: #6d28d9; --fn-soft: #ede9fe;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+         background: var(--bg); color: var(--ink); }
+  header { position: sticky; top: 0; background: var(--card); border-bottom: 1px solid var(--border);
+           padding: 10px 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; z-index: 10; }
+  header h1 { font-size: 15px; margin: 0; font-weight: 650; }
+  .progress-wrap { flex: 1; min-width: 180px; }
+  .progress-bar { height: 8px; background: var(--border); border-radius: 999px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--done); width: 0%; transition: width .2s; }
+  .progress-label { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  button { font: inherit; cursor: pointer; border: 1px solid var(--border); background: var(--card);
+           border-radius: 8px; padding: 7px 12px; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button:disabled { opacity: .45; cursor: default; }
+  select { font: inherit; padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px;
+           background: var(--card); max-width: 340px; }
+  main { max-width: 860px; margin: 0 auto; padding: 20px 16px 80px; }
+  .notice { background: var(--todo-soft); border: 1px solid #fcd34d; border-radius: 10px;
+            padding: 10px 14px; font-size: 13px; margin-bottom: 16px; }
+  .text-nav { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; flex-wrap: wrap; }
+  .badge { font-size: 11px; font-weight: 650; padding: 3px 9px; border-radius: 999px; }
+  .badge.fp { background: var(--fp-soft); color: var(--fp); }
+  .badge.fn { background: var(--fn-soft); color: var(--fn); }
+  .badge.todo { background: var(--todo-soft); color: var(--todo); }
+  .badge.done { background: var(--done-soft); color: var(--done); }
+  .cand-id { font-family: ui-monospace, monospace; font-size: 12px; color: var(--muted); }
+  .verdict-line { font-size: 13.5px; margin-bottom: 10px; }
+  .verdict-line.fp strong { color: var(--fp); }
+  .verdict-line.fn strong { color: var(--fn); }
+  .meta-line { font-size: 12.5px; color: var(--muted); margin-bottom: 12px; }
+  .text-display { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+                  padding: 14px; font-size: 14.5px; line-height: 1.6; white-space: pre-wrap;
+                  margin-bottom: 14px; max-height: 320px; overflow-y: auto; }
+  .cat-title { font-size: 13px; font-weight: 650; margin: 14px 0 8px; }
+  .cat { display: block; background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+         padding: 10px 12px; margin-bottom: 8px; cursor: pointer; font-size: 14px; }
+  .cat:hover { border-color: var(--accent); }
+  .cat input { margin-right: 8px; }
+  .cat .code { font-weight: 700; font-family: ui-monospace, monospace; font-size: 13px; }
+  .cat.picked { border-color: var(--done); background: var(--done-soft); }
+  .cat.missing-note { border-color: var(--fp); background: var(--fp-soft); }
+  textarea { width: 100%; font: inherit; font-size: 14px; line-height: 1.5; border: 1px solid var(--border);
+             border-radius: 8px; padding: 8px 10px; resize: vertical; min-height: 56px; background: #fff; }
+  textarea:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+  #fallback { display: none; padding: 40px 16px; text-align: center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Kit §7 · analyse d'erreurs</h1>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-label" id="progress-label">chargement…</div>
+  </div>
+  <select id="cand-select" title="Aller à un candidat"></select>
+  <button id="btn-download" class="primary" disabled>Télécharger le kit rempli</button>
+</header>
+
+<div id="fallback">
+  <p>Le kit <code>error_kit_fr_v01.json</code> n'a pas pu être chargé (ouverture en <code>file://</code>&nbsp;?).</p>
+  <p>Sers ce dossier&nbsp;: <code>python3 -m http.server 8000</code> puis ouvre
+     <code>http://localhost:8000/error_kit_editor.html</code>.</p>
+  <p>Ou <label>sélectionne le fichier&nbsp;: <input type="file" id="file-input" accept=".json"></label></p>
+</div>
+
+<main id="main" style="display:none">
+  <div class="notice">
+    Pour chaque candidat, choisis <strong>UNE</strong> catégorie de la taxonomie §7.1
+    (la plus proche du facteur explicatif principal) et éventuellement une note libre.
+    «&nbsp;-autre&nbsp;» exige une note. Sauvegarde automatique locale à chaque action.
+    Un second passage indépendant permettrait de mesurer un accord inter-annotateurs
+    (Cohen's kappa, protocole §7.2).
+  </div>
+
+  <div class="text-nav">
+    <button id="btn-prev">← Précédent</button>
+    <span id="cand-position"></span>
+    <button id="btn-next">Suivant →</button>
+    <label style="font-size:13px;color:var(--muted)">
+      <input type="checkbox" id="filter-done"> masquer les candidats annotés
+    </label>
+  </div>
+
+  <div id="cand-meta" style="margin-bottom:10px"></div>
+  <div id="cand-verdict" class="verdict-line"></div>
+  <div id="cand-text" class="text-display"></div>
+  <div id="cat-title" class="cat-title"></div>
+  <div id="categories"></div>
+  <div class="cat-title">Note libre <span id="note-hint" style="font-weight:400;color:var(--muted)"></span></div>
+  <textarea id="note" placeholder="Pourquoi ce candidat échoue, particularité du texte, contexte…"></textarea>
+</main>
+
+<script>
+"use strict";
+
+const STORAGE_KEY = "error-kit-fr-v01-v1";
+let kit = null;
+let answers = {};   // id -> { category, note }
+let currentIndex = 0;
+let hideDone = false;
+
+const $ = (id) => document.getElementById(id);
+
+function loadSaved() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
+  catch { return {}; }
+}
+
+function persist() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+}
+
+function taxonomyOf(entry) {
+  return entry.kind === "fp" ? kit.taxonomy_fp : kit.taxonomy_fn;
+}
+
+function isAutre(category) {
+  return category.endsWith("-autre");
+}
+
+function isDone(entry) {
+  const a = answers[entry.id];
+  if (!a || !a.category) return false;
+  return !isAutre(a.category) || (a.note || "").trim();
+}
+
+function globalProgress() {
+  let done = 0;
+  for (const c of kit.candidates) if (isDone(c)) done++;
+  return { total: kit.candidates.length, done };
+}
+
+function refreshProgress() {
+  const { total, done } = globalProgress();
+  $("progress-fill").style.width = total ? (100 * done / total) + "%" : "0%";
+  $("progress-label").textContent = `${done} / ${total} candidats annotés`;
+  $("btn-download").disabled = done < total;
+  $("btn-download").textContent = done < total
+    ? `Télécharger le kit rempli (${done}/${total})`
+    : "Télécharger le kit rempli ✓";
+}
+
+function visibleIndices() {
+  return kit.candidates
+    .map((c, i) => ({ c, i }))
+    .filter(({ c }) => !hideDone || !isDone(c))
+    .map(({ i }) => i);
+}
+
+function renderSelect() {
+  const sel = $("cand-select");
+  sel.innerHTML = "";
+  visibleIndices().forEach((i) => {
+    const c = kit.candidates[i];
+    const opt = document.createElement("option");
+    opt.value = String(i);
+    const a = answers[c.id];
+    opt.textContent = `${i + 1}. ${c.kind.toUpperCase()} · ${c.id}${a?.category ? " ✓" : ""}`;
+    sel.appendChild(opt);
+  });
+  sel.value = String(currentIndex);
+  if (sel.selectedIndex === -1 && sel.options.length) {
+    currentIndex = Number(sel.options[0].value);
+    sel.value = String(currentIndex);
+  }
+}
+
+function renderCandidate() {
+  const c = kit.candidates[currentIndex];
+  const meta = $("cand-meta");
+  meta.innerHTML = "";
+  const kindBadge = document.createElement("span");
+  kindBadge.className = "badge " + c.kind;
+  kindBadge.textContent = c.kind === "fp" ? "FAUX POSITIF" : "FAUX NÉGATIF";
+  const status = document.createElement("span");
+  status.className = "badge " + (isDone(c) ? "done" : "todo");
+  status.style.marginLeft = "8px";
+  status.textContent = isDone(c) ? "annoté" : "à faire";
+  const idSpan = document.createElement("span");
+  idSpan.className = "cand-id";
+  idSpan.style.marginLeft = "8px";
+  idSpan.textContent = `${c.id} · source ${c.source} · ${c.length_chars} caractères`;
+  meta.append(kindBadge, status, idSpan);
+
+  const scoreText = `score ${c.score.toFixed(4)} (seuil accuracy ${kit.threshold_accuracy})`;
+  $("cand-verdict").innerHTML = c.kind === "fp"
+    ? `Ce texte est <strong>HUMAIN</strong> mais classé « IA » par le détecteur — ${scoreText}.`
+    : `Ce texte est <strong>GÉNÉRÉ PAR IA</strong> mais classé « humain » — ${scoreText}.`;
+
+  $("cand-position").textContent =
+    `candidat ${currentIndex + 1} / ${kit.candidates.length}`;
+
+  $("cand-text").textContent = c.text;
+
+  const tax = taxonomyOf(c);
+  $("cat-title").textContent = c.kind === "fp"
+    ? "Catégorie (faux positif — pourquoi un humain passe pour de l'IA) :"
+    : "Catégorie (faux négatif — pourquoi une IA passe pour un humain) :";
+  const container = $("categories");
+  container.innerHTML = "";
+  const current = answers[c.id]?.category || "";
+  for (const t of tax) {
+    const label = document.createElement("label");
+    label.className = "cat" + (current === t.code ? " picked" : "");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "cat";
+    input.value = t.code;
+    input.checked = current === t.code;
+    input.addEventListener("change", () => {
+      answers[c.id] = answers[c.id] || { category: "", note: "" };
+      answers[c.id].category = t.code;
+      persist();
+      renderCandidate();
+      refreshProgress();
+    });
+    const code = document.createElement("span");
+    code.className = "code";
+    code.textContent = t.code + " — ";
+    label.append(input, code, document.createTextNode(t.description));
+    container.appendChild(label);
+  }
+
+  $("note").value = answers[c.id]?.note || "";
+  $("note-hint").textContent = current && isAutre(current)
+    ? "(obligatoire pour la catégorie « autre »)"
+    : "(facultative)";
+
+  refreshProgress();
+}
+
+function renderHeaderOnly() {
+  renderSelect();
+  const c = kit.candidates[currentIndex];
+  $("cand-position").textContent =
+    `candidat ${currentIndex + 1} / ${kit.candidates.length}`;
+  const status = $("cand-meta").querySelector(".badge.todo, .badge.done");
+  if (status) {
+    status.className = "badge " + (isDone(c) ? "done" : "todo");
+    status.textContent = isDone(c) ? "annoté" : "à faire";
+  }
+}
+
+function goTo(index) {
+  currentIndex = Math.max(0, Math.min(kit.candidates.length - 1, index));
+  renderSelect();
+  renderCandidate();
+  window.scrollTo({ top: 0 });
+}
+
+function download() {
+  for (const c of kit.candidates) {
+    const a = answers[c.id] || {};
+    c.category = a.category || "";
+    c.note = a.note || "";
+  }
+  const blob = new Blob([JSON.stringify(kit, null, 2) + "\n"], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "error_kit_fr_v01.filled.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function init() {
+  $("main").style.display = "block";
+  answers = Object.assign(loadSaved(), answers);
+  renderSelect();
+  renderCandidate();
+  $("btn-prev").addEventListener("click", () => goTo(currentIndex - 1));
+  $("btn-next").addEventListener("click", () => goTo(currentIndex + 1));
+  $("cand-select").addEventListener("change", (e) => goTo(Number(e.target.value)));
+  $("filter-done").addEventListener("change", (e) => {
+    hideDone = e.target.checked;
+    renderSelect();
+  });
+  $("note").addEventListener("input", () => {
+    const c = kit.candidates[currentIndex];
+    answers[c.id] = answers[c.id] || { category: "", note: "" };
+    answers[c.id].note = $("note").value;
+    persist();
+    refreshProgress();
+  });
+  $("btn-download").addEventListener("click", download);
+  document.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.key === "Enter") goTo(currentIndex + 1);
+  });
+}
+
+async function boot() {
+  try {
+    const resp = await fetch("error_kit_fr_v01.json", { cache: "no-store" });
+    if (!resp.ok) throw new Error(String(resp.status));
+    kit = await resp.json();
+  } catch {
+    $("fallback").style.display = "block";
+    $("file-input").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      kit = JSON.parse(await file.text());
+      $("fallback").style.display = "none";
+      init();
+    });
+    return;
+  }
+  init();
+}
+
+boot();
+</script>
+</body>
+</html>
