@@ -124,6 +124,9 @@ class Binoculars:
             ``"tpr-at-fpr-1"``. The threshold comes from the profile.
         max_token_observed: Maximum number of tokens scored per text.
         use_bfloat16: Load both models in bfloat16 (``float32`` otherwise).
+        load_in_8bit: Load both models with bitsandbytes 8-bit quantization
+            instead (PRD §16.1) — fits large pairs on 24 GB cards; mutually
+            exclusive with the ``dtype`` choice above.
     """
 
     def __init__(
@@ -132,6 +135,7 @@ class Binoculars:
         mode: str = "low-fpr",
         max_token_observed: int = 512,
         use_bfloat16: bool = True,
+        load_in_8bit: bool = False,
     ) -> None:
         self.profile = profile if profile is not None else get_profile(DEFAULT_PROFILE_CODE)
         self.max_token_observed = max_token_observed
@@ -140,19 +144,25 @@ class Binoculars:
         self.tokenizer = load_profile_tokenizer(self.profile)
 
         torch_dtype = torch.bfloat16 if use_bfloat16 else torch.float32
+        # 8-bit (bitsandbytes) loading fits pairs like Falcon-7B on 24 GB
+        # cards where two bfloat16 copies do not (PRD §16.1); dtype is then
+        # managed by the quantizer, not passed to from_pretrained.
+        loader_kwargs: dict = (
+            {"load_in_8bit": True} if load_in_8bit else {"dtype": torch_dtype}
+        )
         self.observer_model = AutoModelForCausalLM.from_pretrained(
             self.profile.observer_model,
             device_map={"": self.device_1},
             trust_remote_code=self.profile.trust_remote_code,
-            dtype=torch_dtype,
             token=huggingface_config["TOKEN"],
+            **loader_kwargs,
         )
         self.performer_model = AutoModelForCausalLM.from_pretrained(
             self.profile.performer_model,
             device_map={"": self.device_2},
             trust_remote_code=self.profile.trust_remote_code,
-            dtype=torch_dtype,
             token=huggingface_config["TOKEN"],
+            **loader_kwargs,
         )
         self.observer_model.eval()
         self.performer_model.eval()
@@ -166,6 +176,7 @@ class Binoculars:
         mode: str = "low-fpr",
         max_token_observed: int = 512,
         use_bfloat16: bool = True,
+        load_in_8bit: bool = False,
     ) -> Binoculars:
         """Instantiate a registered profile by ISO language code.
 
@@ -177,6 +188,7 @@ class Binoculars:
             mode=mode,
             max_token_observed=max_token_observed,
             use_bfloat16=use_bfloat16,
+            load_in_8bit=load_in_8bit,
         )
 
     @classmethod
@@ -187,6 +199,7 @@ class Binoculars:
         mode: str = "low-fpr",
         max_token_observed: int = 512,
         use_bfloat16: bool = True,
+        load_in_8bit: bool = False,
     ) -> Binoculars:
         """Reproduce the exact signature and behaviour of upstream Binoculars.
 
@@ -197,6 +210,7 @@ class Binoculars:
             mode=mode,
             max_token_observed=max_token_observed,
             use_bfloat16=use_bfloat16,
+            load_in_8bit=load_in_8bit,
         )
 
     def change_mode(self, mode: str) -> None:

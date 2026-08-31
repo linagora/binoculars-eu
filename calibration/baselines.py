@@ -107,9 +107,18 @@ def b_features_train_test(
     return model.predict_proba(x_test)[:, 1]
 
 
-def b3_falcon_scores(records_test: list[dict], batch_size: int) -> np.ndarray:
-    """B3: original English Binoculars applied to the profile's texts."""
-    detector = Binoculars.from_legacy(FALCON_OBSERVER, FALCON_PERFORMER, mode="accuracy")
+def b3_falcon_scores(records_test: list[dict], batch_size: int,
+                     load_in_8bit: bool) -> np.ndarray:
+    """B3: original English Binoculars applied to the profile's texts.
+
+    TODO(spec): protocol §4.1 does not fix a precision for B3; on 24 GB cards
+    two Falcon-7B copies only fit in 8-bit (PRD §16.1) — the precision used
+    is recorded in the output artefact.
+    """
+    detector = Binoculars.from_legacy(
+        FALCON_OBSERVER, FALCON_PERFORMER, mode="accuracy",
+        load_in_8bit=load_in_8bit,
+    )
     scores: list[float] = []
     for start in range(0, len(records_test), batch_size):
         batch = [r["text"] for r in records_test[start : start + batch_size]]
@@ -183,6 +192,9 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--skip-falcon", action="store_true",
                         help="skip B3 (avoids the ~15 GB Falcon download)")
+    parser.add_argument("--falcon-precision", choices=("8bit", "bfloat16"),
+                        default="8bit",
+                        help="B3 model precision (8bit fits 24 GB cards, PRD §16.1)")
     parser.add_argument("--output-dir", type=Path, default=Path("calibration"))
     return parser.parse_args(argv)
 
@@ -224,8 +236,11 @@ def main(argv: list[str]) -> int:
         from binoculars_eu.detector import _legacy_profile
         legacy = _legacy_profile(FALCON_OBSERVER, FALCON_PERFORMER, "accuracy")
         results["B3_falcon_en"] = baseline_metrics(
-            y_test, b3_falcon_scores(test, args.batch_size), -legacy.threshold_accuracy
+            y_test,
+            b3_falcon_scores(test, args.batch_size, args.falcon_precision == "8bit"),
+            -legacy.threshold_accuracy,
         )
+        results["B3_falcon_en"]["precision"] = args.falcon_precision
     # B4 — evaluated profile (threshold from the published profile)
     from binoculars_eu.profiles import get_profile
     profile = get_profile(args.profile)
