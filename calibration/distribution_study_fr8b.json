@@ -1,0 +1,48 @@
+{
+  "study": "distribution_1b_vs_8b_dev",
+  "profile": "fr-8b",
+  "load_in_8bit": false,
+  "load_in_4bit": true,
+  "seed": 42,
+  "corpus_sha256": "ca70aaa41c90321e96dcb51f58f34371ed5905853b6b090b9e05c1886cb9abf3",
+  "n_dev": 100,
+  "decision_rule": "max(D) > 0.1 -> own thresholds (no drop-in)",
+  "classes": {
+    "human": {
+      "n": 50,
+      "one_b": {
+        "mean": 1.0225,
+        "std": 0.0734
+      },
+      "eight_b": {
+        "mean": 0.9245,
+        "std": 0.0906
+      },
+      "ks": {
+        "D": 0.48,
+        "p_value": 1.39e-05
+      }
+    },
+    "ai": {
+      "n": 50,
+      "one_b": {
+        "mean": 0.8408,
+        "std": 0.0614
+      },
+      "eight_b": {
+        "mean": 0.5836,
+        "std": 0.1176
+      },
+      "ks": {
+        "D": 0.88,
+        "p_value": 2.36e-20
+      }
+    }
+  },
+  "pooled": {
+    "D": 0.45,
+    "p_value": 1.7e-09
+  },
+  "decision": "own_thresholds",
+  "max_D": 0.88
+}

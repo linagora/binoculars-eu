@@ -61,7 +61,7 @@ def main(argv: list[str] | None = None) -> int:
     torch.manual_seed(SEED_TORCH)
     records, corpus_sha256 = load_corpus(args.corpus)
     splits = load_splits(args.splits, {r["id"] for r in records})
-    dev_ids = splits["dev_ids"]
+    dev_ids = splits["dev"]
     dev = [r for r in records if r["id"] in set(dev_ids)]
     print(f"dev split: n={len(dev)} (corpus sha256={corpus_sha256[:12]}…)", flush=True)
 
