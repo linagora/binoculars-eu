@@ -576,3 +576,28 @@ extension du corpus.
 | 2.0-v0.2 | prévu | Ajout corpus OOD étendu, baseline GPTZero, extension 8B+8B int8 du profil `fr` |
 | 2.1-v1 | prévu | Exécution effective de §10 sur le profil `en` + mesure inter-profils (texte EN scoré par le profil `fr` et réciproquement) |
 | 3.0 | prévu | Révision post-publication : ajouts issus des retours communauté et des profils `es`, `de`, `it`, `pt`, `pl` |
+
+## 13. Addendum corpus v1.1 (V0.3, 2026-09-01)
+
+Fichier : `calibration/corpus/binoculars-eu-corpus-fr-v1.1.jsonl`
+(500 records, sha256 `922e6f60ef98e422f950a8fdf6f9876d13ca6d36b0c29d7c4be3c5a2035b779d`).
+Audit préalable : `calibration/audit_corpus_v10.json`.
+
+- **60 records `human-presse-fr-*` re-fetchés** : mojibake U+FFFD (décodeur
+  UTF-8 forcé de `human_sources.get`, corrigé par détection de charset) et
+  titres vides (reconstruction depuis le slug d'URL ou og:title). Mêmes URLs,
+  mêmes ids ; 0 substitution.
+- **20 twins `ai-23b-081..100` régénérés** : prompts V1.0 dégénérés (sujet
+  vide « sur : . ») dus aux titres presse vides. Régénération avec le gabarit
+  standard `twin_prompt` et les vrais titres, seeds conservés.
+  Écart documenté : serving vLLM 0.28 en NVFP4 (checkpoint
+  `unistra-dnum/Luciole-23B-Instruct-1.1-NVFP4`, Marlin sm89) en remplacement
+  du torchao int4 historique, le schéma de config torchao ayant été retiré de
+  vLLM 0.28. Même modèle, compression de poids différente, impact négligeable
+  pour des chapeaux de ~120 mots (génération, pas scoring).
+- **Non traité (limite documentée)** : déséquilibre des twins
+  (wikipedia 230 / presse 20 / blog-linuxfr-littérature 0), arbitrage V0.3 =
+  alternative minimale, rééquilibrage relégué à une conception corpus v2.0.
+- Splits v1.1 : seed 42, `calibration/splits_fr_v11.json` ; recalibration
+  intégrale des profils `fr` et `fr-8b` en V0.3 P2 (seuils v1.0 conservés
+  jusqu'à publication du rapport V0.3).

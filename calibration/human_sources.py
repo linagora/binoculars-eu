@@ -32,9 +32,31 @@ PATIENCE_S = 0.4  # polite rate limiting between page fetches
 
 
 def get(url: str, timeout: int = 25) -> str:
+    """Fetch a page as text, honouring its declared charset.
+
+    French press sites (Le Monde Informatique, LeMagIT) serve windows-1252 /
+    ISO-8859-1 while many others serve UTF-8; decoding everything as UTF-8
+    with ``errors="replace"`` destroys every non-ASCII byte (mojibake U+FFFD,
+    the V1.0 presse defect). Decode strictly with the declared charset, then
+    fall back to cp1252, which covers every byte value.
+    """
     req = urllib.request.Request(url, headers=UA)
     with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read().decode("utf-8", errors="replace")
+        raw = r.read()
+        ctype = r.headers.get("Content-Type", "")
+    m = re.search(r"charset=([\w.-]+)", ctype, re.I)
+    if m is None:
+        head = raw[:4096].decode("ascii", errors="ignore")
+        m = re.search(r'charset=["\']?([\w.-]+)', head, re.I)
+    if m is not None:
+        try:
+            return raw.decode(m.group(1), errors="strict")
+        except (UnicodeDecodeError, LookupError):
+            pass
+    try:
+        return raw.decode("utf-8", errors="strict")
+    except UnicodeDecodeError:
+        return raw.decode("cp1252", errors="replace")
 
 
 class _TextExtractor(HTMLParser):
