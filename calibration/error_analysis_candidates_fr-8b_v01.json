@@ -1,0 +1,326 @@
+{
+  "false_positives": [
+    {
+      "id": "human-litterature-022",
+      "label": "human",
+      "source": "litterature",
+      "score": 0.641036,
+      "length_chars": 810,
+      "text": "I\nAu bout de la rue Guénégaud, lorsqu’on vient des quais, on trouve le passage du Pont-Neuf, une sorte de corridor étroit et sombre qui va de la rue Mazarine à la rue de Seine. Ce passage a trente pas de long et deux de large, au plus ; il est pavé de dalles jaunâtres, usées, descellées, suant toujours une humidité âcre ; le vitrage qui le couvre, coupé à angle droit, est noir de crasse.\n\nPar les beaux jours d’été, quand un lourd soleil brûle les rues, une clarté blanchâtre tombe des vitres sales et traîne misérablement dans le passage. Par les vilains jours d’hiver, par les matinées de brouillard, les vitres ne jettent que de la nuit sur les dalles gluantes, de la nuit salie et ignoble.\n\nÀ gauche, se creusent des boutiques obscures, basses, écrasées, laissant échapper des souffles froids de caveau."
+    },
+    {
+      "id": "human-litterature-003",
+      "label": "human",
+      "source": "litterature",
+      "score": 0.668209,
+      "length_chars": 1160,
+      "text": "I Une petite Ville.\nLa petite ville de Verrières peut passer pour l’une des plus jolies de la Franche-Comté. Ses maisons blanches avec leurs toits pointus de tuiles rouges, s’étendent sur la pente d’une colline, dont des touffes de vigoureux châtaigniers marquent les moindres sinuosités. Le Doubs coule à quelques centaines de pieds au-dessous de ses fortifications, bâties jadis par les Espagnols, et maintenant ruinées.\n\nVerrières est abritée du côté du nord par une haute montagne, c’est une des branches du Jura. Les cimes brisées du Verra se couvrent de neige dès les premiers froids d’octobre. Un torrent, qui se précipite de la montagne, traverse Verrières avant de se jeter dans le Doubs, et donne le mouvement à un grand nombre de scies à bois ; c’est une industrie fort simple et qui procure un certain bien-être à la majeure partie des habitants plus paysans que bourgeois. Ce ne sont pas cependant les scies à bois qui ont enrichi cette petite ville. C’est à la fabrique des toiles peintes, dites de Mulhouse, que l’on doit l’aisance générale qui, depuis la chute de Napoléon, a fait rebâtir les façades de presque toutes les maisons de Verrières."
+    },
+    {
+      "id": "human-wikipedia-fr-071",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.770127,
+      "length_chars": 1110,
+      "text": "La biodiversité désigne la variété des formes de vie sur la Terre. Ce terme est composé du préfixe bio (du grec βίος / bíos, « vie ») et du mot « diversité ». Elle s'apprécie en considérant la diversité des écosystèmes, des espèces et des gènes dans l'espace et dans le temps, ainsi que les interactions au sein de ces niveaux d'organisation et entre eux.\nDepuis le sommet de la Terre de Rio de Janeiro en 1992, la préservation de la biodiversité est considérée comme un des enjeux essentiels du développement durable. L'adoption de la Convention sur la diversité biologique (CDB) au cours de ce sommet engage les pays signataires à protéger et restaurer la diversité du vivant. Au-delà des raisons éthiques, la biodiversité est essentielle aux sociétés humaines qui en sont entièrement dépendantes à travers les services écosystémiques.\n2010 a été l'année internationale de la biodiversité, conclue par la Conférence de Nagoya sur la biodiversité, qui a reconnu l'échec de l'objectif international de stopper la régression de la biodiversité avant 2010, et proposé de nouveaux objectifs (protocole de Nagoya)."
+    },
+    {
+      "id": "human-wikipedia-fr-023",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.774686,
+      "length_chars": 1193,
+      "text": "Le canal du Midi est un canal de navigation français à bief de partage qui relie Toulouse à la mer Méditerranée depuis le xviie siècle. D'abord appelé « canal royal de Languedoc », il est renommé « canal du Midi » par les révolutionnaires en 1789. À partir de 1856, le canal latéral à la Garonne, qui double la Garonne de Bordeaux à Toulouse, prolonge le canal du Midi pour fournir une voie navigable de l'océan Atlantique à la mer Méditerranée : l'ensemble des deux canaux est dénommé « canal des Deux-Mers ».\nOuvrage d'art exceptionnel, considéré par ses contemporains comme le plus grand chantier du XVIIe siècle, le canal du Midi révolutionne le transport fluvial et la circulation dans le Midi de la France de l'Ancien Régime. Le défi, relevé par Pierre-Paul Riquet, son concepteur, est d'acheminer l'eau de la montagne Noire jusqu'au seuil de Naurouze, le point le plus élevé du canal. Louis XIV autorise le début des travaux par un édit royal d'octobre 1666. Supervisé par Pierre-Paul Riquet, le chantier dure de 1666 à 1681, sous le contrôle de Jean-Baptiste Colbert.\nLongtemps utilisé pour le transport de marchandises, le canal du Midi est aujourd’hui reconverti au tourisme fluvial."
+    },
+    {
+      "id": "human-wikipedia-fr-027",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.780221,
+      "length_chars": 1166,
+      "text": "La tour Eiffel [tuʁɛfɛl]  est une tour autoportante de fer puddlé de 330 m de hauteur (avec antennes) située à Paris, à l’extrémité nord-ouest du parc du Champ-de-Mars en bordure de la Seine dans le 7e arrondissement. Son adresse officielle est 5, avenue Anatole-France.\nConstruite en deux ans par Gustave Eiffel et ses collaborateurs pour l'Exposition universelle de Paris de 1889, célébrant le centenaire de la Révolution française, et initialement nommée « tour de 300 mètres », elle est devenue le symbole de la capitale française et un site touristique de premier plan : il s’agit du quatrième site culturel français payant le plus visité en 2016, avec 5,9 millions de visiteurs. Depuis son ouverture au public, elle a accueilli plus de 300 millions de visiteurs.\nD’une hauteur de 312 mètres à l’origine, la tour Eiffel est restée le monument le plus élevé du monde pendant quarante ans. Le second niveau du troisième étage, appelé parfois quatrième étage, situé à 279,11 mètres, est la plus haute plateforme d'observation accessible au public de l'Union européenne et la deuxième plus haute d'Europe, derrière la tour Ostankino à Moscou culminant à 337 mètres."
+    },
+    {
+      "id": "human-litterature-040",
+      "label": "human",
+      "source": "litterature",
+      "score": 0.816863,
+      "length_chars": 1162,
+      "text": "HÉRODIAS.\n I\nLa citadelle de Machærous se dressait à l’orient de la mer Morte, sur un pic de basalte ayant la forme d’un cône. Quatre vallées profondes l’entouraient, deux vers les flancs, une en face, la quatrième au-delà. Des maisons se tassaient contre sa base, dans le cercle d’un mur qui ondulait suivant les inégalités du terrain ; et, par un chemin en zigzag tailladant le rocher, la ville se reliait à la forteresse, dont les murailles étaient hautes de cent vingt coudées, avec des angles nombreux, des créneaux sur le bord, et, çà et là, des tours qui faisaient comme des fleurons à cette couronne de pierres, suspendue au-dessus de l’abîme. \n\nIl y avait dans l’intérieur un palais orné de portiques, et couvert d’une terrasse que fermait une balustrade en bois de sycomore, où des mâts étaient disposés pour tendre un vélarium.\n\nUn matin, avant le jour, le Tétrarque Hérode Antipas vint s’y accouder, et regarda.\n\nLes montagnes, immédiatement sous lui, commençaient à découvrir leurs crêtes, pendant que leur masse, jusqu’au fond des abîmes, était encore dans l’ombre. Un brouillard flottait, il se déchira, et les contours de la mer Morte apparurent."
+    },
+    {
+      "id": "human-wikipedia-fr-005",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.83544,
+      "length_chars": 1150,
+      "text": "Toulouse (en occitan Tolosa) est une commune du Sud-Ouest de la France, préfecture de la région Occitanie et du département de la Haute-Garonne, ainsi que siège de Toulouse Métropole. Ses habitants sont appelés les Toulousains et Toulousaines.\nEn 2023, Toulouse est la quatrième ville la plus peuplée de France, avec 514 819 habitants (après Paris, Marseille et Lyon). L'agglomération toulousaine compte 1 093 783 habitants en 2023, également au quatrième rang national (après Paris, Lyon et Marseille). Enfin, son aire d'attraction est, avec 1 529 112 habitants, la cinquième du pays (après Paris, Lyon, Marseille et Lille).\nRiches d'une longue histoire, Toulouse et ses environs sont occupés depuis le Paléolithique puis habités par les Volques Tectosages dès le IIIe siècle av. J.-C. La cité de Tolosa est fondée au début du Ier siècle par les Romains au bord de la Garonne, à l'emplacement de la ville actuelle. Au Ve siècle, à la suite des invasions germaniques, elle est la capitale du royaume wisigoth. Réunie au royaume des Francs mérovingiens et carolingiens, elle est entre le VIIe et le IXe siècle une des capitales du royaume d'Aquitaine."
+    },
+    {
+      "id": "human-linuxfr-034",
+      "label": "human",
+      "source": "linuxfr",
+      "score": 0.838299,
+      "length_chars": 827,
+      "text": "🔐 Améliorer la sécurité OpenStack en simplifiant l’activation de la MFA\nJe travaille actuellement sur une contribution à Horizon (le dashboard OpenStack) pour ajouter un panel permettant d’activer facilement l’authentification multi-facteur (MFA) via TOTP, directement depuis l’interface web. (Lien de la PR en commentaire)\nAujourd’hui, il faut passer par la ligne de commande, ce qui n’est pas très pratique et peut décourager certains utilisateurs. Avec ce panel, j’espère que ce sera plus simple et rapide de sécuriser son environnement. Parce qu’au final, plus la sécurité est simple à activer, plus l’infrastructure est protégée.\nTrès content de pouvoir contribuer à cet écosystème dans le cadre de mon travail chez LINAGORA, au sein de l'OSSA, avec Gaël Lago et Michel-Marie MAUDET.\n#OpenStack\n#FOSS\n#OpenSource\n#Security"
+    },
+    {
+      "id": "human-wikipedia-fr-019",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.841699,
+      "length_chars": 1005,
+      "text": "Le Mont-Saint-Michel est une commune française située dans la Manche en Normandie. Elle tire son nom de l'îlot rocheux consacré à saint Michel où s’élève aujourd’hui l’abbaye du Mont-Saint-Michel.\nL’architecture du Mont-Saint-Michel et sa baie en font le site touristique le plus fréquenté de Normandie et l'un des dix plus fréquentés en France — premier site après ceux d'Île-de-France — avec près de deux millions et demi de visiteurs chaque année (3 250 000 en 2006, 2 376 000 en 2018) suscitant comme ailleurs une réflexion sur la régulation des flux touristiques.\nUne statue de saint Michel placée au sommet de l’église abbatiale culmine à 157,10 mètres au-dessus du rivage. Élément majeur, l'abbaye et ses dépendances sont classées au titre des monuments historiques par liste de 1862 (Soixante autres constructions étant protégées par la suite) ; l'îlot et le cordon littoral de la baie figurent depuis 1979 sur la liste du patrimoine mondial de l'UNESCO ainsi que le moulin de Moidrey depuis 2007."
+    },
+    {
+      "id": "human-wikipedia-fr-053",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.848206,
+      "length_chars": 1141,
+      "text": "Le Massif central est un massif montagneux essentiellement hercynien qui occupe approximativement le centre en longitude du Midi de la France (la moitié sud de la France métropolitaine).\nD'une surface de 85 000 km2, soit 15 % environ du territoire métropolitain, c'est le massif le plus vaste du pays. Le massif est d'altitude moyenne et ses reliefs sont souvent arrondis par l'érosion. Il culmine à 1 885 mètres au sommet volcanique du puy de Sancy (sud-ouest du Puy-de-Dôme). Dans l'ensemble, il s'est formé il y a 500 millions d'années, bien que les causses et surtout les reliefs volcaniques soient plus récents, ces derniers étant consécutifs à la formation des Alpes et des Pyrénées. Le Massif central abrite en effet l'essentiel des volcans français de métropole.\nLes trois grandes agglomérations du Massif central, situées dans sa moitié nord, sont Clermont-Ferrand, Limoges et Saint-Étienne. Cette dernière est la plus grande unité urbaine du massif. Les autres villes importantes du massif sont Aurillac, Brive-la-Gaillarde, Cahors, Guéret, Mende, Millau, Montluçon, Moulins, Le Puy-en-Velay, Roanne, Rodez, Thiers, Tulle et Vichy."
+    },
+    {
+      "id": "human-wikipedia-fr-064",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.849722,
+      "length_chars": 1198,
+      "text": "L'intelligence artificielle (IA) est l'ensemble des systèmes informatiques capables d'effectuer des tâches typiquement associées à l'intelligence, telles que l'apprentissage, le raisonnement, la résolution de problèmes, la perception ou la prise de décision. L'intelligence artificielle est également le champ de recherche visant à développer de tels systèmes.\nL'IA est un domaine de l'informatique qui s'appuie sur des fondements mathématiques (statistiques, algèbre linéaire, probabilités) et des concepts issus des sciences cognitives. Elle vise à résoudre des problèmes à forte complexité logique ou algorithmique. Par extension, dans le langage courant, l'IA inclut les dispositifs imitant, simulant ou remplaçant l'homme dans certaines mises en œuvre de ses fonctions cognitives.\nLes applications de l'IA couvrent de nombreux domaines, notamment les moteurs de recherche, les systèmes de recommandation, l'aide au diagnostic médical, la compréhension du langage naturel, les voitures autonomes, les chatbots, les outils de génération d'images, les outils de prise de décision automatisée, les programmes compétitifs dans des jeux de stratégie et certains personnages non-joueurs de jeu vidéo."
+    },
+    {
+      "id": "human-wikipedia-fr-055",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.850023,
+      "length_chars": 1150,
+      "text": "Dans la mythologie romaine, Vulcain est l'équivalent du grec Héphaïstos. Le nom de cette divinité a inspiré les utilisations suivantes.\n\n\n== Armement ==\nVulcain est un canon de type Gatling d'un calibre de 20 mm.\n\n\n== Astronautique ==\nVulcain est le moteur du premier étage du lanceur spatial Ariane 5, et Ariane 6.\n\n\n== Astronomie ==\nVulcain est une planète hypothétique du système solaire.\nVulcain est une plaine de Charon, satellite de Pluton.\n\n\n== Entomologie ==\nVulcain est le nom du papillon Vanessa atalanta, encore appelé Amiral.\n\n\n== Fiction ==\nLes  Vulcains sont un peuple de la série télévisée Star Trek originaire de la planète Vulcain.\nVulcain est le nom de l'armure de Ray dans l'animé Gun X Sword.\nLa Forge de Vulcain est un album de bande dessinée de Roger Leloup.\nVulcain est un personnage de fiction de Marvel Comics.\nLes Marteaux de Vulcain est un roman de Philip K. Dick.\n\n\n== Industrie ==\nVulcain est une entreprise d'horlogerie suisse.\n\n\n== Musique ==\nVulcain est un groupe de heavy metal français.\n\n\n== Sport ==\nVulcain est un groupe de spéléo de Lyon.\n\n\n== Véhicule ==\nVulcain est un bâtiment de la Marine nationale française."
+    },
+    {
+      "id": "human-litterature-017",
+      "label": "human",
+      "source": "litterature",
+      "score": 0.850138,
+      "length_chars": 1140,
+      "text": "ACTE PREMIER.\n\n Scène I.\nTrois et deux font cinq, et cinq font dix, et dix font vingt ; trois et deux font cinq. « Plus, du vingt-quatrième, un petit clystère insinuatif, préparatif et rémollient, pour amollir, humecter et rafraîchir les entrailles de monsieur. » Ce qui me plaît de monsieur Fleurant, mon apothicaire, c’est que ses parties sont toujours fort civiles. « Les entrailles de monsieur, trente sols. » Oui ; mais, monsieur Fleurant, ce n’est pas tout que d’être civil ; il faut être aussi raisonnable, et ne pas écorcher les malades. Trente sols un lavement ! Je suis votre serviteur, je vous l’ai déjà dit ; vous ne me les avez mis dans les autres parties qu’à vingt sols ; et vingt sols en langage d’apothicaire, c’est-à-dire dix sols ; les voilà, dix sols. « Plus, dudit jour, un bon clystère détersif, composé avec catholicon double, rhubarbe, miel rosat, et autres, suivant l’ordonnance, pour balayer, laver et nettoyer le bas-ventre de monsieur, trente sols. » Avec votre permission, dix sols. « Plus, dudit jour, le soir, un julep hépatique, soporatif et somnifère, composé pour faire dormir monsieur, trente-cinq sols. »"
+    },
+    {
+      "id": "human-wikipedia-fr-024",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.860323,
+      "length_chars": 1154,
+      "text": "Le Tour de France est une compétition de cyclisme sur route par étapes masculine qui traverse la France métropolitaine, avec des incursions occasionnelles dans les pays voisins. Sa première édition a lieu en 1903 et est organisée par Henri Desgrange et Géo Lefèvre, pour augmenter les ventes du journal L'Auto. Depuis, la course revient annuellement, avec comme exception les deux guerres mondiales. Souvent appelé « le Tour », ou « la Grande Boucle », il gagne en importance et en popularité au fil des éditions. D'un peloton principalement français les premières années, à des éditions comptant jusqu'à quarante nationalités, sa durée est allongée et sa portée s'étend dans le monde entier. Diffusé à la télévision dans 190 pays, le Tour de France est un des événements sportifs les plus regardés, derrière les Jeux olympiques d'été et la Coupe du monde de football, mais, contrairement à ces deux événements organisés tous les quatre ans, le Tour de France a lieu chaque année. Il est actuellement organisé par Amaury Sport Organisation (ASO, Groupe Amaury).\nLe Tour de France, le Tour d'Italie et le Tour d'Espagne constituent les trois grands tours."
+    },
+    {
+      "id": "human-litterature-004",
+      "label": "human",
+      "source": "litterature",
+      "score": 0.86045,
+      "length_chars": 489,
+      "text": "Pour les autres éditions de ce texte, voir Madame Bovary.\n\nPermettez-moi d’inscrire votre nom en tête de ce livre et au-dessus même de sa dédicace ; car c’est à vous, surtout, que j’en dois la publication. En passant par votre magnifique plaidoirie, mon œuvre a acquis pour moi-même comme une autorité imprévue. Acceptez donc ici l’hommage de ma gratitude, qui, si grande qu’elle puisse être, ne sera jamais à la hauteur de votre éloquence et de votre dévouement.\n\nParis, le 12 avril 1857."
+    },
+    {
+      "id": "human-wikipedia-fr-017",
+      "label": "human",
+      "source": "wikipedia-fr",
+      "score": 0.860502,
+      "length_chars": 1168,
+      "text": "Caen [kɑ̃] est une commune française du nord-ouest de la France située en Normandie. Elle est la préfecture du département du Calvados, et était jusqu'au 1er janvier 2016 le chef-lieu de l'ancienne région Basse-Normandie. Depuis 2016, elle est le siège du conseil régional de Normandie et la capitale politique de la région. Rouen est le siège de la préfecture (chef-lieu) et la capitale administrative de la Région Normandie.\nSon grand nombre d'édifices religieux lui vaut le surnom de « Ville aux Cent Clochers » à l'instar d'autres villes comme Rouen ou Poitiers. Ses habitants sont appelés les Caennais [kanɛ].\nCité de Guillaume le Conquérant et capitale du duché de Normandie avec Rouen, la ville a hérité d'un très riche patrimoine architectural en partie détruit lors de la bataille de Caen. La ville a gardé la mémoire de ce moment clé de la Seconde Guerre mondiale en édifiant notamment un Mémorial pour la Paix, célèbre dans le monde pour les cérémonies de commémorations qui y ont lieu. Caen se trouve par ailleurs à une douzaine de kilomètres de Sword Beach, une des plages de débarquement allié du 6 juin 1944, inscrites au patrimoine mondial de l'UNESCO."
+    },
+    {
+      "id": "human-presse-fr-027",
+      "label": "human",
+      "source": "presse-fr",
+      "score": 0.864299,
+      "length_chars": 1147,
+      "text": "Livres blancs\nCopilot Microsoft 365 : Lib�rez votre cr�ativit�, simplifiez votre quotidien !\nSecteur industriel : quelle strat�gie pour rester comp�titif ?\nLa donn�e industrielle au coeur de la performance client\nComptes compromis, IA g�n�rative, cloud et cha�nes logicielles, les attaquants exploitent d�sormais les �cosyst�mes num�riques de confiance pour rester invisibles et acc�l�rer leurs op�rations.\nL’époque où une attaque informatique se repérait principalement grâce à un malware semble révolue. Selon le Threat Hunting Report 2026 de CrowdStrike, les cybercriminels misent désormais sur des approches plus discrètes. Ils exploitent des comptes légitimes, des applications SaaS ou des infrastructures cloud pour se fondre dans l’activité normale des entreprises. Le rapport décrit un changement profond des modes opératoires. Les attaquants ne cherchent plus uniquement à déposer du code malveillant dans les systèmes. Ils détournent aussi les outils existants et les identités numériques déjà utilisées par les collaborateurs. Une évolution qui rend les attaques plus difficiles à détecter et complique la tâche des équipes de sécurité."
+    },
+    {
+      "id": "human-linuxfr-022",
+      "label": "human",
+      "source": "linuxfr",
+      "score": 0.880849,
+      "length_chars": 1111,
+      "text": "Bonjour à tous et toutes,\nJe me permets de vous solliciter car ayant travaillé 10 ans comme travailleuse sociale, je souhaiterai donner un nouveau tournant à ma carrière professionnelle et désormais travailler dans la cybersécurité. Je ne cherche pas à révolutionner le monde en devenant une hackeuse et tous le bruit autour, avec les derniers piratage actuelles, mais juste comprendre le fonctionnement de la cybersécurité d'avant et d'aujourd'hui. Je cherche des ressources pour savoir comment faire, en partant de zéro, qui puissent être abordable pour moi, et surtout ne m'incite pas à me démotiver. Je suis ouverte à tout. Merci de vos réponses :)\n\n#\n \nHack the box\n\nPosté par Craig77 le 18 août 2026 à 09:52.\nÉvalué à 2 (+1/-0).\n\nHack the box propose des exercices. \nJe connaissais une autre ressource du même type mais j'en ai oublié le nom.\n\n[^]\n#\n \nRe: Hack the box\n\nPosté par Voltairine le 18 août 2026 à 11:42.\nÉvalué à 3 (+2/-1).\n\nQuelqu'un utilise vraiment les forums linuxfr pour poser ce type de question ?\n\n[^]\n#\n \nRe: Hack the box\n\nPosté par Bernie le 18 août 2026 à 13:24.\nÉvalué à 10 (+9/-0)."
+    },
+    {
+      "id": "human-presse-fr-045",
+      "label": "human",
+      "source": "presse-fr",
+      "score": 0.891243,
+      "length_chars": 1182,
+      "text": "1Gartner pr�voit une croissance exponentielle de l'IA agentique\n2L'observabilit� incontournable pour l'IA agentique\n3...\n\nLe g�ant am�ricain des semi-conducteurs pr�pare une nouvelle restructuration au sein de son activit� Data Center Group.\nAprès plusieurs restructurations, dont la dernière remonte à juillet 2025, sous la direction de Lip-Bu Tan, Intel prépare une nouvelle vague de suppressions de postes au sein de son Data Center Group, selon The Oregon. Le fondeur américain poursuit son programme de transformation avec l’objectif de simplifier son organisation et d’améliorer son efficacité opérationnelle. « Dans le cadre de notre stratégie visant à devenir une entreprise plus ciblée et plus efficace, le groupe dédié aux centres de données ajuste son organisation afin de disposer des bons rôles et des compétences nécessaires pour assurer son succès à long terme », a indiqué Intel dans une déclaration transmise au journal américain. Le groupe n’a pas communiqué le nombre de postes concernés par cette réorganisation. Intel précise toutefois que ces ajustements ne devraient pas remettre en cause sa feuille de route produits ni ses engagements auprès de ses clients."
+    },
+    {
+      "id": "human-presse-fr-014",
+      "label": "human",
+      "source": "presse-fr",
+      "score": 0.912323,
+      "length_chars": 1055,
+      "text": "Livres blancs\nCopilot Microsoft 365 : Lib�rez votre cr�ativit�, simplifiez votre quotidien !\nSecteur industriel : quelle strat�gie pour rester comp�titif ?\nLa donn�e industrielle au coeur de la performance client\nAvec cette version, la soci�t� d'Elon Musk mise sur des capacit�s de raisonnement renforc�es et une meilleure gestion des t�ches longues. Grok 4.6 dispose notamment d'une fen�tre de contexte de 500 000 tokens\nAprès avoir dévoilé Grok 4.5 en juillet, l’entreprise a présenté, le 12 août, une version de son modèle baptisée Grok 4.6. Cette évolution vise à renforcer les capacités dites « agentiques » de l’IA. Au-delà de la simple réponse à une requête, le modèle doit être capable de suivre une mission sur la durée, d’analyser des informations complexes, de travailler sur une base de code ou encore de produire un livrable complet.\nLe modèle est conçu pour rester opérationnel au cours de tâches comportant de nombreuses étapes, notamment dans la recherche, l’analyse de données, le développement informatique ou la production de documents."
+    }
+  ],
+  "false_negatives": [
+    {
+      "id": "ai-1b-008",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.836379,
+      "length_chars": 687,
+      "text": "Lille, située dans le nord de la France, est une ville dynamique et historique connue pour son architecture Art déco, ses canaux et sa riche vie culturelle. Fondée au XIe siècle, elle devient au fil des siècles un pôle économique majeur du Nord, notamment grâce à l'industrie textile. Aujourd'hui, Lille est réputée pour son université (Université Lille-Nord de France), sa scène artistique variée et son dynamisme associatif. La métropole est traversée par la Deûle, bordée de parcs et de jardins publics, comme celui de l'Université. Connue pour son marché de Noël et son patrimoine architectural unique, Lille mêle modernité et tradition dans une ambiance chaleureuse et accueillante."
+    },
+    {
+      "id": "ai-1b-020",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.818266,
+      "length_chars": 694,
+      "text": "Versailles, situé dans les Yvelines en région Île-de-France, est l'un des plus célèbres palais royaux du monde. Construit entre 1661 et 1718 sous le règne de Louis XIV, il incarne l'apogée du style baroque français. Doté de 2 500 pièces, de centaines de salles majestueuses, de jardins à la française et de vastes cours, il symbolise la grandeur absolutiste du royaume de France. Résidence principale des rois de France jusqu'à la Révolution, il a été transformé en musée par Napoléon III, conservant toutefois des éléments architecturaux remarquables. Aujourd'hui, il attire des millions de visiteurs, témoignant de l'importance historique, artistique et politique de ce monument emblématique."
+    },
+    {
+      "id": "ai-1b-022",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.816866,
+      "length_chars": 666,
+      "text": "Le Viaduc de Millau, inauguré en 2004, est un ouvrage d'art spectaculaire situé dans le sud de la France, dans le département de l'Aveyron. Conçu par l'architecte Michel Virlogeux, l'ingénieur Jean-Manuel Séguier et l'entreprise Eiffage, il s'élève à 343 mètres de hauteur au-dessus du Tarn et comporte 4 piliers monumentaux, dont le plus grand fait 125 mètres de diamètre. Sa structure en arc tendu, composée de câbles d'acier et d'aluminium, permet de franchir une distance de 2 460 mètres en une seule voie, sans piliers intermédiaires. Symbole de l'ingénierie moderne, il a été classé monument historique en 2017 et attire des milliers de visiteurs chaque année."
+    },
+    {
+      "id": "ai-1b-012",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.786068,
+      "length_chars": 869,
+      "text": "Grenoble, située dans le sud-est de la France, est connue comme la « Ville Verte » en raison de son engagement fort envers l'écologie urbaine. Fondée au XIXe siècle, elle abrite le laboratoire de recherche nucléaire du CEA, implanté sur le site de Grenoble-INP, mais son attractivité s'étend bien au-delà des sciences, avec un patrimoine historique riche, des musées tels que le Musée des Beaux-Arts et une vie culturelle dynamique, notamment grâce à l'Opéra et au Festival international de musique classique. La ville bénéficie d'un réseau de transports publics modernes, d'une forte présence universitaire et d'un dynamisme économique dans les secteurs de l'innovation, la santé et les technologies vertes. Grenoble est aussi reconnue pour son climat montagnard, influencé par les Alpes, et ses espaces naturels comme les falaises de la Chartreuse ou les lacs alpins."
+    },
+    {
+      "id": "ai-1b-013",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.785019,
+      "length_chars": 730,
+      "text": "Annecy, située dans le sud-est de la France, est une ville pittoresque nichée au bord du lac éponyme. Fondée au XIe siècle, elle se distingue par ses canaux, ses ponts médiévaux et ses ruelles fleuries. Son centre historique, classé au patrimoine mondial de l'UNESCO, abrite des maisons anciennes aux façades colorées et des églises comme Notre-Dame-de-Liesse. Le lac d'Annecy, entouré de montagnes, offre des paysages alpins spectaculaires et un accès à des activités nautiques, telles que le parapente ou le kayak. Annecy est aussi célèbre pour son théâtre, ses festivals (comme le Festival International du Film d'Animation) et son riche patrimoine culturel, préservé grâce à un entretien rigoureux des canaux et des monuments."
+    },
+    {
+      "id": "ai-1b-005",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.776792,
+      "length_chars": 692,
+      "text": "Toulouse, située dans le sud-ouest de la France, est connue comme la « Ville Rose » en raison de la teinte distinctive de ses briques. Fondée au Ier siècle avant J.-C., elle a prospéré au Moyen Âge grâce au commerce et à l'industrie textile. Aujourd'hui, elle est le siège de l'Occitanie et d'importants pôles universitaires, aéronautiques et pharmaceutiques. Son architecture, notamment la basilique Saint-Sernin et l'Hôtel d'Astor, témoigne d'un riche passé historique. La ville attire également des visiteurs par son canal du Midi, classé au patrimoine mondial de l'UNESCO. Toulouse mêle culture, innovation et traditions, faisant d'elle une destination incontournable du sud de la France."
+    },
+    {
+      "id": "ai-1b-024",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.76073,
+      "length_chars": 991,
+      "text": "Le Tour de France, épreuve cycliste d'ultra-longue distance organisée chaque année par l'UCI (Union Cycliste Internationale), est l'un des événements sportifs les plus emblématiques au monde. Créé en 1903, il relie les principales villes françaises sur plus de 2 000 kilomètres, avec des étapes disputées sur des routes variées, des pavés, des montagnes et des terrains accidentés. Présenté comme un défi physique et tactique, le Tour attire des coureurs venus de 188 nations. Depuis sa création, il a connu 107 éditions, dont 84 gagnées par des cyclistes français, mais aussi des performances exceptionnelles d'autres nationalités. L'événement symbolise l'union du sport, du spectacle et de la passion, traversant les paysages et les traditions françaises. Chaque étape est une étape de légende, avec des victoires d'étapes mémorables et des étapes décisives en montagne. Le Tour de France est aussi un symbole de l'engagement amateur et professionnel, attirant des millions de spectateurs."
+    },
+    {
+      "id": "ai-1b-055",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.725347,
+      "length_chars": 662,
+      "text": "Vulcain (du latin *velx* signifiant « vent » ou « souffle ») est un volcan éteint situé dans les îles Canaries, en Espagne. Formé il y a environ 2 à 3 millions d'années, il appartient au groupe des volcans effusifs à basalte, connus pour ses coulées de lave fluide et ses formations de lave en coussins (puyerros). Son dernier épisode éruptif remonte au Pliocène, il y a environ 50 000 ans. Depuis, il s'est progressivement enfoui sous des sédiments, laissant un cratère caractéristique et un paysage géologiquement actif mais géographiquement silencieux. Son étude permet de comprendre l'évolution des flux de lave basaltique dans les environnements insulaires."
+    },
+    {
+      "id": "ai-23b-004",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.71622,
+      "length_chars": 895,
+      "text": "Bordeaux, située dans le sud-ouest de la France, est la préfecture du département de la Gironde et la neuvième plus grande ville du pays. Fondée par les Romains au Ier siècle avant J.-C. sous le nom de *Burdigala*, elle a connu un développement majeur durant le Moyen Âge, notamment grâce à son port fluvial sur la Garonne. Aujourd'hui, Bordeaux est réputée pour son patrimoine architectural exceptionnel, classé en partie au patrimoine mondial de l'UNESCO depuis 2007. La ville est également un centre économique, universitaire et viticole majeur, célèbre pour ses vins fins et sa gastronomie. Son climat tempéré, son réseau de transports développé et son ambiance animée en font une destination touristique prisée. Les quartiers comme Saint-Pierre, avec ses ruelles pittoresques, et les Chartrons, connu pour son architecture du XVIIIe siècle, reflètent l'histoire riche et variée de la ville."
+    },
+    {
+      "id": "ai-1b-037",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.712565,
+      "length_chars": 772,
+      "text": "Le Débarquement de Normandie, opéré le 6 juin 1944 par les forces alliées sous le commandement du général Dwight D. Eisenhower, fut l'une des opérations militaires les plus audacieuses de la Seconde Guerre mondiale. Planifiée en trois phases (Opération Overlord), elle visait à affaiblir les défenses allemandes en Normandie, ouvrant la voie vers Paris et forçant l'Allemagne à capituler sur deux fronts. Environ 156 000 soldats américains, britanniques et canadiens débarquèrent sur les plages d'Omaha, Juno, Sword et Gold, soutenus par l'aviation et l'artillerie terrestres. L'opération, marquée par des conditions météorologiques difficiles, des combats acharnés et des pertes humaines massives, contribua de manière décisive à la fin du conflit en Europe en août 1944."
+    },
+    {
+      "id": "ai-1b-015",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.709087,
+      "length_chars": 912,
+      "text": "Arles, située dans le sud-ouest de la France, dans la région de Provence-Alpes-Côte d'Azur, est connue comme l'une des plus anciennes villes de France à posséder un lien direct avec l'art romain. Fondée au Ier siècle av. J.-C., elle fut sous le règne des Julio-Claudiens un centre administratif et religieux important. Au Moyen Âge, Arles devint un important carrefour culturel et politique, notamment sous l'impulsion des papes au XIe siècle. La ville abrite aujourd'hui des vestiges antiques tels que les Arènes de Lutèce (anciennement d'Arles), des thermes et des théâtres romains, ainsi que des monuments médiévaux comme la cathédrale Saint-Trophime. Arles est également célèbre pour son musée Réattu et sa riche vie artistique contemporaine, mêlant traditions provençales et influences modernes. Elle attire chaque année de nombreux visiteurs pour ses paysages uniques, entre la Camargue et la Méditerranée."
+    },
+    {
+      "id": "ai-1b-040",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.707426,
+      "length_chars": 762,
+      "text": "L'Académie française, fondée en 1635 à Paris par ordonnance de Louis XIII et Louis XIV, est l'une des plus anciennes institutions littéraires en activité en France. Regroupant des écrivains, des traducteurs, des lexicographes et des spécialistes des arts de la langue, elle a pour mission de promouvoir la standardisation du français et d'en assurer la correction et la purification. Elle accorde la prestigieuse « reconnaissance de l'Académie française » (médaille d'or du prix Goncourt ou du prix Renaudot, selon des critères spécifiques) aux œuvres d'exception. Membre de droit des académies littéraires étrangères, elle influence les usages du français dans les médias, la diplomatie et l'édition. Son rôle est à la fois conservateur, normatif et régulateur."
+    },
+    {
+      "id": "ai-23b-014",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.704642,
+      "length_chars": 804,
+      "text": "Avignon, située dans le département de Vaucluse en région Provence-Alpes-Côte d'Azur, est une ville historique au riche patrimoine architectural et culturel. Capitale européenne de la culture en 2000, elle est mondialement connue pour le Palais des Papes, résidence des souverains pontifes au XIVe siècle, et le célèbre pont Saint-Bénézet, souvent appelé pont d'Avignon. La ville abrite également un centre historique classé au patrimoine mondial de l'UNESCO, avec ses remparts médiévaux, ses ruelles pittoresques et son festival de théâtre fondé par Jean Vilar en 1947. Avignon est un carrefour culturel majeur, mêlant histoire, art et traditions provençales. Elle accueille chaque année des milliers de visiteurs attirés par son héritage exceptionnel, sa gastronomie locale et son ambiance chaleureuse."
+    },
+    {
+      "id": "ai-1b-045",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.701478,
+      "length_chars": 959,
+      "text": "La bande dessinée franco-belge désigne un courant majeur de la bande dessinée originaire de la Belgique, influencé par les traditions éditoriales françaises, particulièrement à travers l'éditeur **Le Lombard**. Apparue dans les années 1930, elle se caractérise par des récits narratifs riches en aventure, humour, politique ou fantastique, souvent portés par des personnages iconiques comme Tintin, Lucky Luke ou Gaston Lagaffe. Diffusée majoritairement dans la presse (Le Journal de Tintin, Spirou), cette bande dessinée connaît un essor international dès les années 1950, portée par des éditeurs comme **Dynamite** ou **Glénat**. Elle se distingue par une narration claire, une esthétique forte (couleurs vives, décors stylisés) et une liberté créative encadrée par des codes éditoriaux. Aujourd'hui, la bande dessinée franco-belge reste un patrimoine culturel majeur, reconnue pour son dynamisme artistique et son influence sur des générations de lecteurs."
+    },
+    {
+      "id": "ai-23b-054",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.692148,
+      "length_chars": 951,
+      "text": "Une forêt est un écosystème terrestre caractérisé par une végétation dense, dominée par des arbres, et par une biodiversité riche et interdépendante. Ces milieux naturels couvrent environ 30 % des terres émergées et jouent un rôle essentiel dans la régulation du climat, la conservation des sols, la production d'oxygène et la séquestration du carbone. Les forêts abritent une grande variété d'espèces animales et végétales, dont certaines sont endémiques ou menacées. Elles fournissent également des ressources vitales pour les populations humaines, telles que le bois, les produits forestiers non ligneux, et des espaces pour les loisirs et la recherche scientifique. Cependant, la déforestation, souvent liée à l'expansion agricole et urbaine, représente une menace majeure pour ces écosystèmes fragiles. Des efforts de conservation et de reboisement sont mis en œuvre à l'échelle mondiale pour préserver les forêts et leur rôle écologique crucial."
+    },
+    {
+      "id": "ai-23b-094",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.665764,
+      "length_chars": 545,
+      "text": "Alors que les températures atteignent des sommets inédits pour cette période de l'année, les autorités sanitaires alertent sur les risques croissants pour les populations vulnérables. Dans plusieurs régions du pays, les hôpitaux enregistrent une hausse des consultations liées aux coups de chaleur et aux déshydratations, tandis que les services municipaux s'efforcent de mettre en œuvre des mesures d'urgence. Entre alertes météorologiques et campagnes de sensibilisation, la population cherche à s'adapter à un été qui défie toutes les normes."
+    },
+    {
+      "id": "ai-23b-049",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.662928,
+      "length_chars": 826,
+      "text": "La Champagne est une région viticole française célèbre pour la production du vin effervescent connu sous le nom de champagne. L'appellation d'origine contrôlée (AOC) Champagne, créée en 1936, couvre environ 34 000 hectares répartis principalement dans les départements de la Marne, de l'Aube et de la Haute-Marne. Elle est soumise à des règles strictes de production, notamment l'utilisation exclusive de trois cépages : le chardonnay, le pinot noir et le pinot meunier. Le processus de fabrication, appelé méthode traditionnelle ou champenoise, implique une seconde fermentation en bouteille, ce qui confère au vin ses bulles caractéristiques. Le champagne est réputé pour sa finesse, sa complexité aromatique et son rôle dans les célébrations. Seuls les vins produits selon ces normes peuvent porter l'appellation Champagne."
+    },
+    {
+      "id": "ai-1b-067",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.63436,
+      "length_chars": 962,
+      "text": "L'espace, ou cosmos, désigne l'ensemble des matières et des formes astronomiques observables depuis la Terre, incluant les astres, les planètes, les étoiles et les galaxies. En cosmologie, l'étude de l'espace se divise en plusieurs domaines : la cosmogonie (formation de l'univers), la relativité générale (mécanique des champs gravitationnels), la physique des particules (interaction des particules élémentaires), et l'astronomie (observation des objets célestes). Les distances dans l'espace sont exprimées en années-lumière, kilomètres ou parsecs. Les galaxies, par exemple, s'éloignent les unes des autres à des vitesses mesurées en kilomètres par seconde. La matière noire, invisible mais influente, compose une grande partie de l'univers. Les satellites et les missions spatiales (comme Voyager ou Apollo) explorent et sondent l'espace. Ce terme, neutre et abstrait, englobe des réalités très variées, des objets les plus proches aux confins de l'univers."
+    },
+    {
+      "id": "ai-23b-083",
+      "label": "ai",
+      "source": "luciole-23b-instruct",
+      "score": 0.603292,
+      "length_chars": 713,
+      "text": "Une découverte scientifique majeure vient de bouleverser les perspectives sur l'un des mystères les plus persistants de la médecine moderne : la maladie d'Alzheimer. Des chercheurs internationaux, réunis au sein d'un consortium pluridisciplinaire, ont annoncé la mise au point d'un nouveau biomarqueur sanguin capable de détecter les premiers signes de la pathologie des années avant l'apparition des symptômes cliniques. Cette avancée, présentée comme une percée historique, pourrait non seulement révolutionner le diagnostic précoce, mais aussi ouvrir la voie à des traitements ciblés et personnalisés, offrant un espoir tangible aux millions de patients et familles touchés par cette maladie neurodégénérative."
+    },
+    {
+      "id": "ai-1b-043",
+      "label": "ai",
+      "source": "luciole-1b-instruct",
+      "score": 0.599875,
+      "length_chars": 793,
+      "text": "Le jazz est un genre musical né au début du XXe siècle aux États-Unis, mêlant improvisation, syncopéeité et expression lyrique. Issu des racines afro-américaines, il puise dans les traditions orales, les spirituals et les ragtimes, tout en s'adaptant aux influences du blues, du gospel et de la musique classique. Les instruments principaux incluent la clarinette, la trompette, le saxophone, la contrebasse, la batterie et le piano. Fondé sur des structures rythmiques complexes (comme le 4/4 ou le swing) et des solos virtuoses, le jazz se distingue par son improvisation collective et son caractère expressif, souvent associé à des thèmes sociaux, culturels ou émotionnels. Il a profondément marqué la musique populaire occidentale et continue d'inspirer de nombreux artistes contemporains."
+    }
+  ]
+}

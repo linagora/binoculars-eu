@@ -1,7 +1,7 @@
 {
   "corpus_sha256": "ca70aaa41c90321e96dcb51f58f34371ed5905853b6b090b9e05c1886cb9abf3",
   "corpus_url": "https://github.com/linagora/binoculars-eu/tree/main/calibration/corpus",
-  "calibration_date": "2026-08-31",
+  "calibration_date": "2026-09-01",
   "calibration_seed": 42,
-  "calibration_note": "PLACEHOLDER thresholds (0.9/0.85/0.85) pending the fr-8b calibration pass (V0.2 P1, calibrate.py --write on the train split). Same corpus and splits as profile fr."
+  "calibration_note": "Own thresholds fitted on train (never a V0.1 drop-in): KS study decision, max(D)=0.88 > 0.1 (docs/v02_plan.md amendment C, calibration/distribution_study_fr8b.json). Pair loaded in nf4 4-bit (int8 exceeds 22 GB VRAM with 128k-vocab logits, PRD §16.2). First Binoculars application to a hybrid Mamba/Attention architecture (NemotronH, trust_remote_code)."
 }
