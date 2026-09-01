@@ -1,0 +1,67 @@
+{
+  "metric": "R-6bis_tpr_at_low_fpr_humanized",
+  "timestamp": "2026-09-01T07:59:52.882689+00:00",
+  "git_sha": "68b36fb9df3a603d5b7df098f6af97f00cc7fe87",
+  "git_dirty": true,
+  "profile": "fr-8b",
+  "threshold_low_fpr": 0.737481,
+  "criterion": ">= 0.3 (amendment A, docs/v02_plan.md)",
+  "n_humanized": 136,
+  "tpr_at_low_fpr": 0.3088,
+  "ci95": [
+    0.2279,
+    0.3897
+  ],
+  "by_source": {
+    "humanized-undetectable-claude": {
+      "n": 23,
+      "tpr_at_low_fpr": 0.4348,
+      "ci95": [
+        0.2174,
+        0.6522
+      ]
+    },
+    "humanized-undetectable-gpt-4o": {
+      "n": 23,
+      "tpr_at_low_fpr": 0.4348,
+      "ci95": [
+        0.2609,
+        0.6098
+      ]
+    },
+    "humanized-undetectable-luciole-8b": {
+      "n": 23,
+      "tpr_at_low_fpr": 0.913,
+      "ci95": [
+        0.7826,
+        1.0
+      ]
+    },
+    "humanized-writehuman-claude": {
+      "n": 21,
+      "tpr_at_low_fpr": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ]
+    },
+    "humanized-writehuman-gpt-4o": {
+      "n": 23,
+      "tpr_at_low_fpr": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ]
+    },
+    "humanized-writehuman-luciole-8b": {
+      "n": 23,
+      "tpr_at_low_fpr": 0.0435,
+      "ci95": [
+        0.0,
+        0.1304
+      ]
+    }
+  },
+  "verdict": "pass",
+  "scores_file": null
+}

@@ -48,6 +48,7 @@ venv.bak/
 
 # --- Corpus build intermediates ---
 calibration/corpus/_human_cache.json
+calibration/corpus/_humanize_*_cache.json
 
 # --- Model weights & caches ---
 models/
