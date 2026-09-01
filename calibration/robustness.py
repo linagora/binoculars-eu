@@ -304,6 +304,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--load-in-8bit", action="store_true",
                         help="load both models with bitsandbytes int8 (capacity variants)")
+    parser.add_argument("--load-in-4bit", action="store_true",
+                        help="load both models with bitsandbytes nf4 4-bit (PRD §16.2 fallback)")
     parser.add_argument("--generator-url", default=None,
                         help="OpenAI-compatible endpoint for R-5/R-6 (else skipped)")
     parser.add_argument("--generator-model", default=None,
@@ -350,7 +352,8 @@ def main(argv: list[str]) -> int:
             continue
         if detector is None:
             detector = Binoculars.for_language(args.profile, mode="accuracy",
-                                               load_in_8bit=args.load_in_8bit)
+                                               load_in_8bit=args.load_in_8bit,
+                                               load_in_4bit=args.load_in_4bit)
         neg_pert = -score_records(detector, perturbed, args.batch_size)
         if test_id == "R-4":
             lo, hi = R4_EXPECTED_RANGE

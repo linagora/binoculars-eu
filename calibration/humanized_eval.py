@@ -69,6 +69,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--scores", type=Path, default=None,
                         help="pre-computed {id: score} JSON (else scored inline)")
     parser.add_argument("--load-in-8bit", action="store_true")
+    parser.add_argument("--load-in-4bit", action="store_true",
+                        help="nf4 4-bit instead of int8 (PRD §16.2 VRAM fallback)")
     parser.add_argument("--batch-size", type=int, default=4)
     parser.add_argument("--output", type=Path,
                         default=Path("calibration/humanized_eval_fr8b_v02.json"))
@@ -86,7 +88,8 @@ def main(argv: list[str] | None = None) -> int:
         scores = np.array([scores_all[r["id"]] for r in humanized], dtype=float)
     else:
         detector = Binoculars.for_language(args.profile, mode="low-fpr",
-                                           load_in_8bit=args.load_in_8bit)
+                                           load_in_8bit=args.load_in_8bit,
+                                           load_in_4bit=args.load_in_4bit)
         scored = score_corpus(detector, humanized, args.batch_size)
         scores = np.array([scored[r["id"]] for r in humanized], dtype=float)
 

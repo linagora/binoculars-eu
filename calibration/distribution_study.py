@@ -51,6 +51,8 @@ def main(argv: list[str] | None = None) -> int:
                         help="frozen V0.1 scores (1B bf16), never re-scored")
     parser.add_argument("--profile", default="fr-8b")
     parser.add_argument("--load-in-8bit", action="store_true")
+    parser.add_argument("--load-in-4bit", action="store_true",
+                        help="nf4 4-bit instead of int8 (PRD §16.2 VRAM fallback)")
     parser.add_argument("--batch-size", type=int, default=4)
     parser.add_argument("--output", type=Path,
                         default=Path("calibration/distribution_study_fr8b.json"))
@@ -64,7 +66,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"dev split: n={len(dev)} (corpus sha256={corpus_sha256[:12]}…)", flush=True)
 
     detector = Binoculars.for_language(args.profile, mode="low-fpr",
-                                       load_in_8bit=args.load_in_8bit)
+                                       load_in_8bit=args.load_in_8bit,
+                                       load_in_4bit=args.load_in_4bit)
     scores_8b = score_corpus(detector, dev, args.batch_size)
 
     scores_1b_full = json.loads(args.scores_1b.read_text(encoding="utf-8"))
@@ -81,6 +84,7 @@ def main(argv: list[str] | None = None) -> int:
         "study": "distribution_1b_vs_8b_dev",
         "profile": args.profile,
         "load_in_8bit": args.load_in_8bit,
+        "load_in_4bit": args.load_in_4bit,
         "seed": SEED_TORCH,
         "corpus_sha256": corpus_sha256,
         "n_dev": len(dev),
