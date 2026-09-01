@@ -206,6 +206,23 @@ def _regenerate(records: list[dict], label: str, seed: int, suffix: str,
             for r in records if r["id"] in texts]
 
 
+def r56_from_file(records: list[dict], path: Path, suffix: str, label: str) -> list[dict]:
+    """R-5/R-6 substitute: read pre-generated texts (``--r56-file``), like R-2."""
+    mapping: dict[str, str] = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            entry = json.loads(line)
+            if entry["id"].endswith(f"-{suffix}"):
+                mapping[entry["id"][: -(len(suffix) + 1)]] = entry["text"]
+    targets = [r for r in records if r["label"] == label]
+    missing = [r["id"] for r in targets if r["id"] not in mapping]
+    if missing:
+        raise ValueError(f"--r56-file misses {len(missing)} ids for -{suffix}, "
+                         f"e.g. {missing[:3]}")
+    return [{**r, "id": f"{r['id']}-{suffix}", "text": mapping[r["id"]]}
+            for r in targets]
+
+
 def r5_adversarial_prompt(records: list[dict], url: str | None, model: str) -> list[dict] | None:
     """R-5: regenerate AI texts with the RAID human-style prefix (seed 502)."""
     def prompt(record: dict) -> str:
@@ -312,6 +329,9 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
                         help="model name sent to the R-5/R-6 generator endpoint")
     parser.add_argument("--r2-file", type=Path, default=None,
                         help="JSONL (id, text) of manual paraphrases for R-2")
+    parser.add_argument("--r56-file", type=Path, default=None,
+                        help="JSONL of pre-generated R-5/R-6 texts "
+                             "(calibration.pre_generate_r56); skips live generation")
     parser.add_argument("--output-dir", type=Path, default=Path("calibration"))
     return parser.parse_args(argv)
 
@@ -336,8 +356,12 @@ def main(argv: list[str]) -> int:
         "R-2": r2_paraphrase(test, args.r2_file),
         "R-3": r3_truncate(test, args.profile),
         "R-4": r4_concat(test),
-        "R-5": r5_adversarial_prompt(test, args.generator_url, args.generator_model or ""),
-        "R-6": r6_adversarial_rewrite(test, args.generator_url, args.generator_model or ""),
+        "R-5": (r56_from_file(test, args.r56_file, "r5", "ai") if args.r56_file
+                else r5_adversarial_prompt(test, args.generator_url,
+                                           args.generator_model or "")),
+        "R-6": (r56_from_file(test, args.r56_file, "r6", "human") if args.r56_file
+                else r6_adversarial_rewrite(test, args.generator_url,
+                                            args.generator_model or "")),
     }
 
     # Single instantiation, shared by every test that needs scoring (§6: one pass).
