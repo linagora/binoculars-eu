@@ -31,7 +31,7 @@ import json
 import os
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -56,7 +56,9 @@ SYSTEM_PROMPT = (
     "Tu écris des articles de blog clairs, informatifs et fluides."
 )
 
-USER_PROMPT = """Rédige un article de blog de 400 à 500 mots en français sur le sujet suivant : « Les enjeux de la transparence dans l'IA générative : étiquetage, watermarking et responsabilité des plateformes ».
+USER_PROMPT = """Rédige un article de blog de 400 à 500 mots en français sur le sujet suivant :
+« Les enjeux de la transparence dans l'IA générative : étiquetage, watermarking
+et responsabilité des plateformes ».
 
 Contraintes :
 - Ton neutre et informatif, style article de vulgarisation technique
@@ -194,7 +196,7 @@ def main() -> int:
         }
 
     metadata = {
-        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "timestamp_utc": datetime.now(UTC).isoformat(),
         "api_url": args.api_url,
         "model": args.model,
         "parameters": {
