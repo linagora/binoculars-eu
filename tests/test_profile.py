@@ -53,8 +53,14 @@ class TestRegistry:
     def test_default_profile_code(self) -> None:
         assert DEFAULT_PROFILE_CODE == "fr"
 
-    def test_auto_discovery_finds_fr_only(self) -> None:
-        assert [p.code for p in list_profiles()] == ["fr"]
+    def test_auto_discovery_finds_all_profiles(self) -> None:
+        assert sorted(p.code for p in list_profiles()) == ["fr", "fr-8b"]
+
+    def test_fr8b_profile_contract(self) -> None:
+        p = get_profile("fr-8b")
+        assert p.observer_model == "OpenLLM-France/Luciole-8B-Base"
+        assert p.performer_model == "OpenLLM-France/Luciole-8B-Instruct-1.1"
+        assert p.trust_remote_code is True
 
     def test_get_profile_fr(self) -> None:
         p = get_profile("fr")

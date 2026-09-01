@@ -292,6 +292,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--splits", type=Path, required=True, help="split manifest JSON")
     parser.add_argument("--profile", default="fr", help="registered profile code")
     parser.add_argument("--batch-size", type=int, default=DEFAULT_BATCH_SIZE)
+    parser.add_argument("--load-in-8bit", action="store_true",
+                        help="load both models with bitsandbytes int8 (capacity variants)")
     parser.add_argument("--output-dir", type=Path, default=Path("calibration"))
     parser.add_argument(
         "--write", action="store_true",
@@ -311,7 +313,8 @@ def main(argv: list[str]) -> int:
     print(f"corpus: {len(records)} records | sha256={corpus_sha256[:16]}…")
     print("splits: " + ", ".join(f"{k}={len(v)}" for k, v in splits.items()))
 
-    detector = Binoculars.for_language(args.profile, mode="low-fpr")
+    detector = Binoculars.for_language(args.profile, mode="low-fpr",
+                                       load_in_8bit=args.load_in_8bit)
     scores = score_corpus(detector, records, args.batch_size)
     print(f"scored {len(scores)} records (batch_size={args.batch_size})\n")
 

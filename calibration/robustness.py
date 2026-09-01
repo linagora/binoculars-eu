@@ -302,6 +302,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
                         help="scores_<lang>_v01.json written by calibrate.py")
     parser.add_argument("--profile", default="fr", help="registered profile code")
     parser.add_argument("--batch-size", type=int, default=8)
+    parser.add_argument("--load-in-8bit", action="store_true",
+                        help="load both models with bitsandbytes int8 (capacity variants)")
     parser.add_argument("--generator-url", default=None,
                         help="OpenAI-compatible endpoint for R-5/R-6 (else skipped)")
     parser.add_argument("--generator-model", default=None,
@@ -347,7 +349,8 @@ def main(argv: list[str]) -> int:
             results[test_id] = {"note": note}
             continue
         if detector is None:
-            detector = Binoculars.for_language(args.profile, mode="accuracy")
+            detector = Binoculars.for_language(args.profile, mode="accuracy",
+                                               load_in_8bit=args.load_in_8bit)
         neg_pert = -score_records(detector, perturbed, args.batch_size)
         if test_id == "R-4":
             lo, hi = R4_EXPECTED_RANGE

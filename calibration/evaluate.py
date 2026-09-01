@@ -268,6 +268,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--ood-corpus", type=Path, default=None, help="OOD JSONL (optional)")
     parser.add_argument("--profile", default="fr", help="registered profile code")
     parser.add_argument("--batch-size", type=int, default=8)
+    parser.add_argument("--load-in-8bit", action="store_true",
+                        help="load both models with bitsandbytes int8 (capacity variants)")
     parser.add_argument("--config", default="v01", help="protocol config tag")
     parser.add_argument("--git-sha", default=None,
                         help="override git sha tracing (e.g. on runners without "
@@ -336,7 +338,8 @@ def main(argv: list[str]) -> int:
     human_test = [r for r in records if r["id"] in splits["test"] and r["label"] == "human"]
     ood: dict = {"note": "no --ood-corpus given", "auc_ood": None}
     if args.ood_corpus is not None:
-        detector = Binoculars.for_language(args.profile, mode="accuracy")
+        detector = Binoculars.for_language(args.profile, mode="accuracy",
+                                           load_in_8bit=args.load_in_8bit)
         ood = evaluate_ood(detector, args.ood_corpus, human_test, args.batch_size)
     metrics["ood_mistral"] = ood
     if ood.get("auc_ood"):

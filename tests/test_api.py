@@ -122,8 +122,8 @@ def test_profiles_route(client: TestClient) -> None:
     resp = client.get("/profiles")
     assert resp.status_code == 200
     body = resp.json()
-    assert [p["code"] for p in body] == ["fr"]
-    profile = body[0]
+    assert sorted(p["code"] for p in body) == ["fr", "fr-8b"]
+    profile = next(p for p in body if p["code"] == "fr")
     assert profile["is_default"] is True
     assert set(profile["thresholds"]) == {"accuracy", "low_fpr", "tpr_at_fpr_1"}
     assert profile["observer_model"] == "OpenLLM-France/Luciole-1B-Base"
@@ -135,7 +135,7 @@ def test_health_route(client: TestClient) -> None:
     body = resp.json()
     assert body["status"] == "ok"
     assert body["default_profile"] == "fr"
-    assert body["profiles_loaded"] == ["fr"]
+    assert sorted(body["profiles_loaded"]) == ["fr", "fr-8b"]
     assert body["device"] in ("cpu", "cuda:0")
     assert body["detectors_cached"] >= 0
 
