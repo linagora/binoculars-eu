@@ -10,7 +10,9 @@ Première application de Binoculars à un modèle non purement Transformer.
 Le profil `fr-8b` est la variante « montée d'échelle » du profil `fr` : même
 corpus, mêmes splits, même protocole ; seule la paire de modèles change. Il
 améliore nettement la séparation (AUC 0,988 vs 0,959) et **referme la
-fragilité au bruit caractère** (R-1 : −0,046 vs −0,242 en V0.1).
+fragilité au bruit caractère** (R-1 : −0,046 vs −0,242 en V0.1). Les deux
+critères d'acceptation V0.2 (amendment A) sont passés, dont R-6bis sur corpus
+humanisé : le profil est **cible officielle** au sens du PRD §16.2.
 
 ## Métriques clés (hold-out test n = 100, IC 95 % bootstrap)
 
@@ -56,6 +58,26 @@ vers le bas (humain 1.02 → 0.92, IA 0.84 → 0.58 en moyenne dev) : un score
 | Hybrides humain/IA | 0.851 [0.752, 0.937] |
 | **Pooled** | **0.936** |
 
+## R-6bis — corpus humanisé commercial (136 textes, 2 humanizers)
+
+| Famille | n | TPR @ low-fpr [IC 95 %] |
+|---|---:|---:|
+| Undetectable AI — luciole-8b | 23 | 0.913 [0.783, 1.000] |
+| Undetectable AI — GPT-4o | 23 | 0.435 [0.261, 0.610] |
+| Undetectable AI — Claude | 23 | 0.435 [0.217, 0.652] |
+| WriteHuman — luciole-8b | 23 | 0.043 [0.000, 0.130] |
+| WriteHuman — GPT-4o | 23 | 0.000 |
+| WriteHuman — Claude | 21 | 0.000 |
+| **Global (critère ≥ 0.30)** | **136** | **0.309 [0.228, 0.390]** |
+
+Verdict : **PASSÉ**, à marge faible et porté par les familles Undetectable et
+luciole-8b ; le texte humanisé par WriteHuman contourne quasi totalement le
+seuil low-fpr. StealthGPT est geo-bloqué UE (blocage citant l'article 50(2)) ;
+TextGuard n'a pas d'API : 2 humanizers au lieu des 3 prévus par l'amendment B,
+écart documenté dans le rapport §6. Corpus :
+`calibration/corpus/binoculars-eu-corpus-fr-v02-ood-humanized.jsonl`
+(`calibration/humanized_eval_fr8b_v02.json`).
+
 ## Utilisation recommandée
 
 ```python
@@ -69,11 +91,12 @@ marge. Ne pas invoquer `fr-8b` sans `load_in_4bit` sur ce type de carte
 
 ## Limites principales
 
-- **Humanizers commerciaux** : le test R-6bis (TPR@low-fpr sur corpus
-  humanisé, critère ≥ 0.30, amendment A) est **en attente** de la famille
-  humanisée du corpus OOD v2. L'eval card V0.1 documente que le mode
-  low-fpr V0.1 tombait face à Undetectable AI ; la V0.2 doit prouver le
-  contraire ou l'assumer.
+- **Humanizers commerciaux** : R-6bis **passé** (0.309 ≥ 0.30) mais WriteHuman
+  humanisé contourne quasi totalement le seuil low-fpr (TPR ≈ 0 hors sources
+  Luciole) ; la marge globale est faible (borne basse de l'IC 0.228). Même
+  conclusion que l'eval card V0.1 : un humanizer dédié à 100 % du texte reste
+  l'attaque qui bat la famille zero-shot, y compris calibrée nativement en
+  français.
 - **nf4** : la quantization 4-bit est un compromis VRAM documenté ; le gain
   net reste mesuré (AUC 0.988), mais le signal bruité par la quantization n'est
   pas démêlé de l'effet architecture hybride (PRD §16.2 point 4).
@@ -81,7 +104,7 @@ marge. Ne pas invoquer `fr-8b` sans `load_in_4bit` sur ce type de carte
   moitié humain reste intrinsèquement ambigu pour un score global.
 - Biais encyclopédique/littéraire hérités du corpus V0.1 (corpus v1.1
   reporté V0.3) ; textes courts (< ~100 tokens) peu fiables.
-- Fraîgile restant : aucun test R-1..R-6 ne dégrade le verdict, mais un
+- Fragile restant : aucun test R-1..R-6 ne dégrade le verdict, mais un
   humanizer dédié appliqué à 100 % du texte reste l'attaque de référence.
 
 ## Données & traçabilité
@@ -89,10 +112,12 @@ marge. Ne pas invoquer `fr-8b` sans `load_in_4bit` sur ce type de carte
 - Corpus : `binoculars-eu-corpus-fr-v01` (500, sha256 dans
   `binoculars_eu/profiles/fr8b/metadata.json`) ; OOD v2 :
   `calibration/corpus/binoculars-eu-corpus-fr-v02-ood.jsonl` (120, sha256
-  `2dbe78b7…`).
+  `2dbe78b7…`) ; humanisé :
+  `calibration/corpus/binoculars-eu-corpus-fr-v02-ood-humanized.jsonl` (136).
 - Artefacts : `scores_fr-8b_v01.json`, `evaluation_fr-8b_v01.json`,
   `robustness_fr-8b_v01.json`, `distribution_study_fr8b.json`,
-  `ood_v2_eval_fr8b.json`, `r56_pregen_fr_v02.jsonl`.
+  `ood_v2_eval_fr8b.json`, `r56_pregen_fr_v02.jsonl`,
+  `humanized_eval_fr8b_v02.json`.
 - Environnement : torch 2.5.1+cu124, transformers 4.57.1, bitsandbytes nf4,
   kernels mamba-ssm 2.2.6 / causal-conv1d ; L4 22 Go.
 

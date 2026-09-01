@@ -5,6 +5,7 @@
 [![uv](https://img.shields.io/badge/packaging-uv-blueviolet)](https://docs.astral.sh/uv/)
 [![FastAPI](https://img.shields.io/badge/API-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
 [![Profile fr](https://img.shields.io/badge/profile-fr%20(V0.1)-green)](binoculars_eu/profiles/fr/)
+[![Profile fr-8b](https://img.shields.io/badge/profile-fr--8b%20(V0.2)-blue)](docs/eval-card-fr8b.md)
 
 > European open-source platform for zero-shot detection of AI-generated text,
 > organised around a single abstraction: the **language profile**.
@@ -35,6 +36,16 @@ review.
 Full protocol (baselines, ablations, 6 invariance tests, error analysis):
 [`docs/evaluation_report_fr_v01.md`](docs/evaluation_report_fr_v01.md) ·
 [`docs/eval-card-fr.md`](docs/eval-card-fr.md).
+
+### Capacity variant `fr-8b` (V0.2, Luciole-8B pair, nf4)
+
+Official per the V0.2 acceptance criteria (PRD §16.2), not the default
+(`fr` 1B stays the default for latency/VRAM): AUC 0.988 [0.971, 0.998],
+TPR@FPR=1 % 0.900, TPR@low-fpr on a 136-text commercially-humanized corpus
+0.309 [0.228, 0.390]. Own thresholds, never comparable in absolute value to
+`fr` scores. Details:
+[`docs/eval-card-fr8b.md`](docs/eval-card-fr8b.md) ·
+[`docs/evaluation_report_fr8b_v02.md`](docs/evaluation_report_fr8b_v02.md).
 
 **Honest caveats** (read before trusting a score):
 
@@ -183,7 +194,7 @@ tests/                    # profile registry, API, from_legacy compatibility
 | Version | Scope | Highlights |
 |---------|-------|------------|
 | V0.1 | profile `fr` | Luciole-1B pair, calibrated thresholds, corpus, FastAPI + Swagger, eval protocol |
-| V0.2 | profile `fr` (capacity) | Luciole-8B int8, Mamba-hybrid observer pair, extended OOD benchmark, corpus v1.1 (encoding cleanup) |
+| V0.2 | profile `fr-8b` (capacity) | Luciole-8B pair in nf4 (Mamba-hybrid), own thresholds (KS study), extended OOD v2 + commercially-humanized corpus, R-6bis pass |
 | V1 | profiles `fr` + `en` | Falcon-7B legacy thresholds + independent reproduction (±0.01) |
 | V2 | production hardening | rate limiting, auth, Prometheus metrics, upstream sync CI |
 | V3+ | `es`, `de`, `it`, `pt`, `pl` | community profiles; engine maintained as protocol guardian |

@@ -8,12 +8,20 @@ Référentiels : PRD §4.2, §14.2 (amendé A), §16.2 ; amendements B (OOD huma
 | Point | Décision |
 |---|---|
 | Critère d'acceptation (amendement A, remplace §14.2/§16.2) | **AUC test ≥ 0.97 ET TPR@low_fpr sur corpus humanisé ≥ 0.30** (R-6bis : limite low_fpr V0.1 face à Undetectable AI, eval card V0.1) |
-| Famille humanisée OOD (amendement B) | 30 sources IA (Luciole/GPT-4o/Claude) × 3 humanizers (Undetectable AI, WriteHuman, StealthGPT) = **90 textes** |
+| Famille humanisée OOD (amendement B) | 30 sources IA (Luciole/GPT-4o/Claude) × 3 humanizers (Undetectable AI, WriteHuman, StealthGPT) = **90 textes** — **réalisé : 2 humanizers × 23 sources = 136 textes** (StealthGPT geo-bloqué UE citant l'article 50(2) ; TextGuard sans API ; 21 sources/famille relançables après rechargement de crédits Undetectable) |
 | Étude de distribution (amendement C) | KS 1B bf16 vs 8B int8 sur dev, par classe + pooled ; si max(D) > 0.1 → seuils propres `fr-8b` recalibrés sur train, jamais drop-in |
 | Exposition | Nouveau code de profil **`fr-8b`** (pas un flag) |
 | Corpus v1.1 (mojibake + littérature) | **Reporté V0.3** |
 | Comparaison GPTZero/Originality (§4.2 « si accès ») | **Reportée** |
-| Budget humanizers | Abos ponctuels WriteHuman + StealthGPT (~25-30 USD) ; Undetectable = abo annuel existant (accès API à confirmer au lancement de P3.2, repli web documenté) |
+| Budget humanizers | Abos ponctuels WriteHuman + StealthGPT (~25-30 USD) ; Undetectable = abo annuel existant (accès API à confirmer au lancement de P3.2, repli web documenté) — **réalisé : accès API Undetectable (abo annuel) + WriteHuman (API, abo souscrit 2026-09-01) ; StealthGPT impossible depuis l'UE** |
+
+## Statut d'exécution (2026-09-01)
+
+P0, P1, P2, P3.1, P3.3, P4 (rédaction) : **faits** (HEAD `ef050a3`).
+P3.2 : **fait** — corpus humanisé 136 textes, R-6bis **passé** (0.309 [0.228, 0.390]).
+Verdict : critères A passés → profil `fr-8b` **cible officielle** (PRD §16.2),
+non-défaut (`fr` 1B reste le défaut API/CLI). Détail : rapport
+`docs/evaluation_report_fr8b_v02.md` §10.
 
 ## P0. Faisabilité + étude de distribution (box, cible 2-3 jours)
 
@@ -62,7 +70,12 @@ python -m calibration.robustness ... --profile fr-8b --load-in-8bit \
 - **P3.1 Sources** (`calibration/generate_ood_v2.py`, pattern `generate_ood_mistral.py`) :
   30 Luciole-8B (vLLM local, prompts jumeaux) + 30 GPT-4o (OpenRouter) + 30 Claude (OpenRouter)
   + 30 hybrides (concat déterministe, seed figé). Sortie `binoculars-eu-corpus-fr-v02-ood.jsonl`.
-- **P3.2 Humanisation** : 30 sources IA × 3 humanizers = 90 textes (API si clé, sinon kit web).
+- **P3.2 Humanisation** : 30 sources IA × 3 humanizers = 90 textes (API si clé, sinon kit web). —
+  **Réalisé** : `calibration/humanize_undetectable.py` (API v2, 69 textes, paramètres = test au clou
+  V0.1, ~1 crédit/mot, cache de reprise) + `calibration/humanize_writehuman.py` (API, 67 textes,
+  2 rejets de modération « violence ») → corpus fusionné
+  `binoculars-eu-corpus-fr-v02-ood-humanized.jsonl` (136). R-6bis via `humanized_eval` :
+  **0.309 [0.228, 0.390] ≥ 0.30, PASSÉ**.
 - **P3.3 Scoring** : 150 textes en une passe `fr-8b` (vLLM arrêté) → `scores_ood_v2_fr8b.json`.
 
 ## P4. Acceptation + documentation (cible 2-3 jours)
