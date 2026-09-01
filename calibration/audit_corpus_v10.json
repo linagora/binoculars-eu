@@ -1,0 +1,123 @@
+{
+  "corpus": "calibration/corpus/binoculars-eu-corpus-fr-v01.jsonl",
+  "n_records": 500,
+  "n_human": 250,
+  "n_ai": 250,
+  "mojibake": {
+    "total_records_with_mojibake": 60,
+    "by_source": {
+      "human:human-presse-fr": {
+        "n": 60,
+        "ids": [
+          "human-presse-fr-001",
+          "human-presse-fr-002",
+          "human-presse-fr-003",
+          "human-presse-fr-004",
+          "human-presse-fr-005"
+        ]
+      }
+    },
+    "samples": {
+      "human:human-presse-fr": "industriel : quelle strat�gie pour rester comp�tit"
+    }
+  },
+  "empty_titles": {
+    "total_empty_titles": 60,
+    "by_source": {
+      "human-presse-fr": {
+        "n": 60,
+        "ids": [
+          "human-presse-fr-001",
+          "human-presse-fr-002",
+          "human-presse-fr-003",
+          "human-presse-fr-004",
+          "human-presse-fr-005"
+        ]
+      }
+    }
+  },
+  "twins": {
+    "twin_distribution": {
+      "human-presse-fr": 20,
+      "human-wikipedia-fr": 230
+    },
+    "degenerate_prompt_ids": [
+      "ai-23b-081",
+      "ai-23b-082",
+      "ai-23b-083",
+      "ai-23b-084",
+      "ai-23b-085",
+      "ai-23b-086",
+      "ai-23b-087",
+      "ai-23b-088",
+      "ai-23b-089",
+      "ai-23b-090",
+      "ai-23b-091",
+      "ai-23b-092",
+      "ai-23b-093",
+      "ai-23b-094",
+      "ai-23b-095",
+      "ai-23b-096",
+      "ai-23b-097",
+      "ai-23b-098",
+      "ai-23b-099",
+      "ai-23b-100"
+    ],
+    "n_degenerate": 20,
+    "orphan_twin_ids": []
+  },
+  "exact_duplicates": {
+    "n_exact_duplicates": 0,
+    "duplicates": []
+  },
+  "lengths_words": {
+    "ai:ai-1b": {
+      "n": 75,
+      "min": 89,
+      "p50": 119,
+      "max": 157
+    },
+    "ai:ai-23b": {
+      "n": 100,
+      "min": 78,
+      "p50": 130,
+      "max": 167
+    },
+    "ai:ai-8b": {
+      "n": 75,
+      "min": 107,
+      "p50": 126,
+      "max": 166
+    },
+    "human:human-blog-maudet": {
+      "n": 30,
+      "min": 151,
+      "p50": 186,
+      "max": 220
+    },
+    "human:human-linuxfr": {
+      "n": 40,
+      "min": 80,
+      "p50": 180,
+      "max": 220
+    },
+    "human:human-litterature": {
+      "n": 40,
+      "min": 73,
+      "p50": 181,
+      "max": 224
+    },
+    "human:human-presse-fr": {
+      "n": 60,
+      "min": 113,
+      "p50": 165,
+      "max": 190
+    },
+    "human:human-wikipedia-fr": {
+      "n": 80,
+      "min": 94,
+      "p50": 175,
+      "max": 214
+    }
+  }
+}
