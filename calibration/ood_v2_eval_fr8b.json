@@ -1,0 +1,44 @@
+{
+  "study": "ood_v2_per_family_auc",
+  "profile": "fr-8b",
+  "load_in_4bit": true,
+  "seed_bootstrap": 100,
+  "corpus_sha256": "ca70aaa41c90321e96dcb51f58f34371ed5905853b6b090b9e05c1886cb9abf3",
+  "n_test_humans": 50,
+  "scores_file": "calibration/scores_ood_v2_fr8b.json",
+  "families": {
+    "ood2-claude": {
+      "n": 30,
+      "auc": 0.9253,
+      "ci95": [
+        0.8549,
+        0.9759
+      ]
+    },
+    "ood2-gpt-4o": {
+      "n": 30,
+      "auc": 0.9687,
+      "ci95": [
+        0.9276,
+        0.9945
+      ]
+    },
+    "ood2-hybrid": {
+      "n": 30,
+      "auc": 0.8513,
+      "ci95": [
+        0.7524,
+        0.9367
+      ]
+    },
+    "ood2-luciole-8b": {
+      "n": 30,
+      "auc": 1.0,
+      "ci95": [
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "pooled_auc": 0.9363
+}
