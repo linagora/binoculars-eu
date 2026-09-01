@@ -15,13 +15,14 @@
 set -euo pipefail
 
 PROFILE="${1:-status}"
-REMOTE=gpu-ubuntu
+REMOTE="${LUCIOLE_SWITCH_HOST:-gpu-ubuntu}"
+SSH_KEY="${LUCIOLE_SWITCH_KEY:-$HOME/.ssh/gpu_ubuntu}"
 TS_IP=100.90.203.88
 
-remote() { ssh -o BatchMode=yes "$REMOTE" "$@"; }
+remote() { ssh -o BatchMode=yes -i "$SSH_KEY" "$REMOTE" "$@"; }
 
 wait_ready() { # $1 = host:port on the remote box
-    ssh -o BatchMode=yes "$REMOTE" "
+    remote "
       for i in \$(seq 1 120); do
         code=\$(curl -s -o /dev/null -w '%{http_code}' -m 3 http://$1/v1/models 2>/dev/null || echo 000)
         [ \"\$code\" = '200' ] && exit 0
