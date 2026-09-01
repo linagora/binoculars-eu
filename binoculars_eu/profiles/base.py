@@ -37,6 +37,10 @@ class LanguageProfile:
         trust_remote_code: Allow custom modelling code from the model repo.
             ``True`` is required for NemotronH (Luciole-8B, V0.2), ``False``
             otherwise; the authorisation is granted per profile, not globally.
+        default_load_in_4bit: Load in nf4 4-bit when the caller passes no
+            explicit quantization flag (``load_in_8bit``/``load_in_4bit`` both
+            ``None``). Required for pairs that do not fit in bfloat16 on
+            target hardware (Luciole-8B pair, PRD §16.2).
         label_ai: Localised label returned for an AI verdict.
         label_human: Localised label returned for a human verdict.
         calibration_note: Optional provenance or caveat text (external
@@ -65,6 +69,7 @@ class LanguageProfile:
     # --- Loading behaviour --------------------------------------------------
     share_tokenizer_from_observer: bool = True
     trust_remote_code: bool = False
+    default_load_in_4bit: bool = False
 
     # --- Localised verdict labels -------------------------------------------
     label_ai: str = "Probablement généré par IA"

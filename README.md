@@ -12,8 +12,9 @@
 
 `binoculars-eu` industrialises the [Binoculars method](https://arxiv.org/abs/2401.12070)
 (Hans et al., ICML 2024), a perplexity / cross-perplexity ratio between two
-models of the same family, ported to open European model families. V0.1 ships
-one **French** profile (`fr`, the platform default) built on Luciole-1B, with
+models of the same family, ported to open European model families. It ships
+two **French** profiles: `fr` (Luciole-1B, V0.1) and `fr-8b` (Luciole-8B in
+nf4, V0.2), the latter being the platform default since 2026-09-01, with
 calibrated thresholds, a public calibration corpus, a full evaluation
 protocol, and an HTTP API.
 
@@ -39,8 +40,9 @@ Full protocol (baselines, ablations, 6 invariance tests, error analysis):
 
 ### Capacity variant `fr-8b` (V0.2, Luciole-8B pair, nf4)
 
-Official per the V0.2 acceptance criteria (PRD §16.2), not the default
-(`fr` 1B stays the default for latency/VRAM): AUC 0.988 [0.971, 0.998],
+Official per the V0.2 acceptance criteria (PRD §16.2) and the platform
+default since 2026-09-01 (`fr` 1B remains available for CPU/small-GPU
+contexts): AUC 0.988 [0.971, 0.998],
 TPR@FPR=1 % 0.900, TPR@low-fpr on a 136-text commercially-humanized corpus
 0.309 [0.228, 0.390]. Own thresholds, never comparable in absolute value to
 `fr` scores. Details:
@@ -71,7 +73,7 @@ policy in a `LanguageProfile`, discovered automatically from
 ```python
 from binoculars_eu import Binoculars
 
-Binoculars()                          # default profile (fr), default mode
+Binoculars()    # default profile (fr-8b, nf4 by profile default), low-fpr mode
 Binoculars.for_language("fr", mode="low-fpr")   # explicit profile lookup
 Binoculars.from_legacy(                         # upstream-compatible (Falcon-7B, Hans thresholds)
     observer="tiiuae/falcon-7b",
@@ -88,12 +90,15 @@ dual-device placement via `DEVICE_1` / `DEVICE_2`.
 
 | Code | Display name | Observer | Performer | Status |
 |------|--------------|----------|-----------|--------|
-| `fr` | Français | [Luciole-1B-Base](https://huggingface.co/OpenLLM-France/Luciole-1B-Base) | [Luciole-1B-SFT-1.0](https://huggingface.co/OpenLLM-France/Luciole-1B-SFT-1.0) | **default (V0.1)** |
+| `fr-8b` | Français (8B nf4) | [Luciole-8B-Base](https://huggingface.co/OpenLLM-France/Luciole-8B-Base) | [Luciole-8B-Instruct-1.1](https://huggingface.co/OpenLLM-France/Luciole-8B-Instruct-1.1) | **default (V0.2)** |
+| `fr` | Français | [Luciole-1B-Base](https://huggingface.co/OpenLLM-France/Luciole-1B-Base) | [Luciole-1B-SFT-1.0](https://huggingface.co/OpenLLM-France/Luciole-1B-SFT-1.0) | available (V0.1) |
 | `en` | English | tiiuae/falcon-7b | tiiuae/falcon-7b-instruct | V1 (planned) |
 
-Every call that does not name a profile resolves to `fr`. Thresholds are
-calibrated per profile and shipped with traceability (corpus SHA-256,
-calibration date and seed) in `profiles/<lang>/{thresholds,metadata}.json`.
+Every call that does not name a profile resolves to `fr-8b`, loaded in nf4
+by profile default (`default_load_in_4bit`); pass `load_in_8bit=True` or
+explicit flags to override. Thresholds are calibrated per profile and shipped
+with traceability (corpus SHA-256, calibration date and seed) in
+`profiles/<lang>/{thresholds,metadata}.json`.
 
 Calibration corpus (500 texts + 50 OOD, with splits and full provenance) is
 versioned in this repository:

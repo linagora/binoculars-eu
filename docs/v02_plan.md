@@ -19,9 +19,11 @@ Référentiels : PRD §4.2, §14.2 (amendé A), §16.2 ; amendements B (OOD huma
 
 P0, P1, P2, P3.1, P3.3, P4 (rédaction) : **faits** (HEAD `ef050a3`).
 P3.2 : **fait** — corpus humanisé 136 textes, R-6bis **passé** (0.309 [0.228, 0.390]).
-Verdict : critères A passés → profil `fr-8b` **cible officielle** (PRD §16.2),
-non-défaut (`fr` 1B reste le défaut API/CLI). Détail : rapport
-`docs/evaluation_report_fr8b_v02.md` §10.
+Verdict : critères A passés → profil `fr-8b` **cible officielle** (PRD §16.2).
+Décision produit 2026-09-01 : `fr-8b` devient le **profil par défaut**
+API/CLI (`DEFAULT_PROFILE_CODE`), avec `default_load_in_4bit=True` sur le
+profil ; `fr` 1B reste disponible pour les contextes CPU/petit GPU. Détail :
+rapport `docs/evaluation_report_fr8b_v02.md` §10.
 
 ## P0. Faisabilité + étude de distribution (box, cible 2-3 jours)
 

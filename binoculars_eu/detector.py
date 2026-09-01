@@ -119,18 +119,20 @@ class Binoculars:
 
     Args:
         profile: The language profile to use; ``None`` resolves to the
-            platform default profile (``fr``).
+            platform default profile (``fr-8b``).
         mode: Decision mode — ``"low-fpr"``, ``"accuracy"`` or
             ``"tpr-at-fpr-1"``. The threshold comes from the profile.
         max_token_observed: Maximum number of tokens scored per text.
         use_bfloat16: Load both models in bfloat16 (``float32`` otherwise).
         load_in_8bit: Load both models with bitsandbytes 8-bit quantization
             instead (PRD §16.1) — fits large pairs on 24 GB cards; mutually
-            exclusive with the ``dtype`` choice above.
+            exclusive with the ``dtype`` choice above. ``None`` (default)
+            defers to the profile's ``default_load_in_4bit``.
         load_in_4bit: Load both models with bitsandbytes 4-bit (nf4) — PRD
             §16.2 fallback when int8 plus activation/logit memory still
             exceeds VRAM (hybrid 8B pairs, 128k vocab); signal impact is
-            measured by the calibration, never assumed.
+            measured by the calibration, never assumed. ``None`` (default)
+            defers to the profile's ``default_load_in_4bit``.
     """
 
     def __init__(
@@ -139,14 +141,22 @@ class Binoculars:
         mode: str = "low-fpr",
         max_token_observed: int = 512,
         use_bfloat16: bool = True,
-        load_in_8bit: bool = False,
-        load_in_4bit: bool = False,
+        load_in_8bit: bool | None = None,
+        load_in_4bit: bool | None = None,
     ) -> None:
         self.profile = profile if profile is not None else get_profile(DEFAULT_PROFILE_CODE)
         self.max_token_observed = max_token_observed
         self.use_bfloat16 = use_bfloat16
         self.device_1, self.device_2 = _resolve_devices()
         self.tokenizer = load_profile_tokenizer(self.profile)
+
+        if load_in_8bit is None and load_in_4bit is None:
+            # No explicit quantization: the profile decides (PRD §16.2: nf4
+            # pairs like Luciole-8B cannot load in bfloat16 on target cards).
+            load_in_8bit = False
+            load_in_4bit = self.profile.default_load_in_4bit
+        load_in_8bit = bool(load_in_8bit)
+        load_in_4bit = bool(load_in_4bit)
 
         torch_dtype = torch.bfloat16 if use_bfloat16 else torch.float32
         # 8-bit (bitsandbytes) loading fits pairs like Falcon-7B on 24 GB
@@ -183,8 +193,8 @@ class Binoculars:
         mode: str = "low-fpr",
         max_token_observed: int = 512,
         use_bfloat16: bool = True,
-        load_in_8bit: bool = False,
-        load_in_4bit: bool = False,
+        load_in_8bit: bool | None = None,
+        load_in_4bit: bool | None = None,
     ) -> Binoculars:
         """Instantiate a registered profile by ISO language code.
 

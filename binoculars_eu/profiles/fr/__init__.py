@@ -1,4 +1,4 @@
-"""French language profile for binoculars-eu V0.1 — platform default profile.
+"""French language profile for binoculars-eu V0.1 (Luciole-1B).
 
 Contract of a profile folder (PRD §6.7): exactly three files, no scoring code,
 no import of the detector (would be circular), and a module-level ``register()``

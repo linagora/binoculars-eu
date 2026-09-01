@@ -16,7 +16,7 @@ from binoculars_eu.profiles.base import LanguageProfile
 
 _REGISTRY: dict[str, LanguageProfile] = {}
 _PROFILE_DIRS: dict[str, Path] = {}
-DEFAULT_PROFILE_CODE: str = "fr"
+DEFAULT_PROFILE_CODE: str = "fr-8b"
 
 
 def register(profile: LanguageProfile) -> LanguageProfile:

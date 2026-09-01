@@ -51,7 +51,7 @@ class TestLanguageProfile:
 
 class TestRegistry:
     def test_default_profile_code(self) -> None:
-        assert DEFAULT_PROFILE_CODE == "fr"
+        assert DEFAULT_PROFILE_CODE == "fr-8b"
 
     def test_auto_discovery_finds_all_profiles(self) -> None:
         assert sorted(p.code for p in list_profiles()) == ["fr", "fr-8b"]
@@ -63,6 +63,7 @@ class TestRegistry:
         assert p.observer_model == "OpenLLM-France/Luciole-8B-Base"
         assert p.performer_model == "OpenLLM-France/Luciole-8B-Instruct-1.1"
         assert p.trust_remote_code is True
+        assert p.default_load_in_4bit is True
         # code "fr-8b" lives in the fr8b package dir (no "-" in module names)
         assert profile_dir("fr-8b").name == "fr8b"
 

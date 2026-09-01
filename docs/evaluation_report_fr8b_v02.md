@@ -144,7 +144,11 @@ candidats si le profil devient la cible officielle.
 - AUC test ≥ 0.97 : **PASSÉ** (0.988 [0.971, 0.998]).
 - TPR@low_fpr corpus humanisé ≥ 0.30 : **PASSÉ** (0.309 [0.228, 0.390]).
 - **Décision : le profil `fr-8b` atteint le statut de cible officielle**
-  (PRD §16.2, critères d'acceptation V0.2). Il reste non-défaut : le profil
-  `fr` (1B) demeure le défaut de l'API et de la CLI ; la promotion de
-  `fr-8b` en défaut est une décision produit distincte (impact latence/coût
-  GPU), proposée séparément au porteur de projet.
+  (PRD §16.2, critères d'acceptation V0.2).
+- Décision produit (2026-09-01) : `fr-8b` devient le **profil par défaut** de
+  l'API et de la CLI (`DEFAULT_PROFILE_CODE = "fr-8b"`). Le chargement par
+  défaut suit le profil (`default_load_in_4bit=True`) : un appel nu
+  `Binoculars()` charge la paire en nf4 (~12 GiB), jamais en bfloat16. Le
+  profil `fr` (1B) reste disponible via `for_language("fr")` pour les
+  contextes CPU/petit GPU ; les scores des deux profils ne sont pas
+  comparables en valeur absolue (§3).

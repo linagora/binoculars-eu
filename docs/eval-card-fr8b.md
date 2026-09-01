@@ -82,12 +82,16 @@ TextGuard n'a pas d'API : 2 humanizers au lieu des 3 prévus par l'amendment B,
 
 ```python
 from binoculars_eu import Binoculars
-detector = Binoculars.for_language("fr-8b", mode="low-fpr", load_in_4bit=True)
+detector = Binoculars()   # profil par défaut (fr-8b), nf4 implicite
+# équivalent explicite :
+detector = Binoculars.for_language("fr-8b", mode="low-fpr")  # nf4 par défaut du profil
 ```
 
 Chargement nf4 (~12 GiB VRAM les deux modèles) ; un L4 22 GiB suffit avec
-marge. Ne pas invoquer `fr-8b` sans `load_in_4bit` sur ce type de carte
-(int8 ≈ 17 GiB de poids + logits 128k vocab ne passent pas, PRD §16.2).
+marge. Le nf4 est le défaut du profil (`default_load_in_4bit=True`) : un
+appel sans flag de quantization ne tente jamais le bfloat16, qui ne tient
+pas sur ce type de carte (int8 ≈ 17 GiB de poids + logits 128k vocab ne
+passent pas non plus, PRD §16.2).
 
 ## Limites principales
 
@@ -126,4 +130,5 @@ marge. Ne pas invoquer `fr-8b` sans `load_in_4bit` sur ce type de carte
 Outil d'aide à la décision, **non une preuve** : un verdict « IA » n'est pas
 une détection d'infraction. Ne pas employer pour des décisions à fort enjeu
 sans validation humaine. Le profil `fr` (1B) reste disponible pour les
-contextes où la latence/la VRAM priment ; `fr-8b` privilégie la qualité.
+contextes où la latence/la VRAM priment ; `fr-8b` est le profil par défaut
+depuis le 2026-09-01 et privilégie la qualité.
