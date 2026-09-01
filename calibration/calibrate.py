@@ -59,6 +59,7 @@ from sklearn.metrics import (
 
 from binoculars_eu import Binoculars
 from binoculars_eu.detector import _resolve_devices
+from binoculars_eu.profiles import profile_dir as registry_profile_dir
 
 SEED_SPLIT = 42       # protocol §1: StratifiedKFold / split seed
 SEED_TORCH = 42       # protocol §1: torch.manual_seed (batch order)
@@ -268,11 +269,9 @@ def update_profile_files(
     profile_code: str, thresholds: dict[str, float], corpus_sha256: str
 ) -> None:
     """Write thresholds.json and refresh metadata.json traceability fields."""
-    profile_dir = Path("binoculars_eu/profiles") / profile_code
-    if not profile_dir.is_dir():
-        raise FileNotFoundError(f"profile directory not found: {profile_dir}")
-    write_json(profile_dir / "thresholds.json", thresholds)
-    metadata_path = profile_dir / "metadata.json"
+    directory = registry_profile_dir(profile_code)
+    write_json(directory / "thresholds.json", thresholds)
+    metadata_path = directory / "metadata.json"
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
     metadata.update({
         "corpus_sha256": corpus_sha256,

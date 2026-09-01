@@ -57,10 +57,14 @@ class TestRegistry:
         assert sorted(p.code for p in list_profiles()) == ["fr", "fr-8b"]
 
     def test_fr8b_profile_contract(self) -> None:
+        from binoculars_eu.profiles import profile_dir
+
         p = get_profile("fr-8b")
         assert p.observer_model == "OpenLLM-France/Luciole-8B-Base"
         assert p.performer_model == "OpenLLM-France/Luciole-8B-Instruct-1.1"
         assert p.trust_remote_code is True
+        # code "fr-8b" lives in the fr8b package dir (no "-" in module names)
+        assert profile_dir("fr-8b").name == "fr8b"
 
     def test_get_profile_fr(self) -> None:
         p = get_profile("fr")

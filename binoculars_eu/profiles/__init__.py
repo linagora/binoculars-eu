@@ -8,11 +8,14 @@ itself at import time. The registry discovers profiles with
 from __future__ import annotations
 
 import importlib
+import inspect
 import pkgutil
+from pathlib import Path
 
 from binoculars_eu.profiles.base import LanguageProfile
 
 _REGISTRY: dict[str, LanguageProfile] = {}
+_PROFILE_DIRS: dict[str, Path] = {}
 DEFAULT_PROFILE_CODE: str = "fr"
 
 
@@ -30,8 +33,29 @@ def register(profile: LanguageProfile) -> LanguageProfile:
     """
     if profile.code in _REGISTRY:
         raise ValueError(f"Profile already registered: {profile.code}")
+    frame = inspect.currentframe()
+    caller = inspect.getmodule(frame.f_back) if frame is not None and frame.f_back else None
+    if caller is not None and caller.__file__ is not None:
+        # The profile code may differ from the package directory name
+        # (e.g. code "fr-8b" lives in profiles/fr8b/ because Python module
+        # names cannot contain "-"); calibration writes need the real path.
+        _PROFILE_DIRS[profile.code] = Path(caller.__file__).resolve().parent
     _REGISTRY[profile.code] = profile
     return profile
+
+
+def profile_dir(code: str) -> Path:
+    """Filesystem directory of a registered profile package.
+
+    Raises:
+        KeyError: If the profile code is unknown.
+    """
+    if not _REGISTRY:
+        _discover()
+    if code not in _PROFILE_DIRS:
+        available = sorted(_REGISTRY)
+        raise KeyError(f"Unknown profile: {code!r}. Available: {available}")
+    return _PROFILE_DIRS[code]
 
 
 def _discover() -> None:
