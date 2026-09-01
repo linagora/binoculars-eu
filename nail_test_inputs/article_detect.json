@@ -1,0 +1,32 @@
+{
+  "step": "article_itself",
+  "file": "nail_test_inputs/article_transparence_ia.txt",
+  "sha256": "7fda83e1b12d4232397b2a4f3424a5622b8ef773a1d04ff46be24f1f3e60fdb5",
+  "chars": 74584,
+  "words": 10129,
+  "api_note": "payload tronqué à 20 000 caractères (cap schéma API); fenêtre de scoring = 512 premiers tokens, troncation neutre",
+  "detect": {
+    "accuracy": {
+      "score": 1.0050251483917236,
+      "verdict": "human",
+      "label": "Probablement écrit par un humain",
+      "confidence": "high",
+      "threshold_used": 0.955801,
+      "mode": "accuracy",
+      "profile": "fr",
+      "input_tokens": 5473,
+      "elapsed_ms": 23968
+    },
+    "low-fpr": {
+      "score": 1.0050251483917236,
+      "verdict": "human",
+      "label": "Probablement écrit par un humain",
+      "confidence": "high",
+      "threshold_used": 0.866667,
+      "mode": "low-fpr",
+      "profile": "fr",
+      "input_tokens": 5473,
+      "elapsed_ms": 25816
+    }
+  }
+}
