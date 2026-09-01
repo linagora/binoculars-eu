@@ -38,6 +38,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.request
 from datetime import UTC, datetime
 from pathlib import Path
@@ -192,7 +193,11 @@ def generate_text(url: str, model: str, api_key: str | None, prompt: str) -> str
 
 def _regenerate(records: list[dict], label: str, seed: int, suffix: str,
                 url: str | None, model: str, prompt_fn) -> list[dict] | None:
-    """R-5/R-6 shared body: regenerate texts of ``label`` in ``seed`` order."""
+    """R-5/R-6 shared body: regenerate texts of ``label`` in ``seed`` order.
+
+    Transient generator failures (vLLM 500s under load) are retried with
+    backoff; the TODO(spec) on decoding parameters is unchanged.
+    """
     if url is None:
         return None
     rng = np.random.default_rng(seed)  # fixed generation order for traceability
@@ -201,7 +206,21 @@ def _regenerate(records: list[dict], label: str, seed: int, suffix: str,
         record = records[int(i)]
         if record["label"] != label:
             continue
-        texts[record["id"]] = generate_text(url, model, None, prompt_fn(record))
+        last_exc: Exception | None = None
+        for attempt, wait in enumerate((10, 20, 40), start=1):
+            try:
+                texts[record["id"]] = generate_text(url, model, None,
+                                                    prompt_fn(record))
+                last_exc = None
+                break
+            except Exception as exc:  # noqa: BLE001 - retried, then re-raised
+                print(f"    {record['id']}: attempt {attempt} failed "
+                      f"({type(exc).__name__}) — retry in {wait}s", flush=True)
+                last_exc = exc
+                time.sleep(wait)
+        if last_exc is not None:
+            raise SystemExit(f"generation failed permanently at {record['id']}: "
+                             f"{last_exc}")
     return [{**r, "id": f"{r['id']}-{suffix}", "text": texts[r["id"]]}
             for r in records if r["id"] in texts]
 
